@@ -1,0 +1,13 @@
+---
+// 繁體中文版的主頁面。整個 App 都在這一頁裡，用網址的 #（#/new、#/trip/xxx）切換畫面。
+import Base from '../../layouts/Base.astro';
+import { setLocale, t } from '../../i18n/index.js';
+setLocale('zh-tw');
+---
+<Base>
+  <noscript><p class="page">{t('app.tagline')}（需要開啟 JavaScript）</p></noscript>
+  <script>
+    // Astro 會把這個 import 打包成一個 JS 檔
+    import '../../scripts/app.js';
+  </script>
+</Base>

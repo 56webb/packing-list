@@ -1,0 +1,1046 @@
+{
+ "_comment": "預設物品範本。when = 出現條件（全部符合才加入）：international 出國與否、climate 氣候（hot 熱≥25°C／warm 溫暖 18–25／cool 涼 10–18／cold 冷 <10）、types 旅行類型（符合其中一個即可）、luggage 行李方案、needsAdapter 需要轉接頭、highVoltage 當地電壓 ≥200V、minDays 最少天數。qty 可以是數字，或 {perDay 每天幾件, extra 額外加幾件, min, max}。bag = personal（隨身包）或 main（主行李）。buyKey = 之後放導購連結用的代號（目前不顯示）。",
+ "categories": [
+  {
+   "id": "docs",
+   "icon": "📄"
+  },
+  {
+   "id": "clothes",
+   "icon": "👕"
+  },
+  {
+   "id": "toiletries",
+   "icon": "🧴"
+  },
+  {
+   "id": "electronics",
+   "icon": "🔌"
+  },
+  {
+   "id": "health",
+   "icon": "💊"
+  },
+  {
+   "id": "misc",
+   "icon": "🎒"
+  },
+  {
+   "id": "beach",
+   "icon": "🏝️"
+  },
+  {
+   "id": "ski",
+   "icon": "⛷️"
+  },
+  {
+   "id": "business",
+   "icon": "💼"
+  },
+  {
+   "id": "kids",
+   "icon": "🧸"
+  },
+  {
+   "id": "custom",
+   "icon": "✏️"
+  }
+ ],
+ "items": [
+  {
+   "id": "passport",
+   "name": {
+    "zh-tw": "護照"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   },
+   "note": {
+    "zh-tw": "效期建議剩 6 個月以上"
+   }
+  },
+  {
+   "id": "id-card",
+   "name": {
+    "zh-tw": "身分證"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": false
+   }
+  },
+  {
+   "id": "boarding",
+   "name": {
+    "zh-tw": "機票／電子登機證"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "booking",
+   "name": {
+    "zh-tw": "住宿預訂資料"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "visa",
+   "name": {
+    "zh-tw": "簽證／入境登記資料"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   },
+   "note": {
+    "zh-tw": "依目的地規定確認，例如線上入境登記"
+   }
+  },
+  {
+   "id": "credit-card",
+   "name": {
+    "zh-tw": "信用卡"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "cash-local",
+   "name": {
+    "zh-tw": "當地貨幣現金"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   }
+  },
+  {
+   "id": "cash-twd",
+   "name": {
+    "zh-tw": "新台幣現金（回程交通用）"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "esim",
+   "name": {
+    "zh-tw": "網卡／eSIM"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   },
+   "buyKey": "esim"
+  },
+  {
+   "id": "insurance-doc",
+   "name": {
+    "zh-tw": "旅遊保險資料"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   }
+  },
+  {
+   "id": "pen",
+   "name": {
+    "zh-tw": "原子筆（填入境卡）"
+   },
+   "category": "docs",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true
+   }
+  },
+  {
+   "id": "tops",
+   "name": {
+    "zh-tw": "上衣"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 1,
+    "min": 1,
+    "max": 7
+   },
+   "bag": "main"
+  },
+  {
+   "id": "bottoms",
+   "name": {
+    "zh-tw": "褲子／裙子"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 0.34,
+    "min": 1,
+    "max": 4
+   },
+   "bag": "main"
+  },
+  {
+   "id": "underwear",
+   "name": {
+    "zh-tw": "內衣褲"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 1,
+    "extra": 1,
+    "min": 2,
+    "max": 8
+   },
+   "bag": "main"
+  },
+  {
+   "id": "socks",
+   "name": {
+    "zh-tw": "襪子"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 1,
+    "extra": 1,
+    "min": 2,
+    "max": 8
+   },
+   "bag": "main"
+  },
+  {
+   "id": "pajamas",
+   "name": {
+    "zh-tw": "睡衣"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "shorts",
+   "name": {
+    "zh-tw": "短褲"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 0.34,
+    "min": 1,
+    "max": 3
+   },
+   "bag": "main",
+   "when": {
+    "climate": [
+     "hot",
+     "warm"
+    ]
+   }
+  },
+  {
+   "id": "light-jacket",
+   "name": {
+    "zh-tw": "薄外套"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "climate": [
+     "hot",
+     "warm",
+     "cool"
+    ]
+   },
+   "note": {
+    "zh-tw": "飛機上、冷氣房也用得到"
+   }
+  },
+  {
+   "id": "jacket",
+   "name": {
+    "zh-tw": "保暖外套"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "cool",
+     "cold"
+    ]
+   }
+  },
+  {
+   "id": "down",
+   "name": {
+    "zh-tw": "羽絨衣／厚外套"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "cold"
+    ]
+   }
+  },
+  {
+   "id": "thermal",
+   "name": {
+    "zh-tw": "發熱衣褲"
+   },
+   "category": "clothes",
+   "qty": {
+    "perDay": 0.5,
+    "min": 2,
+    "max": 4
+   },
+   "bag": "main",
+   "when": {
+    "climate": [
+     "cold"
+    ]
+   }
+  },
+  {
+   "id": "scarf",
+   "name": {
+    "zh-tw": "圍巾、手套、毛帽"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "cold"
+    ]
+   }
+  },
+  {
+   "id": "hat",
+   "name": {
+    "zh-tw": "帽子／遮陽帽"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "hot"
+    ]
+   }
+  },
+  {
+   "id": "shoes",
+   "name": {
+    "zh-tw": "好走的鞋"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "slippers",
+   "name": {
+    "zh-tw": "拖鞋"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "umbrella",
+   "name": {
+    "zh-tw": "折疊傘／輕便雨衣"
+   },
+   "category": "clothes",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "toothbrush",
+   "name": {
+    "zh-tw": "牙刷、牙膏"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "face-wash",
+   "name": {
+    "zh-tw": "洗面乳"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "skincare",
+   "name": {
+    "zh-tw": "保養品（化妝水、乳液）"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "sunscreen",
+   "name": {
+    "zh-tw": "防曬乳"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "hot",
+     "warm"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "sunscreen-ski",
+   "name": {
+    "zh-tw": "防曬乳（雪地也會曬傷）"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "lip-balm",
+   "name": {
+    "zh-tw": "護唇膏"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "cold"
+    ]
+   }
+  },
+  {
+   "id": "razor",
+   "name": {
+    "zh-tw": "刮鬍刀"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "comb",
+   "name": {
+    "zh-tw": "梳子"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "wet-wipes",
+   "name": {
+    "zh-tw": "濕紙巾、乾洗手"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "contact",
+   "name": {
+    "zh-tw": "隱形眼鏡／眼鏡"
+   },
+   "category": "toiletries",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "phone",
+   "name": {
+    "zh-tw": "手機"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "personal",
+   "tags": [
+    "device"
+   ]
+  },
+  {
+   "id": "charger",
+   "name": {
+    "zh-tw": "充電器、充電線"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "powerbank",
+   "name": {
+    "zh-tw": "行動電源"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "personal",
+   "tags": [
+    "powerbank"
+   ],
+   "note": {
+    "zh-tw": "每人最多 2 個，不能托運"
+   }
+  },
+  {
+   "id": "adapter",
+   "name": {
+    "zh-tw": "萬用轉接頭"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "needsAdapter": true
+   },
+   "buyKey": "adapter"
+  },
+  {
+   "id": "voltage-check",
+   "name": {
+    "zh-tw": "確認電器支援 100–240V（吹風機、離子夾）"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "highVoltage": true
+   },
+   "tags": [
+    "voltage"
+   ]
+  },
+  {
+   "id": "earphones",
+   "name": {
+    "zh-tw": "耳機"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "personal",
+   "tags": [
+    "device"
+   ]
+  },
+  {
+   "id": "usb-hub",
+   "name": {
+    "zh-tw": "多孔 USB 充電頭"
+   },
+   "category": "electronics",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "meds",
+   "name": {
+    "zh-tw": "常備藥（感冒、腸胃、止痛）"
+   },
+   "category": "health",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "rx",
+   "name": {
+    "zh-tw": "個人處方藥"
+   },
+   "category": "health",
+   "qty": 1,
+   "bag": "personal",
+   "note": {
+    "zh-tw": "放隨身，帶夠天數再多幾天"
+   }
+  },
+  {
+   "id": "mask",
+   "name": {
+    "zh-tw": "口罩"
+   },
+   "category": "health",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "mosquito",
+   "name": {
+    "zh-tw": "防蚊液"
+   },
+   "category": "health",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "climate": [
+     "hot"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "eco-bag",
+   "name": {
+    "zh-tw": "環保購物袋"
+   },
+   "category": "misc",
+   "qty": 1,
+   "bag": "main"
+  },
+  {
+   "id": "bottle",
+   "name": {
+    "zh-tw": "水壺（過安檢前要倒空）"
+   },
+   "category": "misc",
+   "qty": 1,
+   "bag": "personal"
+  },
+  {
+   "id": "scale",
+   "name": {
+    "zh-tw": "行李秤（廉航 7kg 要秤）"
+   },
+   "category": "misc",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "luggage": [
+     "carryon7"
+    ]
+   }
+  },
+  {
+   "id": "ziplock",
+   "name": {
+    "zh-tw": "1 公升透明夾鏈袋（裝液體）"
+   },
+   "category": "misc",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "international": true,
+    "luggage": [
+     "carryon7"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "pillow",
+   "name": {
+    "zh-tw": "頸枕"
+   },
+   "category": "misc",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "minDays": 4
+   }
+  },
+  {
+   "id": "swimsuit",
+   "name": {
+    "zh-tw": "泳衣"
+   },
+   "category": "beach",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "beach"
+    ]
+   }
+  },
+  {
+   "id": "waterproof-bag",
+   "name": {
+    "zh-tw": "防水手機袋"
+   },
+   "category": "beach",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "beach"
+    ]
+   }
+  },
+  {
+   "id": "sunglasses",
+   "name": {
+    "zh-tw": "太陽眼鏡"
+   },
+   "category": "beach",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "beach"
+    ]
+   }
+  },
+  {
+   "id": "beach-towel",
+   "name": {
+    "zh-tw": "快乾毛巾"
+   },
+   "category": "beach",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "beach"
+    ]
+   }
+  },
+  {
+   "id": "aftersun",
+   "name": {
+    "zh-tw": "曬後修護"
+   },
+   "category": "beach",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "beach"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ]
+  },
+  {
+   "id": "ski-gloves",
+   "name": {
+    "zh-tw": "防水滑雪手套"
+   },
+   "category": "ski",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "ski-socks",
+   "name": {
+    "zh-tw": "滑雪襪"
+   },
+   "category": "ski",
+   "qty": {
+    "perDay": 1,
+    "min": 2,
+    "max": 5
+   },
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "goggles",
+   "name": {
+    "zh-tw": "雪鏡"
+   },
+   "category": "ski",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "mid-layer",
+   "name": {
+    "zh-tw": "保暖中層衣（刷毛、羊毛）"
+   },
+   "category": "ski",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "neck-warmer",
+   "name": {
+    "zh-tw": "脖圍／面罩"
+   },
+   "category": "ski",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "hand-warmer",
+   "name": {
+    "zh-tw": "暖暖包"
+   },
+   "category": "ski",
+   "qty": {
+    "perDay": 1,
+    "min": 2,
+    "max": 10
+   },
+   "bag": "main",
+   "when": {
+    "types": [
+     "ski"
+    ]
+   }
+  },
+  {
+   "id": "formal",
+   "name": {
+    "zh-tw": "正式服裝"
+   },
+   "category": "business",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "business"
+    ]
+   }
+  },
+  {
+   "id": "formal-shoes",
+   "name": {
+    "zh-tw": "皮鞋"
+   },
+   "category": "business",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "business"
+    ]
+   }
+  },
+  {
+   "id": "laptop",
+   "name": {
+    "zh-tw": "筆電＋充電器"
+   },
+   "category": "business",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "business"
+    ]
+   },
+   "tags": [
+    "device"
+   ]
+  },
+  {
+   "id": "business-cards",
+   "name": {
+    "zh-tw": "名片"
+   },
+   "category": "business",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "business"
+    ]
+   }
+  },
+  {
+   "id": "hdmi",
+   "name": {
+    "zh-tw": "簡報轉接頭（HDMI／USB-C）"
+   },
+   "category": "business",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "business"
+    ]
+   }
+  },
+  {
+   "id": "kid-docs",
+   "name": {
+    "zh-tw": "孩子的護照／證件"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   }
+  },
+  {
+   "id": "kid-clothes",
+   "name": {
+    "zh-tw": "孩子的衣服（多帶備用）"
+   },
+   "category": "kids",
+   "qty": {
+    "perDay": 1,
+    "extra": 2,
+    "min": 3,
+    "max": 9
+   },
+   "bag": "main",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   }
+  },
+  {
+   "id": "diapers",
+   "name": {
+    "zh-tw": "尿布"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   },
+   "note": {
+    "zh-tw": "依孩子年齡調整數量"
+   }
+  },
+  {
+   "id": "baby-food",
+   "name": {
+    "zh-tw": "奶粉／副食品"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   },
+   "tags": [
+    "liquids"
+   ],
+   "note": {
+    "zh-tw": "嬰兒食品可在安檢時申報"
+   }
+  },
+  {
+   "id": "kid-meds",
+   "name": {
+    "zh-tw": "兒童藥品"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   }
+  },
+  {
+   "id": "toys",
+   "name": {
+    "zh-tw": "玩具、繪本"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "personal",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   }
+  },
+  {
+   "id": "stroller",
+   "name": {
+    "zh-tw": "推車／揹巾"
+   },
+   "category": "kids",
+   "qty": 1,
+   "bag": "main",
+   "when": {
+    "types": [
+     "kids"
+    ]
+   }
+  }
+ ]
+}

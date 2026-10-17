@@ -1,0 +1,24 @@
+---
+// 網站根目錄（/）：自動跳到使用者的語言版本。
+// 判斷順序：1. 瀏覽器設定的語言（navigator.languages）2. 都沒有就用繁體中文。
+// 為什麼不用 IP？在日本旅遊的台灣人用 IP 判斷會被當成日本人。
+// 第一版只有 zh-tw，所以一律跳到 /zh-tw/。之後加 en 時，把 'en' 加進 SUPPORTED。
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>打包清單</title>
+    <meta http-equiv="refresh" content={`1; url=${base}zh-tw/`} />
+    <link rel="canonical" href={`${base}zh-tw/`} />
+    <script define:vars={{ base }}>
+      const SUPPORTED = ['zh-tw'];
+      const wanted = (navigator.languages || [navigator.language || '']).map((l) => l.toLowerCase());
+      const match = wanted.map((l) => SUPPORTED.find((s) => l === s || l.startsWith(s.split('-')[0]))).find(Boolean);
+      location.replace(`${base}${match || 'zh-tw'}/` + location.hash);
+    </script>
+  </head>
+  <body><a href={`${base}zh-tw/`}>打包清單（繁體中文）</a></body>
+</html>

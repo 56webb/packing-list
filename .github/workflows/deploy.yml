@@ -1,0 +1,40 @@
+# 自動部署到 GitHub Pages
+# 每次 push 到 main 分支，GitHub 會自動：安裝套件 → npm run build → 把 dist/ 發布成網站。
+# 網址：https://56webb.github.io/packing-list/
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # 也可以在 GitHub 的 Actions 頁面手動按「Run workflow」
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下載程式碼
+        uses: actions/checkout@v7
+      - name: 安裝、建置並上傳網站（Astro 官方 action）
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 發布到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

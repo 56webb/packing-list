@@ -1,0 +1,44 @@
+---
+// 共用的 HTML 外框：<head> 設定、標題列、對話框、提示訊息
+// 每一頁都包在這個 Layout 裡面。
+import '../styles/global.css';
+import { t } from '../i18n/index.js';
+
+interface Props {
+  title?: string;
+  lang?: string;
+}
+const { title = t('app.name'), lang = 'zh-Hant-TW' } = Astro.props;
+// BASE_URL 是 astro.config.mjs 裡的 base（GitHub Pages 是 /packing-list/）
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <!-- 注意：不要加 user-scalable=no / maximum-scale，讓視力不好的人可以放大 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content={t('app.tagline')} />
+    <meta name="theme-color" content="#1a6b7a" />
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href={`${base}icons/icon.svg`} />
+    <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
+    <link rel="manifest" href={`${base}manifest.webmanifest`} />
+  </head>
+  <body>
+    <header class="topbar no-print">
+      <button type="button" id="back-btn" class="topbar-back" hidden>{t('trip.back')}</button>
+      <a class="topbar-title" href={`${base}zh-tw/#/`}>🧳 {t('app.name')}</a>
+    </header>
+    <main id="app"><slot /></main>
+    <footer class="footer no-print"><p>{t('footer.about')}</p></footer>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <dialog id="dialog" class="dialog"></dialog>
+    <script define:vars={{ swUrl: `${base}sw.js`, isProd: import.meta.env.PROD }}>
+      // 註冊 Service Worker：讓網站在沒網路時（飛機上）也能打開。開發模式不註冊，避免快取干擾。
+      if (isProd && 'serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register(swUrl).catch(() => {}));
+      }
+    </script>
+  </body>
+</html>

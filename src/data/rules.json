@@ -1,0 +1,69 @@
+{
+  "_comment": "規定標籤（tag）。每個標籤都附官方來源連結。forbidChecked=true 代表『不能放托運行李』，放進托運包包時畫面會亮紅色警告。internationalOnly=true 代表只有出國（國際線）才顯示。規定會改，上線前與每年都要重新確認來源。最後確認日期：2026-10-17。",
+  "tags": {
+    "powerbank": {
+      "icon": "🔋",
+      "label": { "zh-tw": "僅限隨身" },
+      "title": { "zh-tw": "行動電源" },
+      "detail": { "zh-tw": "行動電源不可托運，只能放手提行李或隨身攜帶；每人最多 2 個；飛行途中不可為行動電源充電，也建議不要用它幫其他裝置充電。請個別包好，避免短路。（交通部民航局，2026 年 4 月 8 日起實施）" },
+      "forbidChecked": true,
+      "sources": [
+        { "name": { "zh-tw": "交通部民航局：4月8日起旅客搭機限帶2個行動電源" }, "url": "https://www.caa.gov.tw/NewsPublish-Content.aspx?a=381&lang=1&nid=2547" },
+        { "name": { "zh-tw": "交通部民航局：旅客及組員可攜帶或託運上機之危險物品表" }, "url": "https://www.caa.gov.tw/FileAtt.ashx?id=40793&lang=1" }
+      ]
+    },
+    "lithium": {
+      "icon": "🔋",
+      "label": { "zh-tw": "僅限隨身" },
+      "title": { "zh-tw": "備用鋰電池" },
+      "detail": { "zh-tw": "備用鋰電池（例如相機備用電池）只能放手提行李，而且每顆要個別保護避免短路（放原廠包裝、電極貼絕緣膠帶或分裝小袋）。超過 100Wh 需經航空公司同意。" },
+      "forbidChecked": true,
+      "sources": [
+        { "name": { "zh-tw": "交通部民航局：旅客及組員可攜帶或託運上機之危險物品表" }, "url": "https://www.caa.gov.tw/FileAtt.ashx?id=40793&lang=1" }
+      ]
+    },
+    "device": {
+      "icon": "📱",
+      "label": { "zh-tw": "建議隨身" },
+      "title": { "zh-tw": "含鋰電池的電子產品" },
+      "detail": { "zh-tw": "手機、耳機、筆電等含鋰電池的電子產品建議隨身攜帶。如果要托運，必須完全關機（不能是睡眠或休眠），並防止意外開機。藍牙耳機依桃園機場說明應隨身攜帶。" },
+      "forbidChecked": false,
+      "sources": [
+        { "name": { "zh-tw": "交通部民航局：旅客及組員可攜帶或託運上機之危險物品表" }, "url": "https://www.caa.gov.tw/FileAtt.ashx?id=40793&lang=1" },
+        { "name": { "zh-tw": "桃園國際機場：行李攜帶規定" }, "url": "https://www.taoyuan-airport.com/customsdeclarations" }
+      ]
+    },
+    "liquids": {
+      "icon": "💧",
+      "label": { "zh-tw": "液體 100ml" },
+      "title": { "zh-tw": "液體、膠狀、噴霧類" },
+      "detail": { "zh-tw": "搭國際線時，放手提行李的液體、膠狀、噴霧類，每瓶不能超過 100 毫升，全部裝進 1 個不超過 1 公升（約 20×20 公分）、可重複密封的透明夾鏈袋，每人限 1 袋。超過的請放托運行李。嬰兒食品、藥品等可在安檢時申報。" },
+      "forbidChecked": false,
+      "internationalOnly": true,
+      "sources": [
+        { "name": { "zh-tw": "行政院公報：交通部民航局公告（不得攜帶進入航空器之物品）" }, "url": "https://gazette.nat.gov.tw/EG_FileManager/eguploadpub/eg023052/ch06/type1/gov50/num18/Eg.htm" },
+        { "name": { "zh-tw": "桃園國際機場：行李攜帶規定" }, "url": "https://www.taoyuan-airport.com/customsdeclarations" }
+      ]
+    },
+    "lighter": {
+      "icon": "🔥",
+      "label": { "zh-tw": "限 1 個隨身" },
+      "title": { "zh-tw": "打火機／火柴" },
+      "detail": { "zh-tw": "一般打火機或火柴每人限帶 1 個（或 1 盒），而且必須隨身攜帶，不能托運。防風打火機、藍焰打火機全面禁止。" },
+      "forbidChecked": true,
+      "sources": [
+        { "name": { "zh-tw": "桃園國際機場：行李攜帶規定" }, "url": "https://www.taoyuan-airport.com/customsdeclarations" }
+      ]
+    },
+    "voltage": {
+      "icon": "⚡",
+      "label": { "zh-tw": "電壓不同" },
+      "title": { "zh-tw": "當地電壓和台灣不同" },
+      "detail": { "zh-tw": "台灣是 110V。目的地電壓較高（220–240V）時，請確認電器上標示「100–240V」。手機、筆電充電器大多可以；吹風機、離子夾、電湯匙常常不行，插上去可能燒壞。轉接頭只改插頭形狀，不會變壓。" },
+      "forbidChecked": false,
+      "sources": [
+        { "name": { "zh-tw": "Wikipedia：各國電壓與插頭（整理自 IEC）" }, "url": "https://en.wikipedia.org/wiki/Mains_electricity_by_country" }
+      ]
+    }
+  }
+}

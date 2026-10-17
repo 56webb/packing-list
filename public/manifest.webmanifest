@@ -1,0 +1,16 @@
+{
+  "name": "打包清單",
+  "short_name": "打包清單",
+  "description": "依目的地自動產生行李清單，分包包、封箱、看進度",
+  "lang": "zh-Hant-TW",
+  "start_url": "./zh-tw/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#1a6b7a",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
