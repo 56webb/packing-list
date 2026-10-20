@@ -242,18 +242,23 @@ push 到 `main` 分支 → GitHub Actions 會跑 `.github/workflows/deploy.yml` 
 
 ## 天氣（feat/weather）：做了什麼
 
-旅行頁頂部除了原本的「涼／熱」季節標籤，多了真的天氣資料（`src/scripts/weather.js`，畫面在 `app.js` 的 `renderWeather`）：
+旅行頁頂部顯示真的溫度（`src/scripts/weather.js`，畫面在 `app.js` 的 `renderWeather`）。**原本的「涼／溫暖／炎熱」字樣拿掉了**，只顯示溫度：
 
 | 情況 | 顯示 | 資料來源 |
 |---|---|---|
-| 9 天內出發 | 每天最高／最低溫＋天氣圖示 | **MET Norway** Locationforecast 2.0 compact（CC BY 4.0，可商用，要標來源＋授權連結） |
-| 更遠 | 出發月份的平均高／低溫、平均每日雨量 | **NASA POWER** 2001–2025 每日資料自己算的月平均（`src/data/climate.json`） |
-| 離線／API 失敗／旅行已結束 | 不顯示，季節標籤照常 | — |
+| 9 天內出發（**預報優先**） | 每天最高／最低溫＋天氣圖示 | **MET Norway** Locationforecast 2.0 compact（CC BY 4.0，可商用，要標來源＋授權連結） |
+| 更遠，或 9 天內但預報拿不到（離線） | 出發月份的平均高／低溫、平均每日雨量，標「**過去平均（2001–2025），僅供參考**」 | **NASA POWER** 2001–2025 每日資料自己算的月平均（`src/data/climate.json`） |
+| 「其他國家」、旅行已結束 | 不顯示 | — |
 
+- **衣物怎麼決定（`generator.js` 的 `tripClimate`）：** 物品範本（`items.json`）用 hot／warm／cool／cold 決定要不要加羽絨外套、短褲等，這個邏輯**保留在程式內部，但畫面不顯示這些字**。建立旅行時，`tripTemps()` 用畫面上顯示的同一組溫度換算平均溫：
+  1. 有 MET 預報 → 每天 (最高＋最低)÷2（最多等 3 秒）
+  2. 沒有 → NASA 過去平均：出發月份 (高＋低)÷2（跨月的旅行每個月都算）
+  3. 都沒有 → 舊的 `countries.json` 的 `meanTempC`（季節資料）
+  - 表單裡手動選「氣候」的話，照手動選的。已經建立的旅行不會改。
 - **MET 規則**：瀏覽器不能改 User-Agent，所以靠瀏覽器自動帶的 `Origin` 識別；**不加任何自訂 header**（MET 不支援 CORS 預檢）；座標截到小數 4 位；結果存在 localStorage（`weather:met:v1:緯度,經度`），**Expires 之前不重複請求**；離線時用舊快取。
 - **NASA POWER**：不在使用者瀏覽器即時呼叫。`npm run data:climate`（`scripts/build-climate.mjs`）事先抓好、算好，結果 commit 進 repo。要更新時再跑一次。
   - 為什麼不用 POWER 的 Climatology API：它的 T2M_MAX／T2M_MIN 是那個月的「極端值」，不是平均高低溫。
   - POWER 是約 0.5° 的網格資料，和城市氣象站差 1～3°C，海島（關島、帛琉、馬爾地夫）和溫哥華差更多，只當參考。
 - **不用 Open-Meteo**（免費版不能商用）和 **Meteostat**（CC BY-NC），因為 EZpakku 有推廣連結。
 - `src/data/countries.json` 每個目的地加了 `lat`、`lon`（代表城市座標）和 `tz`（時區，用來把預報換成當地日期）。
-- ⚠️ 隱私：MET 是從使用者瀏覽器直接呼叫，**使用者的 IP 和目的地座標會留在 MET 的紀錄**。合併前隱私權政策（在 feat/blog-preview）要補上這一點。
+- ⚠️ 隱私：MET 是從使用者瀏覽器直接呼叫，**使用者的 IP 和目的地座標會留在 MET 的紀錄**。隱私權政策第 6 節（在 feat/blog-preview／PR #1）已寫。

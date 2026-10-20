@@ -6,7 +6,9 @@
 //    - 座標只留 4 位小數（MET 規定），結果存在 localStorage，Expires 之前不重複請求。
 //    - 注意：直接從瀏覽器呼叫，使用者的 IP 會出現在 MET 的紀錄裡（隱私權政策要寫）。
 // 2. 出發日更遠：用 src/data/climate.json（NASA POWER 2001–2025 每月平均，build 前就算好，不會即時呼叫）。
-// 3. 都拿不到（離線、API 失敗）：什麼都不顯示，頂部原本的「涼／熱」季節標籤照常顯示。
+// 3. 9 天內但預報拿不到（離線、API 失敗）：改顯示 NASA 過去平均（一樣標「僅供參考」）。
+//    兩種都沒有（例如「其他國家」）：不顯示。頂部不再顯示「涼／熱」這種字。
+// 4. tripTemps()：建立旅行時，用「畫面上會顯示的同一組溫度」決定要加哪些衣物（generator.js）。
 import climate from '../data/climate.json';
 
 export const FORECAST_DAYS = 9;
@@ -14,6 +16,7 @@ const MET_URL = 'https://api.met.no/weatherapi/locationforecast/2.0/compact';
 const CACHE_PREFIX = 'weather:met:v1:';
 export const MET_ATTRIBUTION = { text: 'Weather data: MET Norway (CC BY 4.0)', source: 'https://api.met.no/', license: 'https://creativecommons.org/licenses/by/4.0/' };
 export const CLIMATE_ATTRIBUTION = { text: '氣候資料：NASA POWER（2001–2025 每日資料平均）', source: 'https://power.larc.nasa.gov/' };
+export const CLIMATE_LABEL = '過去平均（2001–2025），僅供參考';
 
 // 先 toFixed 去掉浮點誤差（139.6503 * 10000 會變成 1396502.9999…），再截斷到 4 位小數
 const trunc4 = (n) => Math.trunc(Number((n * 10000).toFixed(6))) / 10000;
@@ -68,7 +71,7 @@ export async function fetchForecast(lat, lon) {
     writeCache(key, { expires: Number.isFinite(exp) ? exp : Date.now() + 30 * 60000, data });
     return data;
   } catch (err) {
-    console.warn('天氣預報取得失敗，改用季節標籤', err);
+    console.warn('天氣預報取得失敗，改用過去平均', err);
     return cached?.data ?? null; // 過期的快取總比沒有好（例如離線）
   }
 }
@@ -120,4 +123,28 @@ export function tripDates(startDate, days) {
     const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   });
+}
+
+/** 出發前 N 天內才有預報；有預報就用預報，有逾時保護（建立旅行時不要卡住） */
+function withTimeout(promise, ms) {
+  return Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
+}
+
+/**
+ * 這趟旅行「畫面上顯示的溫度」換算成平均溫（給 generator.js 決定衣物）。
+ * 優先順序：MET 預報（每天 (最高+最低)/2）→ NASA 過去平均（出發月份 (高+低)/2）→ 回傳 null（generator 會用舊的季節資料）
+ * 回傳 { source: 'forecast'|'climate', temps: [..] } 或 null
+ */
+export async function tripTemps(trip, country, { timeoutMs = 3000, now = new Date() } = {}) {
+  const mode = weatherMode(trip, country, now);
+  if (!mode) return null;
+  if (mode === 'forecast') {
+    const data = await withTimeout(fetchForecast(country.lat, country.lon), timeoutMs);
+    const days = data ? dailySummary(data, tripDates(trip.startDate, trip.days), country.tz) : [];
+    if (days.length) return { source: 'forecast', temps: days.map((d) => (d.max + d.min) / 2) };
+  }
+  // 跨月份的旅行（例如 11/28～12/3）兩個月都算
+  const months = [...new Set(tripDates(trip.startDate, trip.days).map((d) => d.slice(0, 8) + '01'))];
+  const temps = months.map((m) => climateFor(country, m)).filter(Boolean).map((c) => (c.tmax + c.tmin) / 2);
+  return temps.length ? { source: 'climate', temps } : null;
 }
