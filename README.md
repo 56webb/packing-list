@@ -259,3 +259,8 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - 後台：https://ezpakku-preview.vercel.app/admin/ ，用 GitHub Token 登入；使用說明：`docs/cms-guide.md`。
 - 測試期間 `branch: feat/blog-preview`，CMS 只會改這個分支；`publish_mode: editorial_workflow`：每篇先開 `cms/...` 分支＋PR，按「發佈」才合併。
 - 協作規則：`AGENTS.md`、`.cursor/rules/ezpakku.mdc`。**在 Cursor 工作前先 `git pull`。**
+
+### 5. 關於我、隱私權政策（2026-10-21）
+- `src/pages/zh-tw/about/index.astro`（/zh-tw/about/）、`src/pages/zh-tw/privacy/index.astro`（/zh-tw/privacy/）。
+- 每一頁頁尾都有「關於我・隱私權政策・推廣連結揭露」：部落格在 `BlogBase.astro`，工具在 `Base.astro`。
+- 隱私權政策是依照網站**現在實際的程式**寫的（localStorage、沒有登入、沒有 Cookie、沒有分析工具）。**加入 Supabase 登入、Google Analytics 等之前，要先更新這頁和生效日期。**

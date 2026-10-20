@@ -43,6 +43,11 @@ const noindex = import.meta.env.PUBLIC_NOINDEX === '1';
     <main class="blog-main"><slot /></main>
     <footer class="blog-footer">
       <p>EZpakku：依目的地自動產生行李清單，分包包、封箱、看進度。 <a href={`${base}zh-tw/`}>打開工具</a></p>
+      <nav class="footer-links" aria-label="網站資訊">
+        <a href={`${base}zh-tw/about/`}>關於我</a>
+        <a href={`${base}zh-tw/privacy/`}>隱私權政策</a>
+        <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>
+      </nav>
       <p>文章只整理官方公開資料，規定隨時會變，出發前請以官網為準。部分文章含推廣連結，見 <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>。</p>
     </footer>
   </body>

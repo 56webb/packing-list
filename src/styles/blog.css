@@ -59,3 +59,7 @@ body.blog { overflow-x: hidden; }
 .post-more h2 { font-size: 1.1rem; }
 .post-more ul { padding-left: 1.2em; }
 .post-more li { margin: 8px 0; }
+
+/* 頁尾的網站資訊連結（關於我、隱私權政策、推廣連結揭露） */
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 10px; }
+.footer-links a { display: inline-flex; align-items: center; min-height: var(--tap); }
