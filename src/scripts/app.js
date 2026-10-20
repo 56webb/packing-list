@@ -10,6 +10,7 @@ import { createStore, BAG_ICONS } from './store.js';
 import { createLocalStorageAdapter } from './storage.js';
 import { COUNTRIES, CATEGORIES, TAGS, generateTrip, getCountry, tripClimate } from './generator.js';
 import { SHOW_BUY_BUTTONS, BUY_LINKS } from './config.js';
+import { plugIcons } from './plugIcons.js';
 
 const store = createStore(createLocalStorageAdapter());
 const app = document.getElementById('app');
@@ -178,14 +179,18 @@ function renderTrip(tripId) {
 
   const infoParts = [country?.name ?? t('form.countryOther'), `${trip.days} 天`];
   if (climate.climates.length) infoParts.push(climate.climates.map((c) => t(`climate.${c}`).replace(/（.*）/, '')).join('／'));
-  if (country && trip.countryCode !== 'TW') infoParts.push(`${country.plugs.join('/')} 型插頭 ${country.voltage}`);
+  // 插頭：圖示＋文字（文字留著，讀螢幕軟體和看不懂圖示的人也知道）
+  const showPlugs = country && trip.countryCode !== 'TW' && country.plugs?.length;
+  const plugInfo = showPlugs
+    ? h('span', { class: 'plug-info' }, plugIcons(country.plugs), h('span', { class: 'plug-text' }, `${country.plugs.join('/')} 型插頭 ${country.voltage}`))
+    : null;
 
   // 頂部（縮小，讓清單在第一個畫面就看得到）
   const header = h('div', { class: 'trip-head' },
     h('div', { class: 'trip-title-row' },
       h('h1', { class: 'trip-title' }, trip.name),
       h('button', { type: 'button', class: 'icon-btn', 'aria-label': t('trip.menu'), onclick: () => openTripMenu(trip), dataset: { key: 'trip-menu' } }, '⋯')),
-    h('p', { class: 'trip-info' }, infoParts.join('・')),
+    h('p', { class: 'trip-info' }, infoParts.join('・'), plugInfo ? '・' : null, plugInfo),
     h('div', { class: 'trip-progress' },
       progressBar(p, t('trip.progress', p)),
       h('span', { class: 'trip-progress-text' }, t('trip.progress', p))),
@@ -260,6 +265,14 @@ function renderBag(trip, bag, bagItems, allBags) {
   return h('section', { class: `bag ${sealed ? 'is-sealed' : ''} ${p.total && p.done === p.total ? 'is-done' : ''} ${bag ? '' : 'is-unassigned'}`, 'aria-label': name }, head, body);
 }
 
+/** 「萬用轉接頭」那一行：在備註上方顯示目的地的插頭圖示 */
+function adapterPlugs(trip, item) {
+  if (item.templateId !== 'adapter') return null;
+  const country = getCountry(trip.countryCode);
+  if (!country?.plugs?.length) return null;
+  return h('span', { class: 'item-plugs' }, plugIcons(country.plugs));
+}
+
 /** 一個物品（一行） */
 function renderItem(trip, item, bag, sealed, allBags) {
   const forbidden = isForbiddenHere(item, bag);
@@ -279,6 +292,7 @@ function renderItem(trip, item, bag, sealed, allBags) {
       h('span', { class: 'item-text' },
         h('span', { class: 'item-name' }, item.name),
         item.qty > 1 ? h('span', { class: 'qty' }, ` ×${item.qty}`) : null,
+        adapterPlugs(trip, item),
         item.note ? h('span', { class: 'item-note' }, item.note) : null)),
     tags.length || buy ? h('div', { class: 'item-tags' }, tags, buy) : null,
     h('button', { type: 'button', class: 'icon-btn more', 'aria-label': t('item.more', { name: item.name }), dataset: { key: `more-${item.id}` }, onclick: () => itemDialog(trip, item, item.bagId, allBags) }, '⋯'));

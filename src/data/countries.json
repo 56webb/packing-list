@@ -32,9 +32,9 @@
    "name": "日本",
    "city": "東京",
    "plugs": [
-    "A",
-    "B"
+    "A"
    ],
+   "_note": "日本依 JNTO 官方資料只列 A 型（B 型少見），2026-10-20",
    "voltage": "100V",
    "international": true,
    "meanTempC": [

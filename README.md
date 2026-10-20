@@ -226,3 +226,14 @@ push 到 `main` 分支 → GitHub Actions 會跑 `.github/workflows/deploy.yml` 
 - 氣候只用「代表城市」（例如日本＝東京），北海道冬天會比清單建議的更冷，可以在表單手動選「寒冷」。
 - 資料只存在這台裝置的這個瀏覽器；清除瀏覽器資料就會不見，記得定期「匯出備份」。
 - iPhone 要用 Safari 的「分享 → 加入主畫面」才能離線使用。
+
+---
+
+## 插頭圖示（feat/plug-icons）：做了什麼
+
+- `src/scripts/plugIcons.js`：`plugIcon('A')` 回傳一個 24×24 的 SVG（用 `currentColor`，跟著文字顏色；`role="img"`＋`aria-label="A 型插頭"`）。`plugIcons(['G','D','M'])` 回傳一排圖示、每個下面有字母。
+  - A～O 型都有畫（示意圖，不是精確尺寸）；不認得的型號會用「通用插頭」圖示（程式裡有 TODO）。
+  - 用 `document.createElementNS` 建 SVG，**沒有用 innerHTML**，和 `dom.js` 的防 XSS 原則一致。
+- `src/scripts/app.js`：旅行頁頂部（`renderTrip`）和「萬用轉接頭」那一行（`renderItem` → `adapterPlugs`）顯示圖示，**旁邊的文字保留**（例如「A 型插頭 100V」），讀螢幕軟體也讀得到。
+- `src/styles/global.css`：`.plug-icon`（1.5em）、`.plug-icons`、`.plug-item` 等樣式，手機上會自動換行。
+- `src/data/countries.json`：日本改成只有 `["A"]`，加 `_note` 欄位說明（JSON 不能寫註解，程式不會讀 `_note`）。台灣是 A/B，所以去日本**還是不需要轉接頭**。
