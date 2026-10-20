@@ -11,6 +11,7 @@ import { createLocalStorageAdapter } from './storage.js';
 import { COUNTRIES, CATEGORIES, TAGS, generateTrip, getCountry, tripClimate } from './generator.js';
 import { SHOW_BUY_BUTTONS, BUY_LINKS } from './config.js';
 import { plugIcons } from './plugIcons.js';
+import { weatherMode, climateFor, fetchForecast, dailySummary, tripDates, MET_ATTRIBUTION, CLIMATE_ATTRIBUTION } from './weather.js';
 
 const store = createStore(createLocalStorageAdapter());
 const app = document.getElementById('app');
@@ -191,6 +192,7 @@ function renderTrip(tripId) {
       h('h1', { class: 'trip-title' }, trip.name),
       h('button', { type: 'button', class: 'icon-btn', 'aria-label': t('trip.menu'), onclick: () => openTripMenu(trip), dataset: { key: 'trip-menu' } }, '⋯')),
     h('p', { class: 'trip-info' }, infoParts.join('・'), plugInfo ? '・' : null, plugInfo),
+    renderWeather(trip, country),
     h('div', { class: 'trip-progress' },
       progressBar(p, t('trip.progress', p)),
       h('span', { class: 'trip-progress-text' }, t('trip.progress', p))),
@@ -296,6 +298,45 @@ function renderItem(trip, item, bag, sealed, allBags) {
         item.note ? h('span', { class: 'item-note' }, item.note) : null)),
     tags.length || buy ? h('div', { class: 'item-tags' }, tags, buy) : null,
     h('button', { type: 'button', class: 'icon-btn more', 'aria-label': t('item.more', { name: item.name }), dataset: { key: `more-${item.id}` }, onclick: () => itemDialog(trip, item, item.bagId, allBags) }, '⋯'));
+}
+
+/**
+ * 旅行頁頂部的天氣（見 weather.js）
+ * - 9 天內出發：MET Norway 每日預報（非同步載入，載入失敗就不顯示）
+ * - 更遠：NASA POWER 每月平均
+ * - 都沒有：回傳 null，上面的「涼／熱」季節標籤照常顯示
+ */
+function renderWeather(trip, country) {
+  const mode = weatherMode(trip, country);
+  if (!mode) return null;
+  const credit = (a) => h('p', { class: 'weather-credit' },
+    h('a', { href: a.source, target: '_blank', rel: 'noopener' }, a.text),
+    a.license ? [' ・ ', h('a', { href: a.license, target: '_blank', rel: 'noopener license' }, '授權'), '・已整理為每日高低溫'] : null);
+
+  if (mode === 'climate') {
+    const c = climateFor(country, trip.startDate);
+    if (!c) return null;
+    return h('div', { class: 'weather', dataset: { mode } },
+      h('p', { class: 'weather-climate' },
+        `🌡️ ${country.city} ${c.month} 月平均：高 ${Math.round(c.tmax)}° ／ 低 ${Math.round(c.tmin)}°`,
+        c.precip != null ? `・降雨約 ${c.precip} mm/日` : null),
+      credit(CLIMATE_ATTRIBUTION));
+  }
+
+  const box = h('div', { class: 'weather', dataset: { mode }, hidden: true });
+  fetchForecast(country.lat, country.lon).then((data) => {
+    const days = data ? dailySummary(data, tripDates(trip.startDate, trip.days), country.tz) : [];
+    if (!days.length) return; // 沒資料：保持隱藏
+    const list = h('ul', { class: 'weather-days', 'aria-label': `${country.city} 天氣預報` },
+      days.map((d) => h('li', { class: 'weather-day' },
+        h('span', { class: 'weather-date' }, `${Number(d.date.slice(5, 7))}/${Number(d.date.slice(8, 10))}`),
+        h('span', { class: 'weather-icon', 'aria-hidden': 'true' }, d.icon),
+        h('span', { class: 'weather-temp' }, `${d.max}°/${d.min}°`))));
+    const more = days.length < trip.days ? h('p', { class: 'weather-note' }, `預報只到 ${days.length} 天，其他天出發前再看`) : null;
+    box.replaceChildren(...[h('p', { class: 'weather-title' }, `🌤️ ${country.city}天氣預報`), list, more, credit(MET_ATTRIBUTION)].filter(Boolean));
+    box.hidden = false;
+  });
+  return box;
 }
 
 // ======================================================================
