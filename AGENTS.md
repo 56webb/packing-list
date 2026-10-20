@@ -19,6 +19,7 @@ git pull
 | `src/pages/zh-tw/blog/` | 文章列表、文章頁、推廣連結揭露頁 | 程式碼（PR） |
 | `src/layouts/BlogBase.astro`、`src/styles/blog.css` | 部落格版面、樣式 | 程式碼（PR） |
 | `src/pages/zh-tw/index.astro`、`src/scripts/`、`src/data/` | 打包清單工具 | 程式碼（PR） |
+| `src/data/affiliate-products.json` | 推廣商品清單（文章裡的商品卡片） | **CMS「推廣商品」**或程式碼 |
 | `public/admin/`（`index.html`、`config.yml`） | CMS 設定 | **不要隨便動**；改之前先問 RY |
 | `vercel.json` | 只給 Vercel 預覽用的 header（noindex 等） | 程式碼（PR） |
 | `.github/workflows/deploy.yml` | GitHub Pages 正式版部署 | 只有 RY 同意才改 |
@@ -53,6 +54,10 @@ draft: true                      # 選填，true = 不出現在網站上
   </aside>
   ```
 - 有推廣連結的文章，frontmatter 設 `affiliate: true`。
+- **蝦皮等商品推廣：用商品卡片，不要手寫連結。** 商品資料在 `src/data/affiliate-products.json`（CMS「推廣商品」），文章裡單獨一行寫 `[[商品:商品代號]]`，build 時會變成卡片（按鈕「到蝦皮看看（推廣連結）」＋「價格以蝦皮頁面為準」）。
+  - **不顯示、也不寫進 repo：價格、分潤率、每筆分潤、收入**（repo 是公開的）。
+  - 分潤短連結（`https://s.shopee.tw/…`）只能用 Armin／蝦皮分潤後台產生的，**不要自己產生或改 Sub_id**。還沒有連結的商品：`affiliateUrl` 留空、`active: false`，卡片就不會出現。
+  - 程式在 `src/lib/affiliate.mjs`（畫面）、`src/plugins/remark-affiliate.mjs`（短碼）、`src/components/AffiliateProduct.astro`（.astro 頁面用）。
 - **Saily：不能用 Saily 品牌字買關鍵字廣告**（Google Ads 等）。
 - **旅遊保險不放推廣連結。**
 - 還沒有真的連結時，只放 HTML 註解 `<!-- AFFILIATE: … -->`，不要編造商品網址。

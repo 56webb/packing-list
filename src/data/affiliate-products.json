@@ -1,0 +1,56 @@
+{
+  "products": [
+    {
+      "id": "polywell-lanyard",
+      "name": "POLYWELL 寶利威爾 三合一手機掛繩充電線 Type-C PD 60W",
+      "platform": "shopee",
+      "affiliateUrl": "https://s.shopee.tw/1BJL0TFU4",
+      "productUrl": "https://shopee.tw/product/275006137/27926165426",
+      "category": "electronics",
+      "relatedPosts": ["japan-packing-list", "packing-tips-bags-sealing"],
+      "note": "手機掛繩和充電線合在一起，出門少帶一條線。規格和適用機型以蝦皮頁面為準。",
+      "memo": "分潤短連結 Sub_id1=ezpakku、Sub_id2=polywelllanyard（Armin 從蝦皮分潤後台產生，不要自己改）",
+      "active": true,
+      "lastChecked": "2026-10-21"
+    },
+    {
+      "id": "polywell-lanyard-tw-stock",
+      "name": "POLYWELL 手機掛繩充電線（台灣現貨賣場）",
+      "platform": "shopee",
+      "affiliateUrl": "",
+      "productUrl": "https://shopee.tw/product/9550504/29923695014",
+      "category": "electronics",
+      "relatedPosts": [],
+      "note": "",
+      "memo": "備選，還沒有分潤連結，請 Armin 從分潤後台產生（Sub_id2 建議 polywelltwstock）",
+      "active": false,
+      "lastChecked": "2026-10-21"
+    },
+    {
+      "id": "polywell-lanyard-luna",
+      "name": "POLYWELL 手機掛繩充電線（Luna小舖）",
+      "platform": "shopee",
+      "affiliateUrl": "",
+      "productUrl": "https://shopee.tw/product/9861134/45302123982",
+      "category": "electronics",
+      "relatedPosts": [],
+      "note": "",
+      "memo": "備選，還沒有分潤連結，請 Armin 從分潤後台產生（Sub_id2 建議 polywellluna）",
+      "active": false,
+      "lastChecked": "2026-10-21"
+    },
+    {
+      "id": "polywell-lanyard-baijiuxiang",
+      "name": "POLYWELL 手機掛繩充電線（百玖香）",
+      "platform": "shopee",
+      "affiliateUrl": "",
+      "productUrl": "https://shopee.tw/product/7729882/51952113451",
+      "category": "electronics",
+      "relatedPosts": [],
+      "note": "",
+      "memo": "備選，還沒有分潤連結，請 Armin 從分潤後台產生（Sub_id2 建議 polywellbaijiuxiang）",
+      "active": false,
+      "lastChecked": "2026-10-21"
+    }
+  ]
+}

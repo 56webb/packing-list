@@ -6,6 +6,7 @@ tags: ["日本", "行李清單", "打包", "海關", "行前準備"]
 cover: "./images/01-japan-packing-checklist.png"
 country: JP
 slug: japan-packing-list
+affiliate: true
 ---
 
 > 📅 資料查核日期：2026-10-20｜引用日本海關、農林水產省動物檢疫所與植物防疫所、JNTO（日本國家旅遊局）、日本氣象廳、交通部民航局等官方資料
@@ -55,6 +56,10 @@ JNTO 的說法很直接：[^jnto-faq]
 - 轉接頭和變壓器在秋葉原、大阪日本橋或 Yodobashi、Bic Camera 等大型家電量販店買得到。[^jnto-plug]
 - **行動電源只能放隨身行李，每人最多 2 個。** 詳細規定看 👉 [打包技巧：分包和封箱法](/zh-tw/blog/packing-tips-bags-sealing/)
 - **網路怎麼辦？** eSIM、SIM 卡、Wi-Fi 分享器、原號漫遊怎麼選，看 👉 [日本 eSIM 和網卡怎麼選](/zh-tw/blog/japan-esim-wifi/)
+
+想把手機掛在身上、順便少帶一條充電線的話，可以參考這種掛繩和充電線合一的款式：
+
+[[商品:polywell-lanyard]]
 
 ## 👕 衣物：看季節，也看地區
 

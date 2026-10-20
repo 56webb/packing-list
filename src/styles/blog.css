@@ -54,6 +54,13 @@ body.blog { overflow-x: hidden; }
 .affiliate-label { font-size: .8rem; font-weight: 700; color: #8a5a00; }
 .affiliate-label::before { content: "📢 "; }
 .affiliate-note { font-size: .85rem; color: var(--text-sub); }
+/* 推廣商品卡片（[[商品:id]]） */
+.affiliate-product-name { font-weight: 700; line-height: 1.45; }
+.affiliate-cta { margin: 10px 0 4px !important; }
+.affiliate-button { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 16px; border-radius: 10px; background: #c4391d; color: #fff !important; font-weight: 700; text-decoration: none; text-align: center; }
+.affiliate-button:hover, .affiliate-button:focus-visible { background: #a92f17; }
+.affiliate-button:focus-visible { outline: 3px solid #8a5a00; outline-offset: 2px; }
+.affiliate-price { font-size: .78rem; color: var(--text-sub); text-align: center; }
 
 .post-more { margin-top: 36px; border-top: 1px solid var(--border); padding-top: 8px; }
 .post-more h2 { font-size: 1.1rem; }
