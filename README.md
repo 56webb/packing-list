@@ -231,9 +231,9 @@ push 到 `main` 分支 → GitHub Actions 會跑 `.github/workflows/deploy.yml` 
 
 ## 插頭圖示（feat/plug-icons）：做了什麼
 
-- `src/scripts/plugIcons.js`：`plugIcon('A')` 回傳一個 24×24 的 SVG（用 `currentColor`，跟著文字顏色；`role="img"`＋`aria-label="A 型插頭"`）。`plugIcons(['G','D','M'])` 回傳一排圖示、每個下面有字母。
+- `src/scripts/plugIcons.js`：`plugIcon('A')` 回傳一個 32×32 的 SVG，畫的是插頭正面：本體外形（方、圓、六角、三角…）＋實心插腳，扁腳／圓腳／接地腳（含 E 型接地孔、F 型接地夾片）都分得出來（用 `currentColor`，跟著文字顏色；`role="img"`＋`aria-label="A 型插頭"`）。`plugIcons(['G','D','M'])` 回傳一排圖示、每個下面有字母。
   - A～O 型都有畫（示意圖，不是精確尺寸）；不認得的型號會用「通用插頭」圖示（程式裡有 TODO）。
   - 用 `document.createElementNS` 建 SVG，**沒有用 innerHTML**，和 `dom.js` 的防 XSS 原則一致。
 - `src/scripts/app.js`：旅行頁頂部（`renderTrip`）和「萬用轉接頭」那一行（`renderItem` → `adapterPlugs`）顯示圖示，**旁邊的文字保留**（例如「A 型插頭 100V」），讀螢幕軟體也讀得到。
-- `src/styles/global.css`：`.plug-icon`（1.5em）、`.plug-icons`、`.plug-item` 等樣式，手機上會自動換行。
+- `src/styles/global.css`：`.plug-icon`（2.4em，約 38px）、`.plug-icons`、`.plug-item` 等樣式，手機上會自動換行。
 - `src/data/countries.json`：日本改成只有 `["A"]`，加 `_note` 欄位說明（JSON 不能寫註解，程式不會讀 `_note`）。台灣是 A/B，所以去日本**還是不需要轉接頭**。
