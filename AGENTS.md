@@ -18,7 +18,7 @@ git pull
 | `src/content.config.ts` | 文章欄位格式檢查（schema） | 程式碼（PR） |
 | `src/pages/zh-tw/blog/` | 文章列表、文章頁、推廣連結揭露頁 | 程式碼（PR） |
 | `src/layouts/BlogBase.astro`、`src/styles/blog.css` | 部落格版面、樣式 | 程式碼（PR） |
-| `src/pages/zh-tw/index.astro`、`src/scripts/`、`src/data/` | 打包清單工具 | 程式碼（PR） |
+| `src/pages/zh-tw/index.astro`、`src/scripts/`、`src/data/` | EZpakku 行李清單工具 | 程式碼（PR） |
 | `src/data/affiliate-products.json` | 推廣商品清單（文章裡的商品卡片） | **CMS「推廣商品」**或程式碼 |
 | `public/admin/`（`index.html`、`config.yml`） | CMS 設定 | **不要隨便動**；改之前先問 RY |
 | `vercel.json` | 只給 Vercel 預覽用的 header（noindex 等） | 程式碼（PR） |

@@ -1,4 +1,6 @@
-# 🧳 打包清單（packing-list）
+# 🧳 EZpakku（repo：packing-list）
+
+> 網站名稱：**EZpakku**（2026-10 由「打包清單」改名）。repo 名稱、網址 `/packing-list/` 和 localStorage key `packing-list:v1` 先不改，避免使用者的清單不見、舊連結失效。
 
 依目的地自動產生行李清單的網站，以手機為主。主打功能是 **「包包＋封箱＋每個包包的進度」**。
 
@@ -314,3 +316,12 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - **不用 Open-Meteo**（免費版不能商用）和 **Meteostat**（CC BY-NC），因為 EZpakku 有推廣連結。
 - `src/data/countries.json` 每個目的地加了 `lat`、`lon`（代表城市座標）和 `tz`（時區，用來把預報換成當地日期）。
 - ⚠️ 隱私：MET 是從使用者瀏覽器直接呼叫，**使用者的 IP 和目的地座標會留在 MET 的紀錄**。隱私權政策第 6 節（在 feat/blog-preview／PR #1）已寫。
+
+---
+
+## 改名 EZpakku（chore/rename-ezpakku）：做了什麼
+
+- 畫面上的品牌「打包清單」全部改成 **EZpakku**：標題列、`<title>`、`og:*`／`application-name` meta、PWA 的 `manifest.webmanifest`（name「EZpakku 行李清單」、short_name「EZpakku」）、i18n 的 `app.name`、根目錄轉址頁、匯出備份的檔名（`ezpakku-backup-日期.json`）。
+- 「行李清單」當描述用的地方（例如「依目的地自動產生行李清單」）保留。
+- Service Worker 快取名稱 `packing-list-v1` → `ezpakku-v1`：只是網站檔案的快取，舊的會自動刪掉、重新下載一次。
+- **沒改（刻意）**：localStorage key `packing-list:v1`（改了使用者的清單會不見）、備份檔裡的 `"app": "packing-list"`（舊備份相容）、repo 名稱和 GitHub Pages 網址 `/packing-list/`。

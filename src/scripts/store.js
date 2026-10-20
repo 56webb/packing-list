@@ -208,6 +208,7 @@ export function createStore(adapter) {
 
     // ----- 備份 -----
     exportJSON() {
+      // app 欄位保留 'packing-list'（舊備份檔相容），品牌名稱在畫面上是 EZpakku
       return JSON.stringify({ app: 'packing-list', exportedAt: now(), ...state }, null, 2);
     },
     /** 匯入備份：同一個 id 的資料會被覆蓋，其他的保留。回傳匯入了幾趟旅行。 */

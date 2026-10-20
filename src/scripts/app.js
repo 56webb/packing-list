@@ -528,7 +528,7 @@ async function shareTrip(trip) {
 function exportBackup() {
   const blob = new Blob([store.exportJSON()], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = h('a', { href: url, download: `packing-list-backup-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = h('a', { href: url, download: `ezpakku-backup-${new Date().toISOString().slice(0, 10)}.json` });
   document.body.append(a);
   a.click();
   a.remove();
