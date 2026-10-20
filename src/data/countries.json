@@ -1,10 +1,13 @@
 {
- "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。",
+ "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。 座標 lat/lon：代表城市市中心概略值（小數 4 位），tz：IANA 時區，用來把天氣預報換成當地日期。",
  "countries": [
   {
    "code": "TW",
    "name": "台灣（國內）",
    "city": "台北",
+   "lat": 25.033,
+   "lon": 121.5654,
+   "tz": "Asia/Taipei",
    "plugs": [
     "A",
     "B"
@@ -31,10 +34,13 @@
    "code": "JP",
    "name": "日本",
    "city": "東京",
+   "lat": 35.6762,
+   "lon": 139.6503,
+   "tz": "Asia/Tokyo",
    "plugs": [
-    "A",
-    "B"
+    "A"
    ],
+   "_note": "日本依 JNTO 官方資料只列 A 型（B 型少見），2026-10-20",
    "voltage": "100V",
    "international": true,
    "meanTempC": [
@@ -57,6 +63,9 @@
    "code": "KR",
    "name": "韓國",
    "city": "首爾",
+   "lat": 37.5665,
+   "lon": 126.978,
+   "tz": "Asia/Seoul",
    "plugs": [
     "C",
     "F"
@@ -83,6 +92,9 @@
    "code": "HK",
    "name": "香港",
    "city": "香港",
+   "lat": 22.3193,
+   "lon": 114.1694,
+   "tz": "Asia/Hong_Kong",
    "plugs": [
     "G",
     "D",
@@ -110,6 +122,9 @@
    "code": "MO",
    "name": "澳門",
    "city": "澳門",
+   "lat": 22.1987,
+   "lon": 113.5439,
+   "tz": "Asia/Macau",
    "plugs": [
     "G",
     "D",
@@ -137,6 +152,9 @@
    "code": "CN",
    "name": "中國",
    "city": "上海",
+   "lat": 31.2304,
+   "lon": 121.4737,
+   "tz": "Asia/Shanghai",
    "plugs": [
     "A",
     "I"
@@ -163,6 +181,9 @@
    "code": "TH",
    "name": "泰國",
    "city": "曼谷",
+   "lat": 13.7563,
+   "lon": 100.5018,
+   "tz": "Asia/Bangkok",
    "plugs": [
     "A",
     "B",
@@ -191,6 +212,9 @@
    "code": "VN",
    "name": "越南",
    "city": "胡志明市",
+   "lat": 10.8231,
+   "lon": 106.6297,
+   "tz": "Asia/Ho_Chi_Minh",
    "plugs": [
     "A",
     "B",
@@ -219,6 +243,9 @@
    "code": "SG",
    "name": "新加坡",
    "city": "新加坡",
+   "lat": 1.3521,
+   "lon": 103.8198,
+   "tz": "Asia/Singapore",
    "plugs": [
     "C",
     "G",
@@ -246,6 +273,9 @@
    "code": "MY",
    "name": "馬來西亞",
    "city": "吉隆坡",
+   "lat": 3.139,
+   "lon": 101.6869,
+   "tz": "Asia/Kuala_Lumpur",
    "plugs": [
     "C",
     "G",
@@ -273,6 +303,9 @@
    "code": "ID",
    "name": "印尼",
    "city": "峇里島（登巴薩）",
+   "lat": -8.6705,
+   "lon": 115.2126,
+   "tz": "Asia/Makassar",
    "plugs": [
     "C",
     "F"
@@ -299,6 +332,9 @@
    "code": "PH",
    "name": "菲律賓",
    "city": "馬尼拉",
+   "lat": 14.5995,
+   "lon": 120.9842,
+   "tz": "Asia/Manila",
    "plugs": [
     "A",
     "B",
@@ -326,6 +362,9 @@
    "code": "US",
    "name": "美國",
    "city": "紐約",
+   "lat": 40.7128,
+   "lon": -74.006,
+   "tz": "America/New_York",
    "plugs": [
     "A",
     "B"
@@ -352,6 +391,9 @@
    "code": "CA",
    "name": "加拿大",
    "city": "溫哥華",
+   "lat": 49.2827,
+   "lon": -123.1207,
+   "tz": "America/Vancouver",
    "plugs": [
     "A",
     "B"
@@ -378,6 +420,9 @@
    "code": "GB",
    "name": "英國",
    "city": "倫敦",
+   "lat": 51.5072,
+   "lon": -0.1276,
+   "tz": "Europe/London",
    "plugs": [
     "G",
     "D",
@@ -405,6 +450,9 @@
    "code": "FR",
    "name": "法國",
    "city": "巴黎",
+   "lat": 48.8566,
+   "lon": 2.3522,
+   "tz": "Europe/Paris",
    "plugs": [
     "C",
     "E"
@@ -431,6 +479,9 @@
    "code": "IT",
    "name": "義大利",
    "city": "羅馬",
+   "lat": 41.9028,
+   "lon": 12.4964,
+   "tz": "Europe/Rome",
    "plugs": [
     "C",
     "F",
@@ -458,6 +509,9 @@
    "code": "ES",
    "name": "西班牙",
    "city": "馬德里",
+   "lat": 40.4168,
+   "lon": -3.7038,
+   "tz": "Europe/Madrid",
    "plugs": [
     "C",
     "F"
@@ -484,6 +538,9 @@
    "code": "DE",
    "name": "德國",
    "city": "柏林",
+   "lat": 52.52,
+   "lon": 13.405,
+   "tz": "Europe/Berlin",
    "plugs": [
     "C",
     "F"
@@ -510,6 +567,9 @@
    "code": "CH",
    "name": "瑞士",
    "city": "蘇黎世",
+   "lat": 47.3769,
+   "lon": 8.5417,
+   "tz": "Europe/Zurich",
    "plugs": [
     "C",
     "J"
@@ -536,6 +596,9 @@
    "code": "NL",
    "name": "荷蘭",
    "city": "阿姆斯特丹",
+   "lat": 52.3676,
+   "lon": 4.9041,
+   "tz": "Europe/Amsterdam",
    "plugs": [
     "C",
     "F"
@@ -562,6 +625,9 @@
    "code": "CZ",
    "name": "捷克",
    "city": "布拉格",
+   "lat": 50.0755,
+   "lon": 14.4378,
+   "tz": "Europe/Prague",
    "plugs": [
     "C",
     "E"
@@ -588,6 +654,9 @@
    "code": "AT",
    "name": "奧地利",
    "city": "維也納",
+   "lat": 48.2082,
+   "lon": 16.3738,
+   "tz": "Europe/Vienna",
    "plugs": [
     "C",
     "F"
@@ -614,6 +683,9 @@
    "code": "AU",
    "name": "澳洲",
    "city": "雪梨",
+   "lat": -33.8688,
+   "lon": 151.2093,
+   "tz": "Australia/Sydney",
    "plugs": [
     "I"
    ],
@@ -639,6 +711,9 @@
    "code": "NZ",
    "name": "紐西蘭",
    "city": "奧克蘭",
+   "lat": -36.8485,
+   "lon": 174.7633,
+   "tz": "Pacific/Auckland",
    "plugs": [
     "I"
    ],
@@ -664,6 +739,9 @@
    "code": "TR",
    "name": "土耳其",
    "city": "伊斯坦堡",
+   "lat": 41.0082,
+   "lon": 28.9784,
+   "tz": "Europe/Istanbul",
    "plugs": [
     "C",
     "F"
@@ -690,6 +768,9 @@
    "code": "AE",
    "name": "阿聯（杜拜）",
    "city": "杜拜",
+   "lat": 25.2048,
+   "lon": 55.2708,
+   "tz": "Asia/Dubai",
    "plugs": [
     "G"
    ],
@@ -715,6 +796,9 @@
    "code": "GU",
    "name": "關島",
    "city": "哈加特納",
+   "lat": 13.4757,
+   "lon": 144.7489,
+   "tz": "Pacific/Guam",
    "plugs": [
     "A",
     "B"
@@ -741,6 +825,9 @@
    "code": "PW",
    "name": "帛琉",
    "city": "科羅",
+   "lat": 7.3419,
+   "lon": 134.4793,
+   "tz": "Pacific/Palau",
    "plugs": [
     "A",
     "B"
@@ -767,6 +854,9 @@
    "code": "MV",
    "name": "馬爾地夫",
    "city": "馬列",
+   "lat": 4.1755,
+   "lon": 73.5093,
+   "tz": "Indian/Maldives",
    "plugs": [
     "D",
     "G",

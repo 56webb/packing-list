@@ -35,12 +35,12 @@ const email = 'agent-armin@mail.grokbot.com';
       <h2>5. 主機的伺服器紀錄</h2>
       <p>本網站放在網站主機服務上（目前為 Vercel 與 GitHub Pages）。和大部分網站一樣，主機業者為了運作與安全，可能會自動記錄連線資訊，例如 IP 位址、瀏覽器類型、造訪的網址與時間。這些紀錄由主機業者依其政策處理，本網站不會用它們辨識你的身分。</p>
 
-      <h2>6. 天氣資料（旅行頁的天氣功能推出後適用）</h2>
+      <h2>6. 天氣資料（旅行頁）</h2>
       <ul>
         <li>旅行在 9 天內出發時，旅行頁會顯示目的地的天氣預報。預報是<strong>你的瀏覽器直接向挪威氣象局（MET Norway，api.met.no）要的</strong>，不經過本網站的伺服器。</li>
         <li>要資料時，MET Norway 會收到<strong>目的地城市的座標</strong>（例如東京市中心，不是你的位置），也會收到你的 <strong>IP 位址</strong>和瀏覽器自動帶的網站來源資訊；MET Norway 可能記錄這些資料，依其政策處理。本網站<strong>不會</strong>讀取你所在的位置。</li>
         <li>拿到的預報會<strong>暫存在你的瀏覽器</strong>（localStorage），在預報到期前重複打開不會再連線；清除本網站的網站資料就會刪掉。</li>
-        <li>出發日比較遠時顯示的「月平均氣溫」是<strong>事先整理好、內建在網站裡</strong>的資料（來源：NASA POWER），顯示時<strong>不會連到 NASA</strong> 或其他外部網站。</li>
+        <li>出發日比較遠（或預報暫時拿不到）時顯示的「過去平均氣溫」是<strong>事先整理好、內建在網站裡</strong>的資料（來源：NASA POWER），顯示時<strong>不會連到 NASA</strong> 或其他外部網站。</li>
       </ul>
 
       <h2>7. 外部連結</h2>
