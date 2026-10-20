@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import rehypeBaseLinks from './src/plugins/rehype-base-links.mjs';
 
 // Astro 設定檔
 // - site / base：部署到 GitHub Pages 時，網址是 https://56webb.github.io/packing-list/
@@ -14,4 +15,6 @@ export default defineConfig({
   base,
   output: 'static',
   trailingSlash: 'ignore',
+  // 部落格 Markdown 裡的站內連結自動加上 base（見 src/plugins/rehype-base-links.mjs）
+  markdown: { rehypePlugins: [rehypeBaseLinks(base)] },
 });

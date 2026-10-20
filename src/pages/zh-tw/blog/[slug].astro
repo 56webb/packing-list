@@ -1,0 +1,36 @@
+---
+// 每篇文章：/zh-tw/blog/<slug>/
+// getStaticPaths 在 build 時把每篇 Markdown 變成一個 HTML 頁面（靜態網站，不需要伺服器）
+import { getCollection, render } from 'astro:content';
+import { getImage } from 'astro:assets';
+import BlogBase from '../../../layouts/BlogBase.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const og = post.data.cover ? (await getImage({ src: post.data.cover, width: 1200 })).src : undefined;
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+const others = (await getCollection('blog', ({ data }) => !data.draft)).filter((p) => p.id !== post.id);
+---
+<BlogBase title={`${post.data.title}｜EZpakku`} description={post.data.description} image={og}>
+  <article class="post">
+    <p class="post-breadcrumb"><a href={`${base}zh-tw/blog/`}>← 所有文章</a></p>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>{post.data.tags.length > 0 && <span> ・ {post.data.tags.join('、')}</span>}</p>
+    {post.data.affiliate && (
+      <aside class="disclosure" role="note">
+        <strong>推廣連結揭露：</strong>本文含推廣連結（會標示「推廣連結」）。透過推廣連結購買，EZpakku 可能獲得分潤，不影響你的價格，也不影響文章內容。
+        <a href={`${base}zh-tw/blog/disclosure/`}>詳細說明</a>
+      </aside>
+    )}
+    <div class="prose"><Content /></div>
+  </article>
+  <section class="post-more">
+    <h2>其他文章</h2>
+    <ul>{others.map((p) => <li><a href={`${base}zh-tw/blog/${p.id}/`}>{p.data.title}</a></li>)}</ul>
+  </section>
+</BlogBase>

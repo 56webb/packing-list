@@ -1,0 +1,35 @@
+---
+// 部落格首頁：/zh-tw/blog/ ，列出所有文章（新到舊）
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BlogBase from '../../../layouts/BlogBase.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.data.title.localeCompare(b.data.title),
+);
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+<BlogBase title="EZpakku 旅行文章｜行李清單、打包技巧、日本入境教學">
+  <section class="blog-hero">
+    <h1>旅行文章</h1>
+    <p>出發前要準備什麼、行李怎麼分、入境和退稅怎麼辦，一篇一篇用圖講清楚。</p>
+    <a class="btn-cta" href={`${base}zh-tw/`}>🧳 用 EZpakku 產生行李清單</a>
+  </section>
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li class="post-card">
+        <a href={`${base}zh-tw/blog/${post.id}/`}>
+          {post.data.cover && (
+            <Image src={post.data.cover} alt="" widths={[400, 800]} sizes="(max-width: 720px) 100vw, 720px" loading="lazy" />
+          )}
+          <div class="post-card-body">
+            <h2>{post.data.title}</h2>
+            <p>{post.data.description}</p>
+            <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BlogBase>

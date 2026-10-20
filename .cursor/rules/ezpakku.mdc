@@ -1,0 +1,15 @@
+---
+description: EZpakku 專案協作規則（文章、CMS、推廣連結、分支）
+alwaysApply: true
+---
+
+# EZpakku 協作規則（完整版見 AGENTS.md）
+
+- 開始前提醒 RY：先 `git pull`（CMS 會直接在 GitHub 新增 commit）。
+- 文章只放在 `src/content/blog/<slug>/post.md`，圖片放 `src/content/blog/<slug>/images/`。改程式碼時**不要動文章**，除非 RY 要求。
+- 不要隨便改 `public/admin/`（CMS 設定，尤其是 `branch`、`repo`、`folder`）。
+- frontmatter：`title`、`slug`（小寫英文-數字，等於資料夾名）、`description`、`pubDate`（YYYY-MM-DD）必填；`updatedDate`、`tags`、`cover`（`./images/…`）、`country`、`affiliate`、`draft` 選填。內文不寫 H1。
+- 推廣連結：`rel="sponsored nofollow noopener"`＋看得到的「推廣連結」標示；文章設 `affiliate: true`。Saily 不可用品牌字買關鍵字廣告；旅遊保險不放推廣連結；沒有真連結就只放 `<!-- AFFILIATE: … -->` 註解。
+- 不寫 Token、密碼、金鑰、個資到 repo。
+- `main` 是正式版。程式碼改動一律：新分支 → PR → RY 審核後才合併。不要自己合併、不要 push main、不要改 `.github/workflows/deploy.yml`。
+- 每個事實要有來源；沒有來源不寫價格。

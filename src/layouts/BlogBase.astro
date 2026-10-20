@@ -1,0 +1,49 @@
+---
+// 部落格專用的外框（和打包工具的 Base.astro 分開，避免影響工具本身）
+// 手機優先：內文寬度最多 720px，圖片、表格不會撐破畫面。
+import '../styles/global.css';
+import '../styles/blog.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+const { title, description = 'EZpakku 旅行文章：行李清單、打包技巧、日本入境與退稅教學。', image } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+// 預覽版（PUBLIC_NOINDEX=1）不讓搜尋引擎收錄，避免和正式版重複
+const noindex = import.meta.env.PUBLIC_NOINDEX === '1';
+---
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#1a6b7a" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site ?? Astro.url).href} />}
+    <link rel="icon" type="image/svg+xml" href={`${base}icons/icon.svg`} />
+    <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
+  </head>
+  <body class="blog">
+    <header class="topbar blog-topbar">
+      <a class="blog-brand" href={`${base}zh-tw/blog/`}>🧳 EZpakku</a>
+      <nav class="blog-nav">
+        <a href={`${base}zh-tw/blog/`}>文章</a>
+        <a class="blog-nav-cta" href={`${base}zh-tw/`}>產生行李清單</a>
+      </nav>
+    </header>
+    <main class="blog-main"><slot /></main>
+    <footer class="blog-footer">
+      <p>EZpakku：依目的地自動產生行李清單，分包包、封箱、看進度。 <a href={`${base}zh-tw/`}>打開工具</a></p>
+      <p>文章只整理官方公開資料，規定隨時會變，出發前請以官網為準。部分文章含推廣連結，見 <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>。</p>
+    </footer>
+  </body>
+</html>

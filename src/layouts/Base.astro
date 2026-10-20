@@ -31,7 +31,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       <a class="topbar-title" href={`${base}zh-tw/#/`}>🧳 {t('app.name')}</a>
     </header>
     <main id="app"><slot /></main>
-    <footer class="footer no-print"><p>{t('footer.about')}</p></footer>
+    <footer class="footer no-print"><p>{t('footer.about')}</p><p><a href={`${base}zh-tw/blog/`}>📖 旅行文章：日本行李清單、打包技巧、入境教學</a></p></footer>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <dialog id="dialog" class="dialog"></dialog>
     <script define:vars={{ swUrl: `${base}sw.js`, isProd: import.meta.env.PROD }}>

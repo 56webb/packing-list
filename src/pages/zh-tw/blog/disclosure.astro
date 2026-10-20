@@ -1,0 +1,20 @@
+---
+// 推廣連結揭露頁：/zh-tw/blog/disclosure/
+import BlogBase from '../../../layouts/BlogBase.astro';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="推廣連結揭露｜EZpakku" description="EZpakku 文章中的推廣（分潤）連結說明。">
+  <article class="post">
+    <p class="post-breadcrumb"><a href={`${base}zh-tw/blog/`}>← 所有文章</a></p>
+    <h1>推廣連結揭露</h1>
+    <div class="prose">
+      <p>EZpakku 的部分文章含有<strong>推廣連結</strong>（也叫分潤、聯盟行銷連結）。透過這些連結購買時，EZpakku 可能獲得一小部分分潤，<strong>你付的價格不會因此改變</strong>。</p>
+      <ul>
+        <li>每個推廣連結旁邊都會標示「推廣連結」。</li>
+        <li>文章內容只依官方公開資料撰寫，不因分潤改變說法；我們不幫特定賣家排名，也不寫沒有來源的價格。</li>
+        <li>折扣碼和優惠以店家結帳頁顯示為準。</li>
+      </ul>
+      <p>目前文章中使用的推廣計畫：Saily（eSIM）。</p>
+    </div>
+  </article>
+</BlogBase>

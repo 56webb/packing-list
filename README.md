@@ -226,3 +226,36 @@ push 到 `main` 分支 → GitHub Actions 會跑 `.github/workflows/deploy.yml` 
 - 氣候只用「代表城市」（例如日本＝東京），北海道冬天會比清單建議的更冷，可以在表單手動選「寒冷」。
 - 資料只存在這台裝置的這個瀏覽器；清除瀏覽器資料就會不見，記得定期「匯出備份」。
 - iPhone 要用 Safari 的「分享 → 加入主畫面」才能離線使用。
+
+
+---
+
+## 部落格（/zh-tw/blog/）與內容管理 CMS：這次做了什麼（feat/blog-preview）
+
+> 這段是 L 寫給 RY 的學習筆記。這個分支**還沒合併到 main**，正式版沒有變。
+
+### 1. 文章放哪裡
+- 每篇文章一個資料夾：`src/content/blog/<slug>/post.md`＋`images/`。
+- `src/content.config.ts` 定義欄位（title、slug、description、pubDate、cover、tags、affiliate、draft…），格式錯了 `npm run build` 會直接報錯。
+- 頁面：`src/pages/zh-tw/blog/index.astro`（列表）、`[slug].astro`（每篇）、`disclosure.astro`（推廣連結揭露）。版面：`src/layouts/BlogBase.astro`＋`src/styles/blog.css`（手機優先、表格可以左右滑、圖片不撐破畫面）。
+- 工具頁的頁尾加了「📖 旅行文章」連結；文章裡的 CTA 會連回工具。
+- 文章裡的站內連結寫 `/zh-tw/blog/...`，`src/plugins/rehype-base-links.mjs` 會在 build 時自動加上 base（GitHub Pages 是 `/packing-list`）。這需要 `@astrojs/markdown-remark` 套件（Astro 7 預設的 Markdown 引擎不支援 rehype 外掛）。
+
+### 2. 圖片版權處理
+- 拿掉了沒有轉載權的官方圖片：VJW 操作說明書／官網截圖（9 張）、觀光廳繁中傳單、舊名稱「打包清單」的 App 截圖。
+- 換成黃色虛線的「📷 圖片待補」框（class `img-placeholder`），清單見 PR 說明。補圖時：把圖放進該文章的 `images/`，把占位框換成 `![說明](images/檔名.png)`＋圖片來源。
+
+### 3. 預覽網址（不動正式版）
+```bash
+# 預覽版用 base '/'、加 noindex；正式版（GitHub Pages）設定完全沒變
+BASE_PATH=/ SITE_URL=https://ezpakku-preview.vercel.app PUBLIC_NOINDEX=1 npx astro build --outDir ../ezpakku-preview-dist
+cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/admin/ 不快取
+```
+- 再把資料夾上傳成 Vercel 的獨立專案 `ezpakku-preview` → https://ezpakku-preview.vercel.app/zh-tw/blog/
+- 這個 Vercel 專案沒有連 GitHub，所以**不會自動更新**；改文章後要重新部署。
+
+### 4. 內容管理 CMS（Sveltia CMS）
+- 檔案：`public/admin/index.html`（載入 CMS，版本固定＋SRI 檢查）、`public/admin/config.yml`（設定）。
+- 後台：https://ezpakku-preview.vercel.app/admin/ ，用 GitHub Token 登入；使用說明：`docs/cms-guide.md`。
+- 測試期間 `branch: feat/blog-preview`，CMS 只會改這個分支；`publish_mode: editorial_workflow`：每篇先開 `cms/...` 分支＋PR，按「發佈」才合併。
+- 協作規則：`AGENTS.md`、`.cursor/rules/ezpakku.mdc`。**在 Cursor 工作前先 `git pull`。**
