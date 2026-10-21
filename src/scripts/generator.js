@@ -42,14 +42,18 @@ export function tripMonths(startDate, days) {
 /**
  * 算出這趟旅行的氣候等級（可能不只一個，例如 11 月底到 12 月初）
  * 回傳 { climates: ['cool','cold'], avgTemps: [12.5, 7.7], months: [11,12] }
+ * - 氣候等級（hot/warm/cool/cold）只在程式內部用來決定要加哪些衣物，畫面上不顯示這個字。
+ * - temps：畫面上顯示的那組溫度換算出來的「每日／每月平均溫」（見 weather.js 的 tripTemps：
+ *   先用 MET 預報，沒有就用 NASA 過去平均）。沒給就用 countries.json 的 meanTempC（舊的季節資料）。
  */
-export function tripClimate(trip) {
+export function tripClimate(trip, temps) {
   const months = tripMonths(trip.startDate, trip.days);
   if (trip.climate && trip.climate !== 'auto') return { climates: [trip.climate], avgTemps: [], months };
+  if (temps?.length) return { climates: [...new Set(temps.map(tempToClimate))], avgTemps: temps, months };
   const country = getCountry(trip.countryCode);
-  const temps = country?.meanTempC ? months.map((m) => country.meanTempC[m - 1]).filter((v) => v != null) : [];
-  if (temps.length === 0) return { climates: [], avgTemps: [], months }; // 沒資料：不加任何氣候相關物品
-  return { climates: [...new Set(temps.map(tempToClimate))], avgTemps: temps, months };
+  const fallback = country?.meanTempC ? months.map((m) => country.meanTempC[m - 1]).filter((v) => v != null) : [];
+  if (fallback.length === 0) return { climates: [], avgTemps: [], months }; // 沒資料：不加任何氣候相關物品
+  return { climates: [...new Set(fallback.map(tempToClimate))], avgTemps: fallback, months };
 }
 
 /** 目的地插頭跟台灣不一樣嗎？（目的地沒有 A 或 B 型插座就需要轉接頭） */
@@ -84,12 +88,13 @@ function matches(when = {}, ctx) {
 
 /**
  * 主程式：輸入表單資料，回傳 { trip, bags, items }
- * form = { name, countryCode, startDate, days, types[], luggage, climate }
+ * form = { name, countryCode, startDate, days, types[], luggage, climate, temps? }
+ * temps：weather.js 的 tripTemps() 算出的平均溫（選填），用來決定衣物
  */
 export function generateTrip(form) {
   const country = getCountry(form.countryCode);
   const days = Math.max(1, Math.min(90, Number(form.days) || 1));
-  const { climates } = tripClimate({ ...form, days });
+  const { climates } = tripClimate({ ...form, days }, form.temps);
   const ctx = {
     international: country ? country.international : true, // 「其他國家」當作出國
     climates,

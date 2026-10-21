@@ -1,14 +1,18 @@
 {
- "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。",
+ "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。插頭類型 2026-10-21 逐國對照 IEC World Plugs（IEC 已下架互動工具、沒有各國頁面，改用 Internet Archive 存檔的 IEC 列表，網址見各國 plugSource）；跟 IEC 不同的地方寫在 _plugNote / _note。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。 座標 lat/lon：代表城市市中心概略值（小數 4 位），tz：IANA 時區，用來把天氣預報換成當地日期。",
  "countries": [
   {
    "code": "TW",
    "name": "台灣（國內）",
    "city": "台北",
+   "lat": 25.033,
+   "lon": 121.5654,
+   "tz": "Asia/Taipei",
    "plugs": [
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "110V",
    "international": false,
    "meanTempC": [
@@ -31,10 +35,14 @@
    "code": "JP",
    "name": "日本",
    "city": "東京",
+   "lat": 35.6762,
+   "lon": 139.6503,
+   "tz": "Asia/Tokyo",
    "plugs": [
-    "A",
-    "B"
+    "A"
    ],
+   "_note": "日本依 JNTO 官方資料只列 A 型（B 型少見），2026-10-20",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "100V",
    "international": true,
    "meanTempC": [
@@ -57,10 +65,14 @@
    "code": "KR",
    "name": "韓國",
    "city": "首爾",
+   "lat": 37.5665,
+   "lon": 126.978,
+   "tz": "Asia/Seoul",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -83,11 +95,16 @@
    "code": "HK",
    "name": "香港",
    "city": "香港",
+   "lat": 22.3193,
+   "lon": 114.1694,
+   "tz": "Asia/Hong_Kong",
    "plugs": [
     "G",
     "D",
     "M"
    ],
+   "_plugNote": "刻意保留 M 型：IEC 列 G/D，但香港機電工程署 EMSD《電力(線路)規例工作守則》列 BS 1363 與 BS 546（D/M 型）；G 型最常見",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -110,11 +127,17 @@
    "code": "MO",
    "name": "澳門",
    "city": "澳門",
+   "lat": 22.1987,
+   "lon": 113.5439,
+   "tz": "Asia/Macau",
    "plugs": [
     "G",
     "D",
-    "M"
+    "M",
+    "F"
    ],
+   "_plugNote": "依 IEC 補上 F 型（G 型最常見），2026-10-21",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -137,10 +160,15 @@
    "code": "CN",
    "name": "中國",
    "city": "上海",
+   "lat": 31.2304,
+   "lon": 121.4737,
+   "tz": "Asia/Shanghai",
    "plugs": [
     "A",
     "I"
    ],
+   "_plugNote": "刻意不列 C 型：IEC 舊資料列 A/C/I，但國標 GB/T 1002-2021 起 C 型已不符合標準",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -163,12 +191,17 @@
    "code": "TH",
    "name": "泰國",
    "city": "曼谷",
+   "lat": 13.7563,
+   "lon": 100.5018,
+   "tz": "Asia/Bangkok",
    "plugs": [
     "A",
     "B",
     "C",
     "O"
    ],
+   "_plugNote": "刻意列 O、不列 F：IEC 列 A/B/C/F（2020 版另有 O）；泰國官方標準 TIS 166-2549 為 O 型，E/F 型電器已禁售",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -191,12 +224,16 @@
    "code": "VN",
    "name": "越南",
    "city": "胡志明市",
+   "lat": 10.8231,
+   "lon": 106.6297,
+   "tz": "Asia/Ho_Chi_Minh",
    "plugs": [
     "A",
-    "B",
     "C",
     "F"
    ],
+   "_plugNote": "依 IEC 拿掉 B 型（IEC 列 A/C/F），2026-10-21",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -219,11 +256,15 @@
    "code": "SG",
    "name": "新加坡",
    "city": "新加坡",
+   "lat": 1.3521,
+   "lon": 103.8198,
+   "tz": "Asia/Singapore",
    "plugs": [
     "C",
     "G",
     "M"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -246,11 +287,16 @@
    "code": "MY",
    "name": "馬來西亞",
    "city": "吉隆坡",
+   "lat": 3.139,
+   "lon": 101.6869,
+   "tz": "Asia/Kuala_Lumpur",
    "plugs": [
     "C",
     "G",
     "M"
    ],
+   "_plugNote": "刻意不列 A 型：IEC 列 A/C/G/M，但馬來西亞能源委員會標準（MS 1578/589/1577）沒有 A 型；列 A 會讓工具誤判台灣插頭不用轉接頭",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -273,10 +319,14 @@
    "code": "ID",
    "name": "印尼",
    "city": "峇里島（登巴薩）",
+   "lat": -8.6705,
+   "lon": 115.2126,
+   "tz": "Asia/Makassar",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -299,11 +349,15 @@
    "code": "PH",
    "name": "菲律賓",
    "city": "馬尼拉",
+   "lat": 14.5995,
+   "lon": 120.9842,
+   "tz": "Asia/Manila",
    "plugs": [
     "A",
     "B",
     "C"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -326,10 +380,14 @@
    "code": "US",
    "name": "美國",
    "city": "紐約",
+   "lat": 40.7128,
+   "lon": -74.006,
+   "tz": "America/New_York",
    "plugs": [
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -352,10 +410,14 @@
    "code": "CA",
    "name": "加拿大",
    "city": "溫哥華",
+   "lat": 49.2827,
+   "lon": -123.1207,
+   "tz": "America/Vancouver",
    "plugs": [
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -378,11 +440,14 @@
    "code": "GB",
    "name": "英國",
    "city": "倫敦",
+   "lat": 51.5072,
+   "lon": -0.1276,
+   "tz": "Europe/London",
    "plugs": [
-    "G",
-    "D",
-    "M"
+    "G"
    ],
+   "_plugNote": "IEC 只列 G 型；D/M 型只剩舞台燈光等特殊用途，旅客不需要，2026-10-21 改為只有 G",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -405,10 +470,14 @@
    "code": "FR",
    "name": "法國",
    "city": "巴黎",
+   "lat": 48.8566,
+   "lon": 2.3522,
+   "tz": "Europe/Paris",
    "plugs": [
     "C",
     "E"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -431,11 +500,15 @@
    "code": "IT",
    "name": "義大利",
    "city": "羅馬",
+   "lat": 41.9028,
+   "lon": 12.4964,
+   "tz": "Europe/Rome",
    "plugs": [
     "C",
     "F",
     "L"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -458,10 +531,14 @@
    "code": "ES",
    "name": "西班牙",
    "city": "馬德里",
+   "lat": 40.4168,
+   "lon": -3.7038,
+   "tz": "Europe/Madrid",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -484,10 +561,14 @@
    "code": "DE",
    "name": "德國",
    "city": "柏林",
+   "lat": 52.52,
+   "lon": 13.405,
+   "tz": "Europe/Berlin",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -510,10 +591,14 @@
    "code": "CH",
    "name": "瑞士",
    "city": "蘇黎世",
+   "lat": 47.3769,
+   "lon": 8.5417,
+   "tz": "Europe/Zurich",
    "plugs": [
     "C",
     "J"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -536,10 +621,14 @@
    "code": "NL",
    "name": "荷蘭",
    "city": "阿姆斯特丹",
+   "lat": 52.3676,
+   "lon": 4.9041,
+   "tz": "Europe/Amsterdam",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -562,10 +651,14 @@
    "code": "CZ",
    "name": "捷克",
    "city": "布拉格",
+   "lat": 50.0755,
+   "lon": 14.4378,
+   "tz": "Europe/Prague",
    "plugs": [
     "C",
     "E"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -588,10 +681,14 @@
    "code": "AT",
    "name": "奧地利",
    "city": "維也納",
+   "lat": 48.2082,
+   "lon": 16.3738,
+   "tz": "Europe/Vienna",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -614,9 +711,13 @@
    "code": "AU",
    "name": "澳洲",
    "city": "雪梨",
+   "lat": -33.8688,
+   "lon": 151.2093,
+   "tz": "Australia/Sydney",
    "plugs": [
     "I"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -639,9 +740,13 @@
    "code": "NZ",
    "name": "紐西蘭",
    "city": "奧克蘭",
+   "lat": -36.8485,
+   "lon": 174.7633,
+   "tz": "Pacific/Auckland",
    "plugs": [
     "I"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -664,10 +769,14 @@
    "code": "TR",
    "name": "土耳其",
    "city": "伊斯坦堡",
+   "lat": 41.0082,
+   "lon": 28.9784,
+   "tz": "Europe/Istanbul",
    "plugs": [
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -690,9 +799,14 @@
    "code": "AE",
    "name": "阿聯（杜拜）",
    "city": "杜拜",
+   "lat": 25.2048,
+   "lon": 55.2708,
+   "tz": "Asia/Dubai",
    "plugs": [
     "G"
    ],
+   "_plugNote": "刻意不列 D 型：IEC 列 D/G，但阿布達比能源局《Electricity Wiring Regulations 2020》只規定 BS 1363（G 型）",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -715,10 +829,14 @@
    "code": "GU",
    "name": "關島",
    "city": "哈加特納",
+   "lat": 13.4757,
+   "lon": 144.7489,
+   "tz": "Pacific/Guam",
    "plugs": [
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "110V",
    "international": true,
    "meanTempC": [
@@ -741,10 +859,14 @@
    "code": "PW",
    "name": "帛琉",
    "city": "科羅",
+   "lat": 7.3419,
+   "lon": 134.4793,
+   "tz": "Pacific/Palau",
    "plugs": [
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -767,6 +889,9 @@
    "code": "MV",
    "name": "馬爾地夫",
    "city": "馬列",
+   "lat": 4.1755,
+   "lon": 73.5093,
+   "tz": "Indian/Maldives",
    "plugs": [
     "D",
     "G",
@@ -774,6 +899,8 @@
     "K",
     "L"
    ],
+   "_plugNote": "刻意不列 A/C：IEC 2019 列表另有 A/C，IEC 2020 版資料未收錄馬爾地夫；列 A 會讓工具誤判台灣插頭不用轉接頭",
+   "plugSource": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
