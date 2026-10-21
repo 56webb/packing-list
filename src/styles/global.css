@@ -231,3 +231,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .check { min-height: 0; padding: 2px 6px; }
   .progress { display: none; }
 }
+
+/* ---------- 插頭圖示（src/scripts/plugIcons.js）---------- */
+.plug-info { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px 6px; vertical-align: middle; }
+.plug-icons { display: inline-flex; flex-wrap: wrap; gap: 8px 10px; vertical-align: middle; }
+.plug-item { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; color: var(--accent); }
+.plug-icon { width: 2.4em; height: 2.4em; display: block; flex: none; }
+.plug-letter { font-size: 0.8rem; font-weight: 700; margin-top: 3px; }
+.item-plugs { flex-basis: 100%; display: block; margin: 4px 0 2px; }
