@@ -9,9 +9,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "data:climate": "node scripts/build-climate.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.3",
     "astro": "^7.4.0"
   }
 }

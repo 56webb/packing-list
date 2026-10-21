@@ -1,0 +1,72 @@
+/* ===== 部落格樣式（手機優先）===== */
+body.blog { overflow-x: hidden; }
+.blog-topbar { justify-content: space-between; }
+.blog-brand { color: #fff; text-decoration: none; font-weight: 700; font-size: 1.05rem; display: inline-flex; align-items: center; min-height: var(--tap); }
+.blog-nav { display: flex; gap: 6px; align-items: center; }
+.blog-nav a { color: #fff; text-decoration: none; font-size: .9rem; padding: 8px 10px; border-radius: 10px; min-height: var(--tap); display: inline-flex; align-items: center; }
+.blog-nav-cta { background: rgba(255,255,255,.18); font-weight: 600; }
+.blog-main { max-width: 720px; margin: 0 auto; padding: 12px 16px 40px; }
+.blog-footer { max-width: 720px; margin: 0 auto; padding: 16px 16px 48px; color: var(--text-sub); font-size: .85rem; border-top: 1px solid var(--border); }
+.blog-footer p { margin: 0 0 8px; }
+
+.blog-hero h1 { font-size: 1.6rem; margin: 12px 0 6px; }
+.blog-hero p { margin: 0 0 14px; color: var(--text-sub); }
+.btn-cta { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 16px; border-radius: 12px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 700; }
+
+.post-list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 16px; }
+.post-card a { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; color: inherit; text-decoration: none; }
+.post-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; background: var(--accent-soft); }
+.post-card-body { padding: 12px 14px 14px; }
+.post-card h2 { font-size: 1.08rem; margin: 0 0 6px; color: var(--accent); }
+.post-card p { margin: 0 0 6px; font-size: .9rem; color: var(--text-sub); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.post-card time { font-size: .8rem; color: var(--text-sub); }
+
+.post-breadcrumb { margin: 8px 0 0; font-size: .9rem; }
+.post h1 { font-size: 1.45rem; margin: 10px 0 6px; }
+.post-meta { color: var(--text-sub); font-size: .85rem; margin: 0 0 16px; }
+.disclosure { background: var(--gold-soft); border: 1px solid #ecd9a8; border-radius: 12px; padding: 10px 12px; font-size: .88rem; margin: 0 0 16px; }
+
+.prose { overflow-wrap: anywhere; }
+.prose h2 { font-size: 1.25rem; margin: 32px 0 10px; padding-top: 8px; }
+.prose h3 { font-size: 1.08rem; margin: 24px 0 8px; }
+.prose img { max-width: 100%; height: auto; display: block; margin: 12px auto 4px; border-radius: 10px; border: 1px solid var(--border); }
+.prose p > em:only-child, .prose img + em { display: block; font-size: .8rem; color: var(--text-sub); }
+.prose blockquote { margin: 16px 0; padding: 10px 14px; background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; }
+.prose blockquote p { margin: 4px 0; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: .88rem; margin: 12px 0; -webkit-overflow-scrolling: touch; }
+.prose th, .prose td { border: 1px solid var(--border); padding: 6px 8px; vertical-align: top; min-width: 6em; }
+.prose th { background: var(--accent-soft); }
+.prose pre, .prose code { white-space: pre-wrap; word-break: break-all; }
+.prose li { margin: 4px 0; }
+.prose hr { border: 0; border-top: 1px solid var(--border); margin: 28px 0; }
+.prose a { word-break: break-word; }
+.prose .footnotes { font-size: .8rem; color: var(--text-sub); }
+.prose .footnotes a { word-break: break-all; }
+.prose sup a { text-decoration: none; }
+
+/* 圖片待補的占位框（RY 補上真的截圖後就刪掉這個框） */
+.img-placeholder { margin: 12px 0; padding: 18px 14px; border: 2px dashed #c9a24a; border-radius: 12px; background: var(--gold-soft); color: #6b4e00; text-align: center; font-size: .92rem; }
+.img-placeholder small { color: #7a6a3c; }
+
+/* 推廣連結區塊 */
+.affiliate-box { margin: 16px 0; padding: 12px 14px; border: 1px solid #ecd9a8; border-radius: 12px; background: #fffaf0; }
+.affiliate-box p { margin: 6px 0; }
+.affiliate-label { font-size: .8rem; font-weight: 700; color: #8a5a00; }
+.affiliate-label::before { content: "📢 "; }
+.affiliate-note { font-size: .85rem; color: var(--text-sub); }
+/* 推廣商品卡片（[[商品:id]]） */
+.affiliate-product-name { font-weight: 700; line-height: 1.45; }
+.affiliate-cta { margin: 10px 0 4px !important; }
+.affiliate-button { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 8px 16px; border-radius: 10px; background: #c4391d; color: #fff !important; font-weight: 700; text-decoration: none; text-align: center; }
+.affiliate-button:hover, .affiliate-button:focus-visible { background: #a92f17; }
+.affiliate-button:focus-visible { outline: 3px solid #8a5a00; outline-offset: 2px; }
+.affiliate-price { font-size: .78rem; color: var(--text-sub); text-align: center; }
+
+.post-more { margin-top: 36px; border-top: 1px solid var(--border); padding-top: 8px; }
+.post-more h2 { font-size: 1.1rem; }
+.post-more ul { padding-left: 1.2em; }
+.post-more li { margin: 8px 0; }
+
+/* 頁尾的網站資訊連結（關於我、隱私權政策、推廣連結揭露） */
+.footer-links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 10px; }
+.footer-links a { display: inline-flex; align-items: center; min-height: var(--tap); }

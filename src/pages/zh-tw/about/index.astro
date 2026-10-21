@@ -1,0 +1,24 @@
+---
+// 關於我：/zh-tw/about/
+// ⚠️ 只寫 RY 確認過的事實，不要自己加經歷、次數、職業或照片。
+import BlogBase from '../../../layouts/BlogBase.astro';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const email = 'agent-armin@mail.grokbot.com';
+---
+<BlogBase title="關於我｜EZpakku" description="EZpakku 是 RY 做的免費行李清單工具和無廣告旅行部落格。">
+  <article class="post">
+    <h1>關於我</h1>
+    <div class="prose">
+      <p>嗨，我是 <strong>RY</strong>，EZpakku 的站長。我來自台灣，是常去日本的旅人。</p>
+      <h2>EZpakku 是什麼</h2>
+      <ul>
+        <li><strong>免費的行李清單工具：</strong>選目的地和天數就會產生清單，可以把東西分到不同包包、裝完一包就「封箱」。<strong>不用註冊、不用登入</strong>就能用。 <a href={`${base}zh-tw/`}>打開工具</a></li>
+        <li><strong>沒有廣告的旅行部落格：</strong>整理實用的日本旅行攻略，例如行李清單、入境手續、免稅、上網方式。內容以官方公開資料為主，並附上來源。 <a href={`${base}zh-tw/blog/`}>看文章</a></li>
+      </ul>
+      <h2>推廣連結</h2>
+      <p>部分文章含有<strong>推廣連結</strong>，旁邊都會清楚標示。透過這些連結購買，EZpakku 可能獲得分潤，用來支持網站營運，你付的價格不會改變。詳細說明請看 <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>。</p>
+      <h2>聯絡我</h2>
+      <p>有問題、發現錯誤，或想合作，歡迎寫信到 <a href={`mailto:${email}`}>{email}</a>。</p>
+    </div>
+  </article>
+</BlogBase>

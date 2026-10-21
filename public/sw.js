@@ -4,7 +4,9 @@
 //   - 打開頁面（navigation）→ 先試網路，失敗（沒網路）就拿快取的版本。
 //   - 其他檔案（JS、CSS、圖示）→ 先拿快取，同時背景更新。
 // 改了這個檔案要「換版本號」，舊快取才會被清掉。
-const CACHE = 'packing-list-v1';
+// 快取名稱改成 ezpakku-v1（2026-10 改名）：舊的 packing-list-v1 會在 activate 時自動刪掉。
+// 這裡只存網站檔案；使用者的清單在 localStorage（'packing-list:v1'），不受影響、不要改那個 key。
+const CACHE = 'ezpakku-v1';
 const BASE = new URL('./', self.location).pathname; // 例如 /packing-list/
 const PRECACHE = [BASE, `${BASE}zh-tw/`, `${BASE}manifest.webmanifest`, `${BASE}icons/icon-192.png`];
 
