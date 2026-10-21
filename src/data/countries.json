@@ -1,5 +1,5 @@
 {
- "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。",
+ "_comment": "插頭與電壓：Wikipedia「Mains electricity by country」（整理自 IEC World Plugs）https://en.wikipedia.org/wiki/Mains_electricity_by_country ，2026-10-17 擷取。插頭類型 2026-10-21 逐國對照 IEC World Plugs（IEC 已下架互動工具、沒有各國頁面，改用 Internet Archive 存檔的 IEC 列表，網址見各國 plugSource）；跟 IEC 不同的地方寫在 _plugNote / _note。氣溫：各代表城市 Wikipedia 氣候表的「每日平均氣溫」(°C，1–12 月)，資料多來自各國氣象局；帛琉（科羅）為每日最高/最低平均的中間值。只是『代表城市』的概略值，同一國家各地差很多（例如北海道與沖繩），使用者可在表單手動選氣候。不確定的欄位請留 null，不要用猜的。",
  "countries": [
   {
    "code": "TW",
@@ -9,6 +9,7 @@
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "110V",
    "international": false,
    "meanTempC": [
@@ -35,6 +36,7 @@
     "A"
    ],
    "_note": "日本依 JNTO 官方資料只列 A 型（B 型少見），2026-10-20",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "100V",
    "international": true,
    "meanTempC": [
@@ -61,6 +63,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -88,6 +91,8 @@
     "D",
     "M"
    ],
+   "_plugNote": "刻意保留 M 型：IEC 列 G/D，但香港機電工程署 EMSD《電力(線路)規例工作守則》列 BS 1363 與 BS 546（D/M 型）；G 型最常見",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -113,8 +118,11 @@
    "plugs": [
     "G",
     "D",
-    "M"
+    "M",
+    "F"
    ],
+   "_plugNote": "依 IEC 補上 F 型（G 型最常見），2026-10-21",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -141,6 +149,8 @@
     "A",
     "I"
    ],
+   "_plugNote": "刻意不列 C 型：IEC 舊資料列 A/C/I，但國標 GB/T 1002-2021 起 C 型已不符合標準",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -169,6 +179,8 @@
     "C",
     "O"
    ],
+   "_plugNote": "刻意列 O、不列 F：IEC 列 A/B/C/F（2020 版另有 O）；泰國官方標準 TIS 166-2549 為 O 型，E/F 型電器已禁售",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -193,10 +205,11 @@
    "city": "胡志明市",
    "plugs": [
     "A",
-    "B",
     "C",
     "F"
    ],
+   "_plugNote": "依 IEC 拿掉 B 型（IEC 列 A/C/F），2026-10-21",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "220V",
    "international": true,
    "meanTempC": [
@@ -224,6 +237,7 @@
     "G",
     "M"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -251,6 +265,8 @@
     "G",
     "M"
    ],
+   "_plugNote": "刻意不列 A 型：IEC 列 A/C/G/M，但馬來西亞能源委員會標準（MS 1578/589/1577）沒有 A 型；列 A 會讓工具誤判台灣插頭不用轉接頭",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -277,6 +293,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -304,6 +321,7 @@
     "B",
     "C"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -330,6 +348,7 @@
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -356,6 +375,7 @@
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -379,10 +399,10 @@
    "name": "英國",
    "city": "倫敦",
    "plugs": [
-    "G",
-    "D",
-    "M"
+    "G"
    ],
+   "_plugNote": "IEC 只列 G 型；D/M 型只剩舞台燈光等特殊用途，旅客不需要，2026-10-21 改為只有 G",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -409,6 +429,7 @@
     "C",
     "E"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -436,6 +457,7 @@
     "F",
     "L"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -462,6 +484,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -488,6 +511,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -514,6 +538,7 @@
     "C",
     "J"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -540,6 +565,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -566,6 +592,7 @@
     "C",
     "E"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -592,6 +619,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -617,6 +645,7 @@
    "plugs": [
     "I"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -642,6 +671,7 @@
    "plugs": [
     "I"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -668,6 +698,7 @@
     "C",
     "F"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -693,6 +724,8 @@
    "plugs": [
     "G"
    ],
+   "_plugNote": "刻意不列 D 型：IEC 列 D/G，但阿布達比能源局《Electricity Wiring Regulations 2020》只規定 BS 1363（G 型）",
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
@@ -719,6 +752,7 @@
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "110V",
    "international": true,
    "meanTempC": [
@@ -745,6 +779,7 @@
     "A",
     "B"
    ],
+   "plugSource": "https://web.archive.org/web/20190516102841/https://www.iec.ch/worldplugs/list_bylocation.htm",
    "voltage": "120V",
    "international": true,
    "meanTempC": [
@@ -774,6 +809,8 @@
     "K",
     "L"
    ],
+   "_plugNote": "刻意不列 A/C：IEC 2019 列表另有 A/C，IEC 2020 版資料未收錄馬爾地夫；列 A 會讓工具誤判台灣插頭不用轉接頭",
+   "plugSource": "https://en.wikipedia.org/wiki/Mains_electricity_by_country",
    "voltage": "230V",
    "international": true,
    "meanTempC": [
