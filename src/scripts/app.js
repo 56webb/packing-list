@@ -10,6 +10,8 @@ import { createStore, BAG_ICONS } from './store.js';
 import { createLocalStorageAdapter } from './storage.js';
 import { COUNTRIES, CATEGORIES, TAGS, generateTrip, getCountry, tripClimate } from './generator.js';
 import { SHOW_BUY_BUTTONS, BUY_LINKS } from './config.js';
+import { plugIcons } from './plugIcons.js';
+import { weatherMode, climateFor, fetchForecast, dailySummary, tripDates, tripTemps, MET_ATTRIBUTION, CLIMATE_ATTRIBUTION, CLIMATE_LABEL, FORECAST_DAYS } from './weather.js';
 
 const store = createStore(createLocalStorageAdapter());
 const app = document.getElementById('app');
@@ -117,24 +119,33 @@ function renderTripForm() {
     ['hot', 'warm', 'cool', 'cold'].map((c) => h('option', { value: c }, climateLabel(c))));
   const climateHint = h('p', { class: 'hint', 'aria-live': 'polite' });
 
-  // 即時顯示「東京 11 月平均約 12.5°C」
+  // 即時顯示溫度（不顯示「涼／熱」這種字）：
+  //   9 天內出發 → 提示會用天氣預報；更遠 → NASA 過去平均；沒有 NASA 資料 → 舊的季節平均
   function updateHint() {
     const country = getCountry(countrySelect.value);
-    const info = tripClimate({ countryCode: countrySelect.value, startDate: dateInput.value, days: Number(daysInput.value) || 1, climate: 'auto' });
+    const draft = { countryCode: countrySelect.value, startDate: dateInput.value, days: Number(daysInput.value) || 1, climate: 'auto' };
+    const mode = weatherMode(draft, country);
+    const avg = mode ? climateFor(country, dateInput.value) : null;
+    const info = tripClimate(draft);
     if (climateSelect.value !== 'auto') climateHint.textContent = '';
+    else if (mode === 'forecast') climateHint.textContent = `${FORECAST_DAYS} 天內出發：會用 ${country.city} 的天氣預報決定要帶的衣物`;
+    else if (avg) climateHint.textContent = `${country.city} ${avg.month} 月${CLIMATE_LABEL}：高 ${Math.round(avg.tmax)}° ／ 低 ${Math.round(avg.tmin)}°`;
     else if (!country || info.avgTemps.length === 0) climateHint.textContent = t('form.climateUnknown');
     else {
-      const avg = info.avgTemps.reduce((a, b) => a + b, 0) / info.avgTemps.length;
-      climateHint.textContent = `${t('form.climateHint', { city: country.city, months: info.months.join('、'), temp: avg.toFixed(1) })}（${info.climates.map(climateLabel).join('／')}）`;
+      const mean = info.avgTemps.reduce((a, b) => a + b, 0) / info.avgTemps.length;
+      climateHint.textContent = t('form.climateHint', { city: country.city, months: info.months.join('、'), temp: mean.toFixed(1) });
     }
   }
   [countrySelect, dateInput, daysInput, climateSelect].forEach((el) => el.addEventListener('input', updateHint));
   updateHint();
 
-  const form = h('form', { class: 'trip-form', onsubmit: (e) => {
+  const form = h('form', { class: 'trip-form', onsubmit: async (e) => {
     e.preventDefault();
     const data = new FormData(form);
-    const { trip, bags, items } = generateTrip({
+    const submit = form.querySelector('button[type=submit]');
+    if (submit.disabled) return; // 避免連按兩次建立兩個旅行
+    submit.disabled = true;
+    const input = {
       name: data.get('name'),
       countryCode: data.get('country'),
       startDate: data.get('startDate'),
@@ -142,7 +153,13 @@ function renderTripForm() {
       types: data.getAll('types'),
       luggage: data.get('luggage'),
       climate: data.get('climate'),
-    });
+    };
+    // 衣物用「畫面會顯示的溫度」決定：預報 → 過去平均 → （generator 內）舊的季節資料。最多等 3 秒。
+    if (input.climate === 'auto') {
+      const tt = await tripTemps(input, getCountry(input.countryCode)).catch(() => null);
+      if (tt) input.temps = tt.temps;
+    }
+    const { trip, bags, items } = generateTrip(input);
     store.createTrip(trip, bags, items);
     go(`/trip/${trip.id}`);
   } },
@@ -169,7 +186,6 @@ function renderTrip(tripId) {
   const bags = store.bagsOf(tripId);
   const items = store.itemsOf(tripId);
   const country = getCountry(trip.countryCode);
-  const climate = tripClimate(trip);
   const p = progressOf(items);
 
   // 檢查：有沒有「不能托運」的東西被放進托運包包
@@ -177,15 +193,20 @@ function renderTrip(tripId) {
   const forbidden = items.filter((i) => isForbiddenHere(i, bagById.get(i.bagId)));
 
   const infoParts = [country?.name ?? t('form.countryOther'), `${trip.days} 天`];
-  if (climate.climates.length) infoParts.push(climate.climates.map((c) => t(`climate.${c}`).replace(/（.*）/, '')).join('／'));
-  if (country && trip.countryCode !== 'TW') infoParts.push(`${country.plugs.join('/')} 型插頭 ${country.voltage}`);
+  // 不顯示「涼／熱」這種字，溫度看下面的天氣區塊（renderWeather）
+  // 插頭：圖示＋文字（文字留著，讀螢幕軟體和看不懂圖示的人也知道）
+  const showPlugs = country && trip.countryCode !== 'TW' && country.plugs?.length;
+  const plugInfo = showPlugs
+    ? h('span', { class: 'plug-info' }, plugIcons(country.plugs), h('span', { class: 'plug-text' }, `${country.plugs.join('/')} 型插頭 ${country.voltage}`))
+    : null;
 
   // 頂部（縮小，讓清單在第一個畫面就看得到）
   const header = h('div', { class: 'trip-head' },
     h('div', { class: 'trip-title-row' },
       h('h1', { class: 'trip-title' }, trip.name),
       h('button', { type: 'button', class: 'icon-btn', 'aria-label': t('trip.menu'), onclick: () => openTripMenu(trip), dataset: { key: 'trip-menu' } }, '⋯')),
-    h('p', { class: 'trip-info' }, infoParts.join('・')),
+    h('p', { class: 'trip-info' }, infoParts.join('・'), plugInfo ? '・' : null, plugInfo),
+    renderWeather(trip, country),
     h('div', { class: 'trip-progress' },
       progressBar(p, t('trip.progress', p)),
       h('span', { class: 'trip-progress-text' }, t('trip.progress', p))),
@@ -260,6 +281,14 @@ function renderBag(trip, bag, bagItems, allBags) {
   return h('section', { class: `bag ${sealed ? 'is-sealed' : ''} ${p.total && p.done === p.total ? 'is-done' : ''} ${bag ? '' : 'is-unassigned'}`, 'aria-label': name }, head, body);
 }
 
+/** 「萬用轉接頭」那一行：在備註上方顯示目的地的插頭圖示 */
+function adapterPlugs(trip, item) {
+  if (item.templateId !== 'adapter') return null;
+  const country = getCountry(trip.countryCode);
+  if (!country?.plugs?.length) return null;
+  return h('span', { class: 'item-plugs' }, plugIcons(country.plugs));
+}
+
 /** 一個物品（一行） */
 function renderItem(trip, item, bag, sealed, allBags) {
   const forbidden = isForbiddenHere(item, bag);
@@ -279,9 +308,61 @@ function renderItem(trip, item, bag, sealed, allBags) {
       h('span', { class: 'item-text' },
         h('span', { class: 'item-name' }, item.name),
         item.qty > 1 ? h('span', { class: 'qty' }, ` ×${item.qty}`) : null,
+        adapterPlugs(trip, item),
         item.note ? h('span', { class: 'item-note' }, item.note) : null)),
     tags.length || buy ? h('div', { class: 'item-tags' }, tags, buy) : null,
     h('button', { type: 'button', class: 'icon-btn more', 'aria-label': t('item.more', { name: item.name }), dataset: { key: `more-${item.id}` }, onclick: () => itemDialog(trip, item, item.bagId, allBags) }, '⋯'));
+}
+
+/**
+ * 旅行頁頂部的天氣（見 weather.js）
+ * - 9 天內出發：MET Norway 每日預報（非同步載入）。拿不到（離線等）就改顯示過去平均。
+ * - 更遠：NASA POWER 過去平均（2001–2025），標「僅供參考」
+ * - 都沒有（例如「其他國家」）：回傳 null，不顯示
+ */
+function renderWeather(trip, country) {
+  const mode = weatherMode(trip, country);
+  if (!mode) return null;
+  const credit = (a) => h('p', { class: 'weather-credit' },
+    h('a', { href: a.source, target: '_blank', rel: 'noopener' }, a.text),
+    a.license ? [' ・ ', h('a', { href: a.license, target: '_blank', rel: 'noopener license' }, '授權'), '・已整理為每日高低溫'] : null);
+  const climateParts = (note) => {
+    const c = climateFor(country, trip.startDate);
+    if (!c) return null;
+    return [
+      h('p', { class: 'weather-title' }, `🌡️ ${country.city} ${c.month} 月・${CLIMATE_LABEL}`),
+      h('p', { class: 'weather-climate' },
+        `高 ${Math.round(c.tmax)}° ／ 低 ${Math.round(c.tmin)}°`,
+        c.precip != null ? `・降雨約 ${c.precip} mm/日` : null),
+      note ? h('p', { class: 'weather-note' }, note) : null,
+      credit(CLIMATE_ATTRIBUTION),
+    ].filter(Boolean);
+  };
+
+  if (mode === 'climate') {
+    const parts = climateParts();
+    return parts ? h('div', { class: 'weather', dataset: { mode } }, parts) : null;
+  }
+
+  const box = h('div', { class: 'weather', dataset: { mode }, hidden: true });
+  fetchForecast(country.lat, country.lon).then((data) => {
+    const days = data ? dailySummary(data, tripDates(trip.startDate, trip.days), country.tz) : [];
+    if (!days.length) {
+      // 預報拿不到：改顯示過去平均
+      const parts = climateParts('天氣預報暫時拿不到（可能沒有網路），先顯示過去平均');
+      if (parts) { box.dataset.mode = 'climate-fallback'; box.replaceChildren(...parts); box.hidden = false; }
+      return;
+    }
+    const list = h('ul', { class: 'weather-days', 'aria-label': `${country.city} 天氣預報` },
+      days.map((d) => h('li', { class: 'weather-day' },
+        h('span', { class: 'weather-date' }, `${Number(d.date.slice(5, 7))}/${Number(d.date.slice(8, 10))}`),
+        h('span', { class: 'weather-icon', 'aria-hidden': 'true' }, d.icon),
+        h('span', { class: 'weather-temp' }, `${d.max}°/${d.min}°`))));
+    const more = days.length < trip.days ? h('p', { class: 'weather-note' }, `預報只到 ${days.length} 天，其他天出發前再看`) : null;
+    box.replaceChildren(...[h('p', { class: 'weather-title' }, `🌤️ ${country.city}天氣預報`), list, more, credit(MET_ATTRIBUTION)].filter(Boolean));
+    box.hidden = false;
+  });
+  return box;
 }
 
 // ======================================================================
@@ -447,7 +528,7 @@ async function shareTrip(trip) {
 function exportBackup() {
   const blob = new Blob([store.exportJSON()], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = h('a', { href: url, download: `packing-list-backup-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = h('a', { href: url, download: `ezpakku-backup-${new Date().toISOString().slice(0, 10)}.json` });
   document.body.append(a);
   a.click();
   a.remove();

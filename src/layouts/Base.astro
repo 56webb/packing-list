@@ -8,7 +8,7 @@ interface Props {
   title?: string;
   lang?: string;
 }
-const { title = t('app.name'), lang = 'zh-Hant-TW' } = Astro.props;
+const { title = `${t('app.name')}｜${t('app.tagline')}`, lang = 'zh-Hant-TW' } = Astro.props;
 // BASE_URL 是 astro.config.mjs 裡的 base（GitHub Pages 是 /packing-list/）
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
@@ -21,6 +21,12 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     <meta name="description" content={t('app.tagline')} />
     <meta name="theme-color" content="#1a6b7a" />
     <title>{title}</title>
+    <meta property="og:site_name" content={t('app.name')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={t('app.tagline')} />
+    <meta property="og:type" content="website" />
+    <meta name="application-name" content={t('app.name')} />
+    <meta name="apple-mobile-web-app-title" content={t('app.name')} />
     <link rel="icon" type="image/svg+xml" href={`${base}icons/icon.svg`} />
     <link rel="apple-touch-icon" href={`${base}icons/icon-192.png`} />
     <link rel="manifest" href={`${base}manifest.webmanifest`} />
