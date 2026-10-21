@@ -88,11 +88,20 @@ collections:
               - { name: id, label: 商品代號, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', '只能用小寫英文、數字和「-」'], hint: '文章裡寫 [[商品:這個代號]]。用了之後不要再改。' }
               - { name: name, label: 商品名稱, widget: string, hint: '顯示在卡片上。不要寫價格。' }
               - { name: platform, label: 平台, widget: select, options: [{ label: 蝦皮購物, value: shopee }], default: shopee }
-              - { name: affiliateUrl, label: 分潤連結, widget: string, required: false, pattern: ['^https://s\.shopee\.tw/[A-Za-z0-9]+$', '只能貼蝦皮分潤後台產生的短連結，例如 https://s.shopee.tw/xxxx'], hint: '只貼分潤後台產生的短連結，不要自己改。還沒有就留空，並把「顯示」關掉。' }
+              - name: links
+                label: 各文章的分潤連結
+                label_singular: 文章連結
+                widget: list
+                required: false
+                summary: '{{fields.post}}'
+                hint: '每篇文章用自己的分潤連結（每篇的 Sub_id 不同）。文章沒有在這裡登記連結，那篇就不會顯示卡片，不會借用別篇的連結。'
+                fields:
+                  - { name: post, label: 文章網址代號（slug）, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', '只能用小寫英文、數字和「-」'], hint: '文章的「網址代號」，例如 japan-packing-list' }
+                  - { name: url, label: 分潤連結, widget: string, pattern: ['^https://s\.shopee\.tw/[A-Za-z0-9]+$', '只能貼蝦皮分潤後台產生的短連結，例如 https://s.shopee.tw/xxxx'], hint: '只貼 Armin／分潤後台給這篇文章的短連結，不要自己改。' }
               - { name: productUrl, label: 原商品頁, widget: string, required: false, pattern: ['^https://shopee\.tw/', '要是 https://shopee.tw/ 開頭'], hint: '給自己查核用，不會顯示在網站上。' }
               - { name: category, label: 分類, widget: select, options: [{ label: 電子產品, value: electronics }, { label: 收納, value: storage }, { label: 盥洗保養, value: toiletries }, { label: 衣物, value: clothing }, { label: 證件與錢包, value: documents }, { label: 其他, value: other }], default: other }
               - { name: relatedPosts, label: 放在哪些文章, widget: relation, collection: blog, value_field: slug, search_fields: [title], display_fields: [title], multiple: true, required: false, hint: '記錄用；實際顯示位置看文章裡的 [[商品:代號]]。' }
               - { name: note, label: 一句話說明, widget: text, required: false, hint: '顯示在卡片上，1～2 句。不要寫價格、分潤、「最便宜」等沒有來源的說法。' }
               - { name: memo, label: 內部備註, widget: text, required: false, hint: '不會顯示在網站上，但 repo 是公開的：不要寫分潤率、收入、帳號密碼。' }
-              - { name: active, label: 顯示, widget: boolean, default: false, hint: '關掉或沒有分潤連結時，文章裡的卡片不會出現。' }
+              - { name: active, label: 顯示, widget: boolean, default: false, hint: '關掉時所有文章都不顯示卡片；打開時，只有在「各文章的分潤連結」登記過的文章會顯示。' }
               - { name: lastChecked, label: 最後確認日期, widget: datetime, format: 'YYYY-MM-DD', time_format: false, hint: '最後一次確認商品還在賣、連結可以開的日期' }

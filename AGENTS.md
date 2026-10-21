@@ -56,7 +56,7 @@ draft: true                      # 選填，true = 不出現在網站上
 - 有推廣連結的文章，frontmatter 設 `affiliate: true`。
 - **蝦皮等商品推廣：用商品卡片，不要手寫連結。** 商品資料在 `src/data/affiliate-products.json`（CMS「推廣商品」），文章裡單獨一行寫 `[[商品:商品代號]]`，build 時會變成卡片（按鈕「到蝦皮看看（推廣連結）」＋「價格以蝦皮頁面為準」）。
   - **不顯示、也不寫進 repo：價格、分潤率、每筆分潤、收入**（repo 是公開的）。
-  - 分潤短連結（`https://s.shopee.tw/…`）只能用 Armin／蝦皮分潤後台產生的，**不要自己產生或改 Sub_id**。還沒有連結的商品：`affiliateUrl` 留空、`active: false`，卡片就不會出現。
+  - 分潤短連結（`https://s.shopee.tw/…`）只能用 Armin／蝦皮分潤後台產生的，**不要自己產生或改 Sub_id**。每篇文章用自己的連結（Sub_id 不同）：寫在商品的 `links`（`[{ "post": "文章slug", "url": "https://s.shopee.tw/…" }]`）；文章沒登記連結就不顯示卡片，**不要拿別篇或共用連結代替**。還沒有連結的商品：`links` 留空、`active: false`。
   - 程式在 `src/lib/affiliate.mjs`（畫面）、`src/plugins/remark-affiliate.mjs`（短碼）、`src/components/AffiliateProduct.astro`（.astro 頁面用）。
 - **Saily：不能用 Saily 品牌字買關鍵字廣告**（Google Ads 等）。
 - **旅遊保險不放推廣連結。**

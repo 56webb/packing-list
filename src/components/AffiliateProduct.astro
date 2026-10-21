@@ -2,8 +2,9 @@
 // 推廣商品卡片（給 .astro 頁面用）。文章（Markdown）裡請用短碼 [[商品:id]]。
 // 資料：src/data/affiliate-products.json；畫面：src/lib/affiliate.mjs
 import { renderProduct } from '../lib/affiliate.mjs';
-interface Props { id: string }
-const { html, warning } = renderProduct(Astro.props.id);
+// post：這張卡片用哪一篇文章的分潤連結（文章 slug）。沒給或那篇沒有連結 → 不顯示。
+interface Props { id: string; post: string }
+const { html, warning } = renderProduct(Astro.props.id, Astro.props.post);
 if (warning) console.warn(`[推廣商品] ${Astro.url.pathname}：${warning}`);
 ---
 {html && <Fragment set:html={html} />}

@@ -271,12 +271,13 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 
 ## 推廣商品卡片（蝦皮）：做了什麼
 
-- **資料只有一個地方：** `src/data/affiliate-products.json`（欄位：id、name、platform、affiliateUrl、productUrl、category、relatedPosts、note、memo、active、lastChecked）。RY 可以在 CMS 的「推廣商品」裡改，CMS 只會寫這個檔案。
+- **資料只有一個地方：** `src/data/affiliate-products.json`（欄位：id、name、platform、links、productUrl、category、relatedPosts、note、memo、active、lastChecked）。RY 可以在 CMS 的「推廣商品」裡改，CMS 只會寫這個檔案。
 - **文章裡怎麼放：** 單獨一行寫 `[[商品:polywell-lanyard]]`。build 時 `src/plugins/remark-affiliate.mjs` 會把它換成卡片（畫面在 `src/lib/affiliate.mjs`）。
   - 為什麼用「短碼」不用 MDX：CMS 編輯的是一般 Markdown，MDX 的 `<元件 />` 在 CMS 編輯器裡容易被弄壞；短碼就算被編輯器加了 `\[` 跳脫字元也認得。
   - `.astro` 頁面可以用 `<AffiliateProduct id="…" />`（`src/components/AffiliateProduct.astro`），畫面一樣。
 - **卡片內容：** 「推廣連結」標示、商品名稱、一句話說明、按鈕「到蝦皮看看（推廣連結）」（`rel="sponsored nofollow noopener"`、開新分頁）、「價格以蝦皮頁面為準」。**不顯示價格、分潤率、每筆分潤**。
-- **安全檢查：** `active: false`、找不到 id、沒有連結或連結不是 `https://s.shopee.tw/`／`https://shopee.tw/` 的商品都不顯示，build 時會出警告；文章有卡片但沒設 `affiliate: true` 也會警告。
+- **安全檢查：** `active: false`、找不到 id、這篇文章沒有自己的連結、連結不是 `https://s.shopee.tw/`／`https://shopee.tw/` 的商品都不顯示，build 時會出警告；文章有卡片但沒設 `affiliate: true` 也會警告。
+- **每篇文章各用自己的連結：** 每篇文章的分潤連結 Sub_id 不同，才分得出哪篇帶來訂單。所以商品的 `links` 是一份清單：`[{ "post": "文章slug", "url": "https://s.shopee.tw/…" }]`。卡片會用「目前這篇文章 slug」對應的那條；這篇沒登記連結就**不顯示卡片**，build 時警告，**不會退回共用連結**。`.astro` 頁面要寫 `<AffiliateProduct id="…" post="文章slug" />`。
 - **快取：** Astro 會快取文章。`astro.config.mjs` 把商品資料的指紋放進設定，資料一改就重新產生文章。`npm run dev` 時改了 JSON 要重開 dev。
 
 ---
