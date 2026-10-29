@@ -1,0 +1,15 @@
+---
+// 頁尾的「購物與客服」連結（藍新審核需要在網站揭露：價格、退換貨、條款、隱私、客服資訊）
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+interface Props { sep?: boolean }
+const { sep = false } = Astro.props;
+const links = [
+  ['pricing', '方案與價格'],
+  ['terms', '服務條款'],
+  ['refund', '退款政策'],
+  ['contact', '客服聯絡'],
+];
+---
+{links.map(([slug, label], i) => (
+  <Fragment>{sep && i > 0 && ' ・ '}<a href={`${base}zh-tw/${slug}/`}>{label}</a></Fragment>
+))}

@@ -63,6 +63,15 @@ draft: true                      # 選填，true = 不出現在網站上
 - 還沒有真的連結時，只放 HTML 註解 `<!-- AFFILIATE: … -->`，不要編造商品網址。
 - 不要把 Token、密碼、金鑰、個資（身分證、護照號碼、QR 碼）寫進 repo 或文章。
 
+## 3-1. 金流（藍新 NewebPay）規則
+- 說明在 `docs/newebpay.md`。方案價格只改 `src/data/plans.json`；客服資訊只改 `src/data/business.json`。
+- **金鑰只放環境變數**（Vercel → Settings → Environment Variables），不能寫進程式碼、`.env.example`、文章或聊天訊息。`.env.local` 已被 `.gitignore` 排除。
+- `NEWEBPAY_ENV` 預設 `test`。**改成 `production`（會真的扣款）、打開 `PUBLIC_PAYMENT_ENABLED`、上線收款，都要 RY 同意。**
+- 付款成功只看 **NotifyURL**（後端驗章＋解密＋核對金額），不能看 ReturnURL 或網址參數。
+- 不能從瀏覽器接收金額；金額一律由後端查 `plans.json`（之後是資料庫）。
+- 不要把卡號、Email 等個資寫進 log；改 `lib/newebpay/` 後要跑 `npm test`。
+- 法律頁（條款、退款、隱私、客服）內容由 RY 確認前，不要拿掉 DRAFT 橫幅，也不要填入 RY 的真實個資。
+
 ## 4. 分支與部署流程
 - `main` = **正式版**（push 到 main 會自動部署到 GitHub Pages https://56webb.github.io/packing-list/）。
 - **任何程式碼改動**：開新分支 → 開 PR → **RY 看過才合併**。AI 不可以自己合併到 main、不可以直接 push main、不可以改 Pages 部署設定。

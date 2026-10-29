@@ -1,0 +1,10 @@
+---
+// 草稿提醒橫幅：法律頁、價格頁在內容確認前都要顯示。確認後再拿掉。
+interface Props { text?: string }
+const { text = '這一頁是草稿（DRAFT），內容尚未確認，也還沒有經過法律專業人士審閱，請勿當作正式條款。' } = Astro.props;
+---
+<div class="draft-banner" role="note"><strong>DRAFT 草稿</strong> {text}</div>
+<style>
+  .draft-banner { background: var(--gold-soft); border: 2px dashed var(--gold); color: #5a3e00; border-radius: var(--radius); padding: 10px 14px; margin: 12px 0 18px; font-size: .92rem; }
+  .draft-banner strong { background: var(--gold); color: #fff; border-radius: 6px; padding: 1px 8px; margin-right: 6px; }
+</style>

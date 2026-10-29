@@ -2,6 +2,12 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": false,
   "trailingSlash": true,
+  "rewrites": [
+    { "source": "/api/newebpay/:path*", "destination": "/api/newebpay?route=:path*" }
+  ],
+  "functions": {
+    "api/newebpay.js": { "includeFiles": "src/data/plans.json" }
+  },
   "headers": [
     {
       "source": "/admin/(.*)",

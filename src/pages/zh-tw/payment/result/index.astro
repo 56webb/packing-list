@@ -1,0 +1,40 @@
+---
+// 付款結果頁：/zh-tw/payment/result/?type=mpg|period&status=success|fail|error&order=EZ_...
+// 這頁只是「告訴使用者結果」。真正判斷有沒有付款成功的是後端收到的藍新 Notify（藍新手冊規定以 NotifyURL 為準）。
+import BlogBase from '../../../../layouts/BlogBase.astro';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="付款結果｜EZpakku" description="EZpakku 付款結果。">
+  <article class="post">
+    <h1 id="result-title">付款結果</h1>
+    <div class="prose">
+      <p id="result-text">正在讀取付款結果…</p>
+      <p id="result-order" hidden>訂單編號：<code></code>（有問題時請提供給客服）</p>
+      <p class="post-meta">實際是否扣款成功，以藍新金流通知本網站的結果、以及藍新寄給你的通知信為準。</p>
+      <p><a href={`${base}zh-tw/pricing/`}>回方案與價格</a>・<a href={`${base}zh-tw/contact/`}>客服聯絡</a></p>
+    </div>
+  </article>
+</BlogBase>
+<script>
+  const q = new URLSearchParams(location.search);
+  const status = q.get('status');
+  const type = q.get('type') === 'period' ? '月訂閱' : '付款';
+  const order = (q.get('order') || '').replace(/[^A-Za-z0-9_]/g, '').slice(0, 30);
+  const title = document.getElementById('result-title')!;
+  const text = document.getElementById('result-text')!;
+  if (status === 'success') {
+    title.textContent = `${type}完成`;
+    text.textContent = `藍新金流已回報${type}成功，我們確認後就會開通。`;
+  } else if (status === 'fail') {
+    title.textContent = `${type}沒有成功`;
+    text.textContent = '這次沒有完成扣款，你可以回到方案頁重新嘗試，或換一張卡。';
+  } else {
+    title.textContent = '無法確認付款結果';
+    text.textContent = '我們沒辦法讀到這次的付款結果。若你已收到藍新的扣款通知信，請聯絡客服並提供訂單編號。';
+  }
+  if (order) {
+    const p = document.getElementById('result-order')!;
+    p.querySelector('code')!.textContent = order;
+    p.hidden = false;
+  }
+</script>

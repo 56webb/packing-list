@@ -1,0 +1,119 @@
+---
+// 方案與價格：/zh-tw/pricing/
+// ⚠️ 範例方案，價格未定。方案資料只在 src/data/plans.json 改，這頁和後端 API 都讀同一份。
+// 付款按鈕預設停用；build 時設 PUBLIC_PAYMENT_ENABLED=1 才能按（而且要先在 Vercel 設好藍新環境變數）。
+import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import plansData from '../../../data/plans.json';
+import business from '../../../data/business.json';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const enabled = import.meta.env.PUBLIC_PAYMENT_ENABLED === '1';
+const fmt = (n: number) => `NT$ ${n.toLocaleString('zh-TW')}`;
+---
+<BlogBase title="方案與價格｜EZpakku" description="EZpakku 付費方案說明（範例方案，價格未定）：價格、內容、交付方式與退款說明。">
+  <article class="post">
+    <h1>方案與價格</h1>
+    <p class="post-meta">範例方案，價格未定</p>
+    <DraftBanner text="以下是「範例方案，價格未定」，只用來準備金流串接與審核頁面，目前沒有販售任何商品。" />
+    <div class="prose">
+      <p>EZpakku 的行李清單工具<strong>免費使用</strong>。下面是規劃中的付費方案範例。所有價格以<strong>新台幣（TWD）</strong>計價，付款方式為<strong>信用卡</strong>，由第三方支付「藍新金流 NewebPay」處理；本網站不會經手或儲存你的完整卡號。</p>
+    </div>
+
+    <div class="plans">
+      {plansData.plans.map((plan) => (
+        <section class="plan" id={plan.id}>
+          <p class="plan-tag">範例方案，價格未定</p>
+          <h2>{plan.name}</h2>
+          <p class="plan-price">{fmt(plan.priceTwd)} <span>／{plan.priceLabel}</span></p>
+          <p>{plan.summary}</p>
+          <ul>{plan.features.map((f) => <li>{f}</li>)}</ul>
+          <dl>
+            <dt>付款方式</dt><dd>{plan.type === 'subscription' ? '信用卡定期定額（每期自動扣款，可隨時取消下一期）' : '信用卡一次付清'}</dd>
+            {plan.type === 'subscription' && plan.period && (
+              <Fragment><dt>扣款週期</dt><dd>{plan.period.type === 'M' ? '每月一次' : plan.period.type}，共 {plan.period.times} 期（每期 {fmt(plan.priceTwd)}）</dd></Fragment>
+            )}
+            <dt>交付方式</dt><dd>{plan.delivery}</dd>
+            <dt>退款</dt><dd>{plan.refundNote} <a href={`${base}zh-tw/refund/`}>退款政策</a></dd>
+          </dl>
+          <p class="plan-notice"><strong>數位內容重要告知：</strong>本方案為非以有形媒介提供的數位內容／線上服務。依《通訊交易解除權合理例外情事適用準則》第 2 條第 5 款，<strong>經你事先同意開始提供後</strong>，不適用消費者保護法第 19 條的 7 天解除權。詳細規則見<a href={`${base}zh-tw/refund/`}>退款政策</a>。</p>
+          <form class="pay-form" data-plan={plan.id} data-type={plan.type}>
+            <label>Email（{plan.type === 'subscription' ? '必填' : '選填'}，用來寄付款通知）
+              <input type="email" name="email" autocomplete="email" required={plan.type === 'subscription'} />
+            </label>
+            <label class="agree"><input type="checkbox" name="agree" required /> 我已閱讀並同意<a href={`${base}zh-tw/terms/`}>服務條款</a>與<a href={`${base}zh-tw/refund/`}>退款政策</a>，並同意付款後立即開始提供數位內容／服務。</label>
+            <button type="submit" class="btn" disabled={!enabled}>{enabled ? '前往藍新金流付款（測試環境）' : '尚未開放購買'}</button>
+            <p class="pay-msg" role="status"></p>
+          </form>
+        </section>
+      ))}
+    </div>
+
+    <div class="prose">
+      <h2>購物須知</h2>
+      <ul>
+        <li>價格皆為新台幣、含稅與否：TODO（待確認營業稅與電子發票）。</li>
+        <li>付款完成後會導回本網站顯示結果；是否付款成功以藍新金流通知為準。</li>
+        <li>本網站只提供線上數位服務，<strong>不寄送實體商品</strong>。</li>
+        <li>有問題請見<a href={`${base}zh-tw/contact/`}>客服聯絡</a>（{business.email}）。</li>
+      </ul>
+    </div>
+  </article>
+</BlogBase>
+
+<script>
+  // 按下付款：先請後端建立訂單、算好加密欄位，再用 HTML Form Post 送到藍新（藍新規定要前景 Form Post）。
+  document.querySelectorAll<HTMLFormElement>('.pay-form').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = form.querySelector<HTMLElement>('.pay-msg')!;
+      const btn = form.querySelector<HTMLButtonElement>('button')!;
+      const fd = new FormData(form);
+      const endpoint = form.dataset.type === 'subscription' ? '/api/newebpay/period/create/' : '/api/newebpay/create-order/';
+      btn.disabled = true;
+      msg.textContent = '建立訂單中…';
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ planId: form.dataset.plan, email: fd.get('email'), agree: fd.get('agree') === 'on' }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.message || data.error || '建立訂單失敗');
+        const out = document.createElement('form');
+        out.method = 'POST';
+        out.action = data.action;
+        for (const [k, v] of Object.entries(data.fields as Record<string, string>)) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = k;
+          input.value = v;
+          out.appendChild(input);
+        }
+        document.body.appendChild(out);
+        out.submit();
+      } catch (err) {
+        msg.textContent = `無法前往付款：${(err as Error).message}`;
+        btn.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .plans { display: grid; gap: 16px; margin: 16px 0 24px; }
+  @media (min-width: 640px) { .plans { grid-template-columns: 1fr 1fr; } }
+  .plan { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .plan h2 { margin: 4px 0 6px; font-size: 1.15rem; color: var(--accent); }
+  .plan-tag { display: inline-block; margin: 0; background: var(--gold-soft); color: #5a3e00; border-radius: 6px; padding: 2px 8px; font-size: .8rem; font-weight: 700; }
+  .plan-price { font-size: 1.6rem; font-weight: 700; margin: 4px 0 8px; }
+  .plan-price span { font-size: .9rem; font-weight: 400; color: var(--text-sub); }
+  .plan dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: .9rem; }
+  .plan dt { font-weight: 700; color: var(--text-sub); }
+  .plan dd { margin: 0; }
+  .plan-notice { font-size: .85rem; background: var(--accent-soft); border-radius: 10px; padding: 8px 10px; }
+  .pay-form { display: grid; gap: 8px; font-size: .9rem; }
+  .pay-form input[type="email"] { display: block; width: 100%; min-height: var(--tap); margin-top: 4px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 10px; font: inherit; }
+  .pay-form .btn { min-height: var(--tap); border: 0; border-radius: 10px; background: var(--accent); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+  .pay-form .btn:disabled { background: var(--border); color: var(--text-sub); cursor: not-allowed; }
+  .pay-msg { margin: 0; color: var(--danger); }
+</style>

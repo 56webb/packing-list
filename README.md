@@ -326,3 +326,15 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - 「行李清單」當描述用的地方（例如「依目的地自動產生行李清單」）保留。
 - Service Worker 快取名稱 `packing-list-v1` → `ezpakku-v1`：只是網站檔案的快取，舊的會自動刪掉、重新下載一次。
 - **沒改（刻意）**：localStorage key `packing-list:v1`（改了使用者的清單會不見）、備份檔裡的 `"app": "packing-list"`（舊備份相容）、repo 名稱和 GitHub Pages 網址 `/packing-list/`。
+
+## 藍新金流（feat/newebpay）：做了什麼（草稿，尚未上線）
+
+> ⚠️ 給 RY 申請藍新「個人會員」用的準備。**沒有部署、沒有收錢、方案都是「範例方案，價格未定」**，付款按鈕預設停用。
+> 新手說明（每個檔案、Vercel 環境變數、測試卡號、上線前缺什麼）見 [`docs/newebpay.md`](docs/newebpay.md)。
+
+- 新頁面：`/zh-tw/pricing/`（方案與價格）、`/zh-tw/terms/`（服務條款）、`/zh-tw/refund/`（退款政策）、`/zh-tw/contact/`（客服聯絡，全是 TODO）、`/zh-tw/payment/result/`（付款結果）；隱私權政策加了「2-1. 付費方案與付款」。法律頁都有 **DRAFT 草稿**橫幅，頁尾兩種版型都加了連結。
+- 方案資料只在 `src/data/plans.json`；客服／經營者資料只在 `src/data/business.json`（TODO 佔位）。
+- 後端：`api/newebpay.js`（Vercel Function，Node.js）＋ `lib/newebpay/`：單次付款（MPG）與月訂閱（信用卡定期定額）的建立訂單、Notify 驗章解密、金額與訂單檢查、防重複處理、Return 轉到結果頁。訂單暫存在記憶體，Supabase 是 TODO。
+- 環境變數：`NEWEBPAY_MERCHANT_ID`、`NEWEBPAY_HASH_KEY`、`NEWEBPAY_HASH_IV`、`NEWEBPAY_ENV`（`test`／`production`，預設 test），範例在 `.env.example`（空白）。
+- 測試：`npm test`（用藍新手冊公開的範例資料比對加解密結果）。
+- 注意：正式站 GitHub Pages 是純靜態，**跑不了 `/api`**；要收款必須放在 Vercel 之類能跑後端的地方。
