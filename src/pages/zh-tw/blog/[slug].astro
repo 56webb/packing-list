@@ -12,11 +12,42 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const og = post.data.cover ? (await getImage({ src: post.data.cover, width: 1200 })).src : undefined;
+// 分享預覽圖用 JPG（LINE、部分社群平台對 webp 支援不一），寬 1200px
+const og = post.data.cover ? (await getImage({ src: post.data.cover, width: 1200, format: 'jpg' })).src : undefined;
 const fmt = (d: Date) => d.toISOString().slice(0, 10);
 const others = (await getCollection('blog', ({ data }) => !data.draft)).filter((p) => p.id !== post.id);
+
+// 結構化資料（JSON-LD）：讓 Google 知道這是一篇「文章」，以及它在網站裡的位置（麵包屑）。
+// 作者先用 EZpakku（網站名稱），不放個人姓名。
+const site = Astro.site ?? Astro.url;
+const pageUrl = new URL(Astro.url.pathname, site).href;
+const abs = (p: string) => new URL(p, site).href;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: fmt(post.data.pubDate),
+    dateModified: fmt(post.data.updatedDate ?? post.data.pubDate),
+    inLanguage: 'zh-Hant-TW',
+    mainEntityOfPage: pageUrl,
+    ...(og ? { image: abs(og) } : {}),
+    ...(post.data.tags.length ? { keywords: post.data.tags.join(',') } : {}),
+    author: { '@type': 'Organization', name: 'EZpakku', url: abs(`${base}zh-tw/about/`) },
+    publisher: { '@type': 'Organization', name: 'EZpakku', logo: { '@type': 'ImageObject', url: abs(`${base}icons/icon-512.png`) } },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '旅行文章', item: abs(`${base}zh-tw/blog/`) },
+      { '@type': 'ListItem', position: 2, name: post.data.title, item: pageUrl },
+    ],
+  },
+];
 ---
-<BlogBase title={`${post.data.title}｜EZpakku`} description={post.data.description} image={og}>
+<BlogBase title={`${post.data.title}｜EZpakku`} description={post.data.description} image={og} type="article" jsonLd={jsonLd}>
   <article class="post">
     <p class="post-breadcrumb"><a href={`${base}zh-tw/blog/`}>← 所有文章</a></p>
     <h1>{post.data.title}</h1>

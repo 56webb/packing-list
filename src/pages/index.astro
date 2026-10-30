@@ -4,6 +4,9 @@
 // 為什麼不用 IP？在日本旅遊的台灣人用 IP 判斷會被當成日本人。
 // 第一版只有 zh-tw，所以一律跳到 /zh-tw/。之後加 en 時，把 'en' 加進 SUPPORTED。
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+// canonical 用完整網址（含網域），搜尋引擎才不會誤判
+const canonical = new URL(`${base}zh-tw/`, Astro.site ?? Astro.url).href;
+const noindex = import.meta.env.PUBLIC_NOINDEX === '1';
 ---
 <!doctype html>
 <html lang="zh-Hant-TW">
@@ -12,7 +15,8 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>EZpakku</title>
     <meta http-equiv="refresh" content={`1; url=${base}zh-tw/`} />
-    <link rel="canonical" href={`${base}zh-tw/`} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <script define:vars={{ base }}>
       const SUPPORTED = ['zh-tw'];
       const wanted = (navigator.languages || [navigator.language || '']).map((l) => l.toLowerCase());
