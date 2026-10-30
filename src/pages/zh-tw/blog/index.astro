@@ -17,11 +17,11 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
     <a class="btn-cta" href={`${base}zh-tw/`}>🧳 用 EZpakku 產生行李清單</a>
   </section>
   <ul class="post-list">
-    {posts.map((post, i) => (
+    {posts.map((post) => (
       <li class="post-card">
         <a href={`${base}zh-tw/blog/${post.id}/`}>
           {post.data.cover && (
-            <Image src={post.data.cover} alt="" widths={[400, 800]} sizes="(max-width: 720px) 100vw, 720px" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} />
+            <Image src={post.data.cover} alt="" widths={[400, 800]} sizes="(max-width: 720px) 100vw, 720px" loading="lazy" />
           )}
           <div class="post-card-body">
             <h2>{post.data.title}</h2>
