@@ -91,13 +91,19 @@ function renderHome() {
   );
 }
 
+// 使用者當地的日期 'YYYY-MM-DD'（toISOString 是 UTC，台灣 0:00–8:00 會差一天）
+function localISODate(d = new Date()) {
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
 // ======================================================================
 // 新增旅行表單
 // ======================================================================
 function renderTripForm() {
   const today = new Date();
   today.setDate(today.getDate() + 14);
-  const defaultDate = today.toISOString().slice(0, 10);
+  const defaultDate = localISODate(today);
 
   const nameInput = h('input', { type: 'text', name: 'name', maxlength: '80', placeholder: t('form.namePlaceholder'), autocomplete: 'off' });
   const countrySelect = h('select', { name: 'country', required: true },
@@ -528,7 +534,7 @@ async function shareTrip(trip) {
 function exportBackup() {
   const blob = new Blob([store.exportJSON()], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-  const a = h('a', { href: url, download: `ezpakku-backup-${new Date().toISOString().slice(0, 10)}.json` });
+  const a = h('a', { href: url, download: `ezpakku-backup-${localISODate()}.json` });
   document.body.append(a);
   a.click();
   a.remove();

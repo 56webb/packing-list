@@ -26,3 +26,8 @@ pnpm-debug.log*
 .env*
 !.env.example
 screenshots-tmp/
+
+# Playwright 端對端測試的產出
+.e2e-dist/
+playwright-report/
+test-results/
