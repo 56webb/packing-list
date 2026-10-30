@@ -1,9 +1,9 @@
 ---
 // 部落格專用的外框（和打包工具的 Base.astro 分開，避免影響工具本身）
 // 手機優先：內文寬度最多 720px，圖片、表格不會撐破畫面。
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import '../styles/blog.css';
-import SeoHead from '../components/SeoHead.astro';
 
 interface Props {
   title: string;

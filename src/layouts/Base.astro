@@ -1,9 +1,9 @@
 ---
 // 共用的 HTML 外框：<head> 設定、標題列、對話框、提示訊息
 // 每一頁都包在這個 Layout 裡面。
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import { t } from '../i18n/index.js';
-import SeoHead from '../components/SeoHead.astro';
 
 interface Props {
   title?: string;
