@@ -67,6 +67,15 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   const sm = join(dist, 'sitemap.xml');
   const smProblems = existsSync(sm) ? checkSitemap(readFileSync(sm, 'utf8')) : ['找不到 sitemap.xml'];
+  if (existsSync(sm)) {
+    // sitemap 裡的每個網址都要真的有對應的頁面
+    for (const l of [...readFileSync(sm, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])) {
+      const path = decodeURI(new URL(l).pathname);
+      const base = (process.env.BASE_PATH ?? '/').replace(/\/?$/, '/');
+      const rel = path.startsWith(base) ? path.slice(base.length) : path.replace(/^\//, '');
+      if (!existsSync(join(dist, rel, 'index.html')) && !existsSync(join(dist, rel))) smProblems.push(`sitemap 網址沒有對應頁面：${l}`);
+    }
+  }
   if (smProblems.length) { bad++; console.log(`✗ sitemap.xml：${smProblems.join('；')}`); }
   console.log(bad ? `有 ${bad} 個地方要修` : `✓ 全部通過（${expectNoindex ? '預覽版：每頁都有 noindex' : '正式版：沒有 noindex'}）`);
   process.exit(bad ? 1 : 0);
