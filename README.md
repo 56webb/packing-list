@@ -357,7 +357,7 @@ npx playwright install --with-deps chromium
 ### 跑測試
 
 ```bash
-npm run test:e2e                         # 全部跑（會先自動 build，大約 1 分鐘）
+npm run test:e2e                         # 全部跑（會先自動 build 再測）
 npx playwright test --project=mobile     # 只跑手機尺寸
 npx playwright test --project=desktop    # 只跑桌機尺寸
 npx playwright test tests/e2e/blog.spec.mjs   # 只跑某個檔案
