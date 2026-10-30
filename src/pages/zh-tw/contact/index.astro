@@ -1,0 +1,39 @@
+---
+// 客服聯絡：/zh-tw/contact/
+// ⚠️ 全部是 TODO 佔位，資料在 src/data/business.json。必須和藍新後台的商店客服資訊一致（藍新〈商店管理規範〉一、3）。
+import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import business from '../../../data/business.json';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="客服聯絡（草稿）｜EZpakku" description="EZpakku 客服聯絡方式（草稿）。">
+  <article class="post">
+    <h1>客服聯絡</h1>
+    <DraftBanner text="這一頁是草稿（DRAFT），客服資料都是 TODO 佔位，尚未填入正式資料。" />
+    <div class="prose">
+      <dl class="contact-list">
+        <dt>網站名稱</dt><dd>{business.storeName}</dd>
+        <dt>經營者</dt><dd>{business.operator}</dd>
+        <dt>Email</dt><dd>{business.email}</dd>
+        <dt>電話</dt><dd>{business.phone}</dd>
+        <dt>LINE ID</dt><dd>{business.lineId}</dd>
+        <dt>地址</dt><dd>{business.address}</dd>
+        <dt>客服時間</dt><dd>{business.hours}</dd>
+        <dt>回覆時間</dt><dd>{business.replyWithin}</dd>
+      </dl>
+      <h2>來信時請附上</h2>
+      <ul>
+        <li>訂單編號（EZ_ 開頭，付款結果頁與藍新通知信上都有）</li>
+        <li>付款時填的 Email</li>
+        <li>問題說明（例如：要取消月訂閱、申請退款、扣款有問題）</li>
+      </ul>
+      <p>請不要在信裡寫完整信用卡號或安全碼。</p>
+      <p>相關說明：<a href={`${base}zh-tw/pricing/`}>方案與價格</a>・<a href={`${base}zh-tw/refund/`}>退款政策</a>・<a href={`${base}zh-tw/terms/`}>服務條款</a>・<a href={`${base}zh-tw/privacy/`}>隱私權政策</a></p>
+    </div>
+  </article>
+</BlogBase>
+<style>
+  .contact-list { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+  .contact-list dt { font-weight: 700; color: var(--text-sub); }
+  .contact-list dd { margin: 0; }
+</style>

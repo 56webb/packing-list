@@ -1,0 +1,28 @@
+---
+// 贊助（請喝咖啡）：/zh-tw/sponsor/
+// ⚠️ 草稿。金額是範例，只在 src/data/sponsor.json 改。用詞只用「贊助」「請喝咖啡」。
+import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import SponsorBlock from '../../../components/SponsorBlock.astro';
+import sponsor from '../../../data/sponsor.json';
+const hidden = import.meta.env.PUBLIC_SPONSOR_HIDE === '1';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="請我喝咖啡（贊助）｜EZpakku" description="EZpakku 是免費工具。如果它幫上忙，歡迎自由贊助、請我喝杯咖啡。贊助完全自願，沒有任何商品或服務作為回報。">
+  <article class="post">
+    <h1>請我喝咖啡（贊助）</h1>
+    <DraftBanner text={`這一頁是草稿：贊助功能還沒有開放，金額是「${sponsor.sampleNote}」。`} />
+    <div class="prose">
+      <p>EZpakku 的行李清單工具和旅行文章都<strong>免費</strong>。如果它幫上你的忙，可以請我喝杯咖啡，讓我有動力繼續維護、寫新文章。</p>
+      <h2>贊助前請先了解</h2>
+      <ul>
+        <li><strong>完全自願</strong>：不贊助也能使用全部功能，贊助的人也不會多拿到任何功能。</li>
+        <li><strong>沒有任何回報</strong>：贊助後不會收到商品、服務、會員資格或其他對價。</li>
+        <li><strong>金額</strong>：新台幣，整數，NT$ {sponsor.minTwd}–{sponsor.maxTwd}（範例金額，未定）。</li>
+        <li><strong>付款方式</strong>：信用卡一次付清，由第三方支付「藍新金流 NewebPay」處理；本網站不會經手或儲存你的卡號。</li>
+        <li><strong>退款</strong>：請見 <a href={`${base}zh-tw/refund/#sponsor`}>退款政策（贊助）</a>。重複付款或金額輸入錯誤，請聯絡 <a href={`${base}zh-tw/contact/`}>客服</a>。</li>
+      </ul>
+    </div>
+    {hidden ? <p class="post-meta">目前沒有開放贊助。</p> : <SponsorBlock />}
+  </article>
+</BlogBase>

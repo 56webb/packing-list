@@ -1,4 +1,6 @@
 ---
+import LegalLinks from '../components/LegalLinks.astro';
+import SponsorLink from '../components/SponsorLink.astro';
 // 共用的 HTML 外框：<head> 設定、標題列、對話框、提示訊息
 // 每一頁都包在這個 Layout 裡面。
 import '../styles/global.css';
@@ -37,7 +39,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       <a class="topbar-title" href={`${base}zh-tw/#/`}>🧳 {t('app.name')}</a>
     </header>
     <main id="app"><slot /></main>
-    <footer class="footer no-print"><p>{t('footer.about')}</p><p><a href={`${base}zh-tw/blog/`}>📖 旅行文章：日本行李清單、打包技巧、入境教學</a></p><p class="footer-links"><a href={`${base}zh-tw/about/`}>關於我</a> ・ <a href={`${base}zh-tw/privacy/`}>隱私權政策</a> ・ <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a></p></footer>
+    <footer class="footer no-print"><p>{t('footer.about')}</p><p><a href={`${base}zh-tw/blog/`}>📖 旅行文章：日本行李清單、打包技巧、入境教學</a></p><p class="footer-links"><a href={`${base}zh-tw/about/`}>關於我</a> ・ <a href={`${base}zh-tw/privacy/`}>隱私權政策</a> ・ <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a></p><p class="footer-links"><LegalLinks sep /></p><p class="footer-sponsor"><SponsorLink /></p></footer>
     <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
     <dialog id="dialog" class="dialog"></dialog>
     <script define:vars={{ swUrl: `${base}sw.js`, isProd: import.meta.env.PROD }}>
