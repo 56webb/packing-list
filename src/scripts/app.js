@@ -11,6 +11,7 @@ import { createLocalStorageAdapter } from './storage.js';
 import { COUNTRIES, CATEGORIES, TAGS, generateTrip, getCountry, tripClimate } from './generator.js';
 import { SHOW_BUY_BUTTONS, BUY_LINKS } from './config.js';
 import { plugIcons } from './plugIcons.js';
+import { bagIcon } from './bagArt.js';
 import { weatherMode, climateFor, fetchForecast, dailySummary, tripDates, tripTemps, MET_ATTRIBUTION, CLIMATE_ATTRIBUTION, CLIMATE_LABEL, FORECAST_DAYS } from './weather.js';
 
 const store = createStore(createLocalStorageAdapter());
@@ -258,7 +259,7 @@ function renderBag(trip, bag, bagItems, allBags) {
       render();
     },
   },
-    h('span', { class: 'bag-icon', 'aria-hidden': 'true' }, bag ? bag.icon : '📍'),
+    h('span', { class: 'bag-icon', 'aria-hidden': 'true' }, bag ? bagIcon(bag.icon, bag.kind) : '📍'),
     h('span', { class: 'bag-name' }, name),
     bag ? h('span', { class: `badge kind-${bag.kind}` }, t(`bagKind.${bag.kind}`)) : null,
     bag?.hasTracker ? h('span', { class: 'badge', title: t('bag.tracker') }, '📡') : null,
@@ -391,7 +392,7 @@ function bagFormFields(bag) {
   const kind = h('select', { name: 'kind' }, ['personal', 'carryon', 'checked'].map((k) => h('option', { value: k }, t(`bagKind.${k}`))));
   kind.value = bag?.kind ?? 'carryon';
   const icons = h('div', { class: 'chips' }, BAG_ICONS.map((icon) =>
-    h('label', { class: 'chip icon-chip' }, h('input', { type: 'radio', name: 'icon', value: icon, checked: (bag?.icon ?? '🎒') === icon }), h('span', {}, icon))));
+    h('label', { class: 'chip icon-chip' }, h('input', { type: 'radio', name: 'icon', value: icon, checked: (bag?.icon ?? '🎒') === icon }), h('span', {}, bagIcon(icon, undefined, 32)))));
   const tracker = h('label', { class: 'chip' }, h('input', { type: 'checkbox', name: 'tracker', checked: bag?.hasTracker ?? false }), h('span', {}, t('bag.tracker')));
   const body = h('div', {}, field(t('bag.name'), name), field(t('bag.kind'), kind),
     h('fieldset', { class: 'field' }, h('legend', { class: 'field-label' }, t('bag.icon')), icons), tracker);

@@ -257,3 +257,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .weather-note { font-size: 0.75rem; }
 .weather-credit { font-size: 0.7rem; margin-top: 2px !important; }
 .weather-credit a { color: var(--text-sub); }
+
+/* ---------- 包包插圖（RO 風格，src/scripts/bagArt.js）---------- */
+/* 圖片和 emoji 一樣大、對齊文字中線；載入前先佔好位置（有 width/height），畫面不會跳動 */
+.bag-art { display: inline-block; vertical-align: middle; object-fit: contain; }
+.bag-icon .bag-art { width: 1.75rem; height: 1.75rem; }
+.icon-chip .bag-art { width: 1.7rem; height: 1.7rem; }
+.brand-art { display: inline-block; vertical-align: -0.3em; width: 1.4em; height: 1.4em; margin-right: 0.15em; object-fit: contain; }

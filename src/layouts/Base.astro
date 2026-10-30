@@ -4,6 +4,8 @@
 import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import { t } from '../i18n/index.js';
+// 標題列的行李箱插圖（RO 風格）。alt 留空：旁邊已經有「EZpakku」文字，螢幕閱讀器不用重複念
+import suitcaseArt from '../assets/ro-bags/suitcase-medium-128.webp';
 
 interface Props {
   title?: string;
@@ -33,7 +35,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   <body>
     <header class="topbar no-print">
       <button type="button" id="back-btn" class="topbar-back" hidden>{t('trip.back')}</button>
-      <a class="topbar-title" href={`${base}zh-tw/#/`}>🧳 {t('app.name')}</a>
+      <a class="topbar-title" href={`${base}zh-tw/#/`}><img class="brand-art" src={suitcaseArt.src} width="28" height="28" alt="" decoding="async" />{t('app.name')}</a>
     </header>
     <main id="app"><slot /></main>
     <footer class="footer no-print"><p>{t('footer.about')}</p><p><a href={`${base}zh-tw/blog/`}>📖 旅行文章：日本行李清單、打包技巧、入境教學</a></p><p class="footer-links"><a href={`${base}zh-tw/about/`}>關於我</a> ・ <a href={`${base}zh-tw/privacy/`}>隱私權政策</a> ・ <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a></p></footer>

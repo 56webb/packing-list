@@ -414,3 +414,19 @@ npm run build
 node scripts/check-seo.mjs dist
 ```
 看到「✓ 全部通過」就沒問題；看到「✗」會告訴你是哪一頁缺什麼。`npm test` 會測這個檢查工具本身。
+## 包包插圖（RO 風格，feat/ro-bag-icons）
+畫面上的包包圖示從 emoji 換成手繪風插圖。**資料格式沒變**：localStorage 裡還是存 emoji，舊清單照常能用；只有「顯示」時才換成圖。
+
+| 選的圖示 | 畫面顯示 |
+|---|---|
+| 🎒 | 背包 `backpack` |
+| 👜 | 側背包 `crossbody-bag` |
+| 👝 | 錢包 `wallet` |
+| 🧳＋托運 | 大行李箱 `suitcase-large` |
+| 🧳＋登機箱 | 小行李箱 `suitcase-small` |
+| 🧳＋其他（含選圖示的按鈕） | 中型行李箱 `suitcase-medium` |
+| 💼 🛍️ 📦 🧺 | 沒有對應插圖，照舊顯示 emoji |
+
+- 圖檔：`src/assets/ro-bags/*-128.webp`（128×128，從原圖 512×512 縮小，每張約 3～6 KB）。
+- 對照表：`src/scripts/bagArtMap.js`；產生 `<img>`：`src/scripts/bagArt.js`。
+- 想加新圖：把 128×128 的 webp 放進 `src/assets/ro-bags/`，在 `bagArtMap.js` 加一行對照、在 `bagArt.js` 加一行 import，再跑 `npm test`。

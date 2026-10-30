@@ -4,6 +4,8 @@
 import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import '../styles/blog.css';
+// 標題列的行李箱插圖（RO 風格）。alt 留空：旁邊已經有「EZpakku」文字
+import suitcaseArt from '../assets/ro-bags/suitcase-medium-128.webp';
 
 interface Props {
   title: string;
@@ -30,7 +32,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   </head>
   <body class="blog">
     <header class="topbar blog-topbar">
-      <a class="blog-brand" href={`${base}zh-tw/blog/`}>🧳 EZpakku</a>
+      <a class="blog-brand" href={`${base}zh-tw/blog/`}><img class="brand-art" src={suitcaseArt.src} width="28" height="28" alt="" decoding="async" />EZpakku</a>
       <nav class="blog-nav">
         <a href={`${base}zh-tw/blog/`}>文章</a>
         <a class="blog-nav-cta" href={`${base}zh-tw/`}>產生行李清單</a>
