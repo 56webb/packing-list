@@ -45,6 +45,8 @@ npm test          # 等於 node --test tests/*.test.mjs
 
 測試不需要網路、不需要真的金鑰（用的是手冊公開的範例金鑰）。
 
+測試檔：`tests/newebpay.test.mjs`（基本流程）、`tests/sponsor.test.mjs`（贊助）、`tests/newebpay-hardening.test.mjs`（邊界、竄改、錯誤處理、不外洩金鑰，見第 11 節）。目前共 47 則，全部通過。
+
 ## 4. 在 Vercel 設定環境變數（拿到藍新金鑰之後）
 
 1. 打開 Vercel → 選這個專案 → **Settings → Environment Variables**。
@@ -77,19 +79,32 @@ npm test          # 等於 node --test tests/*.test.mjs
 
 定期定額手冊（NDNP-1.0.8）**沒有另外寫測試卡號**；範例資料裡出現的是 `400022******1111`，推測同樣用 `4000-2211-1111-1111`，**未確認**，實測時要看結果。
 
-## 6. 正式上線前還缺什麼（清單）
+## 6. 正式上線前檢查清單
 
-- [ ] **RY 決定**商品、價格、是否真的要收費（現在全是範例）。
-- [ ] 藍新個人會員申請通過，拿到**正式**商店代號與金鑰；網站名稱要和藍新商店名稱相符（藍新〈商店管理規範〉一、1）。
-- [ ] **客服資訊**填進 `src/data/business.json`，而且要和藍新後台登記的一樣（〈商店管理規範〉一、3）。
-- [ ] **條款、退款政策確認**，拿掉 DRAFT 橫幅（建議找法律專業人士看過）。
-- [ ] **正式網域**：NotifyURL 要能從網際網路連到，而且只能用 80／443 埠（手冊 §4.2.1）。
-      正式站現在是 GitHub Pages（純靜態），**跑不了 `/api`**，要收款的網站必須在 Vercel（或其他能跑後端的地方）。
-- [ ] **資料庫**：把 `lib/newebpay/store.js` 換成 Supabase（建議兩張表：`orders` 和 `payment_events`，`event_key` 設唯一，用來防止重複處理）。現在存在記憶體，Vercel 換一台機器就不見。
-- [ ] **會員系統**：付款後要開通給「誰」？現在網站沒有登入，所以 Notify 裡的「開通」是 TODO。
-- [ ] **定期定額**：決定週期、期數、金額；取消／改金額要接藍新的「修改委託狀態」「修改委託內容」API（還沒做）。
-- [ ] **電子發票**：是否需要開、用哪家服務開（本 PR 沒有串接任何電子發票）。
-- [ ] 在 Vercel Preview 用測試金鑰實際跑一次：付款 → Notify 有收到（看 Vercel Logs 的 `[newebpay]`）→ 結果頁正確。
+標記說明：**【RY 決定】** = 需要 RY 拍板；**【L 可做】** = 工程可以先做、做完給 RY 看；**【實測】** = 要在 Preview 實際跑過才能打勾。
+
+**商業與法務**
+- [ ] **【RY 決定】** 商品、價格、是否真的要收費（`src/data/plans.json` 現在全是範例：一次付清 99 元、月繳 49 元 × 12 期）。
+- [ ] **【RY 決定】** 贊助功能要不要上線、上下限是否維持 30–5000 元（`src/data/sponsor.json`）；不上線就在 Vercel 設 `PUBLIC_SPONSOR_HIDE=1`。
+- [ ] **【RY 決定】** 藍新個人會員申請、拿到**正式**商店代號與金鑰；網站名稱要和藍新商店名稱相符（藍新〈商店管理規範〉一、1）。
+- [ ] **【RY 決定】** 客服資訊（填進 `src/data/business.json`），要和藍新後台登記的一樣（〈商店管理規範〉一、3）。
+- [ ] **【RY 決定】** 條款、退款政策定稿、拿掉 DRAFT 橫幅（建議找法律專業人士看過）。
+- [ ] **【RY 決定】** 電子發票要不要開、用哪家（本 PR 沒有串接任何電子發票）。
+- [ ] **【RY 決定】** 定期定額：週期、期數、金額；月扣款日要「一律 28 號」（現在的做法）還是「照訂閱當天，遇小月由藍新改月底」（手冊 NDNP-1.0.8 第 23 頁允許）。
+
+**工程**
+- [ ] **【L 可做】** 資料庫：把 `lib/newebpay/store.js` 換成 Supabase（`orders`、`payment_events` 兩張表，`event_key` 唯一）。**現在存在記憶體，Vercel 換一台機器就不見，正式收錢前一定要換。**（要用哪個 Supabase 專案：**【RY 決定】**）
+- [ ] **【RY 決定】＋【L 可做】** 會員系統：付款後要開通給「誰」？現在網站沒有登入，Notify 裡的「開通」是 TODO。
+- [ ] **【L 可做】** 定期定額的取消／改金額：接藍新「修改委託狀態」（`/MPG/period/AlterStatus`）、「修改委託內容」（`/MPG/period/AlterAmt`）API（NDNP-1.0.8 §4.4、§4.5），還沒做。
+- [ ] **【L 可做】** 對帳：用「單筆交易查詢」API（`/API/QueryTradeInfo`，NDNF-1.2.6 §4.3 第 58 頁）定期補查 Notify 沒收到的訂單，還沒做。
+- [ ] **【RY 決定】** 正式網域：NotifyURL 要能從網際網路連到、只能用 80／443 埠（NDNF-1.2.6 第 32 頁）。正式站現在是 GitHub Pages（純靜態），**跑不了 `/api`**；收款的網站要放在 Vercel（或其他能跑後端的地方）。
+- [ ] **【RY 決定】** 部署到 Production、把 `NEWEBPAY_ENV` 改成 `production`（**改了才會真的扣款**）。
+
+**測試（在 Preview 用測試金鑰）**
+- [ ] **【實測】** 照第 10 節跑完一次一次付清：付款 → Vercel Logs 看到 `[newebpay][mpg-notify]` → 結果頁顯示成功。
+- [ ] **【實測】** 定期定額跑一次（測試卡號未確認，見第 5 節）。
+- [ ] **【實測】** 故意讓付款失敗一次（例如在付款頁按取消／等交易逾時），確認結果頁顯示失敗。
+- [ ] **【實測】** 藍新後台查得到那筆測試交易，金額、訂單編號和 log 一致。
 
 ## 7. 還沒確認的地方（誠實列出）
 
@@ -98,7 +113,8 @@ npm test          # 等於 node --test tests/*.test.mjs
 - `src/data/plans.json` 是用 `import ... with { type: 'json' }` 讀的，為保險在 `vercel.json` 加了 `includeFiles`；**沒實測**。
 - 手冊寫 Notify 失敗會重送、連續 3 次失敗會寄信通知，但**沒寫重送間隔**。
 - 手冊參數表寫 MPG `Version` 為 2.3，但範例程式用 2.0；程式用 2.3。
-- 每月扣款日如果設 29–31 號遇到小月怎麼處理，手冊沒寫清楚；程式先把扣款日限制在 1–28 號。
+- ~~每月扣款日如果設 29–31 號遇到小月怎麼處理，手冊沒寫清楚~~ → **更正**：手冊 NDNP-1.0.8 §4.3.1（第 23 頁）有寫「若當月沒該日期則由該月的最後一天做為扣款日」。程式仍把扣款日限制在 1–28 號，是為了讓每個月扣款日相同（設計選擇，見第 6 節的 RY 決定事項）。
+- Vercel Preview 若開著 Deployment Protection（Vercel 登入保護），藍新的 Notify 會被擋在外面（拿不到 HTTP 200）；要怎麼開放**沒實測**，見第 10 節步驟 3。
 - 個人會員的收款上限、可用付款方式，要看藍新申請結果。
 
 ## 8. 參考資料
@@ -180,3 +196,68 @@ npm test          # 等於 node --test tests/*.test.mjs
 - **建議 RY 二選一：**
   - 先問清楚藍新可不可以收贊助；
   - 或在問清楚之前，用 `PUBLIC_SPONSOR_HIDE=1` 把贊助功能整個隱藏。
+
+## 10. 拿到藍新「測試」金鑰後，在 Preview 跑一次測試付款（一步一步）
+
+> 只用**測試環境**（`ccore.newebpay.com`），不會真的扣款。全程不需要改程式。
+> 下面標「手冊」的都出自藍新〈線上交易－幕前支付技術串接手冊〉NDNF-1.2.6；「未確認」= 手冊沒寫、要實際操作才知道。
+
+**步驟 1：在藍新測試後台拿金鑰**
+1. 登入藍新**測試**平台的會員中心（測試平台的註冊／登入網址：手冊沒寫，**未確認**；測試帳號和正式帳號是分開的）。
+2. 到【會員中心】→【商店管理】→【商店資料設定】，打開商店的「詳細資料」（手冊第 39–40 頁）。
+3. 抄下三個值：**商店代號**（MerchantID，`MS` 開頭）、**HashKey**（32 字元）、**HashIV**（16 字元）——手冊稱為「商店之 API 串接金鑰」（第 19 頁）。
+4. 確認這家測試商店有開「信用卡一次付清」。程式送出時會帶 `CREDIT=1`；手冊第 39 頁注意事項說「API 參數優先於後台設定」，但商店本身沒開通這個支付方式能不能用，**未確認**。
+5. 同一個詳細資料頁可以設「API 應用 URL」；**不用填**，程式每筆交易都會帶 NotifyURL／ReturnURL，手冊說兩邊都有設時以 API 參數為主（第 39 頁）。
+
+> ⚠️ 金鑰只能貼在 Vercel 的環境變數畫面。不要貼到聊天、Email、程式碼、GitHub。
+
+**步驟 2：把金鑰填進 Vercel（只給 Preview）**
+1. Vercel → 這個專案 → **Settings → Environment Variables**。
+2. 新增 `NEWEBPAY_MERCHANT_ID`、`NEWEBPAY_HASH_KEY`、`NEWEBPAY_HASH_IV`，Environment **只勾 Preview**。
+3. 新增 `NEWEBPAY_ENV` = `test`（只勾 Preview）。
+4. 新增 `PUBLIC_PAYMENT_ENABLED` = `1`（只勾 Preview），價格頁按鈕才按得下去。
+5. 環境變數改完**要重新部署**才生效：到 Deployments，找 `feat/newebpay` 分支最新那筆 → Redeploy（或推一個新 commit）。
+
+**步驟 3：確認藍新連得到 Preview（Notify 需要）**
+1. 用瀏覽器打開 `https://<preview 網址>/api/newebpay/status/`，應該看到：
+   `configured: true`、`mode: "test"`、`missing: []`、`invalid: []`。
+   - `missing` 有東西 = 那個變數沒設；`invalid` 有東西 = 長度不對（多貼了空白或貼錯值）。畫面**只顯示變數名稱，不顯示值**。
+   - `warnings` 有「NEWEBPAY_ENV 只能是 test 或 production」= 打錯字，程式會當成 test。
+2. 用**無痕視窗**再開一次同一個網址。如果被要求登入 Vercel，表示 Preview 有 Deployment Protection，藍新的 Notify 也會被擋（藍新只認 HTTP 200，Retry 三次失敗就算 Notify 失敗——手冊第 96 頁）。
+   - 處理方式（**【RY 決定】**）：暫時關掉這個專案 Preview 的 Deployment Protection，測完再開回來；或改用其他開放的測試網址。實際該怎麼設**未實測**。
+3. NotifyURL 只接受 80／443 埠（手冊第 32 頁）；Vercel 的 `https://` 網址是 443，沒問題。
+
+**步驟 4：付一筆測試款**
+1. 打開 `https://<preview 網址>/zh-tw/pricing/`，選一次付清方案，勾同意條款，按付款。
+2. 會被帶到 `ccore.newebpay.com` 的付款頁（測試環境網址，手冊第 29 頁）。看網址列確認是 **ccore**（測試），不是 core（正式）。
+3. 信用卡輸入測試卡號 `4000-2211-1111-1111`；有效月年、背面末三碼隨便填（手冊附錄 1，第 99 頁）。
+4. 付款頁停太久會失敗：程式設 `TradeLimit=600`（10 分鐘，手冊第 31 頁）；建單到送出若超過 120 秒，`TimeStamp` 也可能被拒（手冊第 30、96 頁）——重新按一次付款即可。
+
+**步驟 5：確認結果**
+1. 付完會被帶回網站結果頁，應該顯示成功。**但結果頁只是給人看的**——手冊說交易結果要以 Notify 為準，不能只看 ReturnURL（第 32 頁）。
+2. Vercel → 這個 Preview 部署 → **Logs**，搜尋 `[newebpay]`：
+   - 看到 `[newebpay][mpg-notify]` 而且是成功 = Notify 有收到、驗章通過、金額相符。
+   - 看到 `bad_tradesha` = 金鑰不對（Vercel 填的和藍新後台不一致）。
+   - 看到「金額不符」= 要停下來檢查，不要開通。
+   - 什麼都沒看到 = Notify 沒進來，回到步驟 3-2；另外看藍新有沒有寄「Notify 觸發失敗通知信」（手冊第 96 頁）。
+3. 到藍新測試後台的交易查詢，確認那筆訂單（`EZ_TP_` 開頭）金額正確。
+4. ⚠️ 現在訂單存在記憶體（`store.js`）。如果建單和 Notify 跑在不同機器，Notify 會改用 `plans.json` 的金額核對，仍然安全，但「訂單狀態」可能查不到——這是已知限制，換 Supabase 後就會正常。
+
+**步驟 6：測完收尾**
+- 測試金鑰可以留在 Preview；**不要**勾 Production。
+- 如果暫時關了 Deployment Protection，記得開回來。
+- 結果（成功／失敗、log 截圖時把訂單編號以外的資料遮掉）回報給 L，對照第 6 節清單打勾。
+
+## 11. 安全設計（2026-10-31 補強）
+
+| 風險 | 做法 | 程式位置 | 測試 |
+|---|---|---|---|
+| 有人偽造付款成功通知 | MPG：先用 TradeSha 驗章（`timingSafeEqual` 固定時間比對，先檢查是 64 位 hex），才解密 | `crypto.js` `verifyTradeSha` | `newebpay-hardening.test.mjs` TradeSha 兩則 |
+| 定期定額沒有 TradeSha | 只認「用我們金鑰解得開＋Result 裡 MerchantID 是我們的」；缺 MerchantID 一律拒絕 | `period.js` `decodePeriod` | 定期定額 Notify 兩則 |
+| 用別家商店的通知 | MPG 外層與 Result 的 MerchantID 都要等於我們的（手冊 4.2.2 共同回傳參數） | `mpg.js` `decodeMpgResponse` | MerchantID 測試 |
+| 金額被動手腳 | 金額只接受純數字，和「我們存的訂單金額」比，沒有就用 `plans.json`／訂單編號裡的贊助金額；定期定額成功通知沒帶金額也不開通 | `mpg.js` `isSameAmount` | 金額比對測試 |
+| 藍新重送通知 | 冪等 key 用我們的訂單編號，同一張單只開通一次；已付款的單之後收到失敗通知不會被改回去 | `mpg.js`、`store.js` | 重複通知、已付款不降級 |
+| 怪輸入讓程式 500 | JSON 不是物件、欄位不是字串一律當壞資料回 400；本體超過 64 KB 回 413；Email 限 50 字（手冊第 32 頁、NDNP 第 25 頁） | `router.js` `readForm` | 輸入檢查測試 |
+| 設定錯誤 | 金鑰缺或長度不對都回 503「金流尚未設定」（不會 500），`/status/` 只列變數名稱 | `config.js` | 環境變數三則 |
+| 金鑰外洩 | 錯誤訊息、回應、log 都不含 HashKey／HashIV；500 只回 `server_error` | 全部 | 不外洩金鑰測試 |
+| 設定檔寫錯 | `plans.json` 的定期定額設定（週期、扣款日、期數 1–99、金額）在建單前檢查（NDNP-1.0.8 第 23–24 頁、錯誤碼 PER10013、PER10022–24） | `period.js` `checkPeriodSettings` | Period 參數三則 |
