@@ -326,3 +326,20 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - 「行李清單」當描述用的地方（例如「依目的地自動產生行李清單」）保留。
 - Service Worker 快取名稱 `packing-list-v1` → `ezpakku-v1`：只是網站檔案的快取，舊的會自動刪掉、重新下載一次。
 - **沒改（刻意）**：localStorage key `packing-list:v1`（改了使用者的清單會不見）、備份檔裡的 `"app": "packing-list"`（舊備份相容）、repo 名稱和 GitHub Pages 網址 `/packing-list/`。
+
+## 包包插圖（RO 風格，feat/ro-bag-icons）
+畫面上的包包圖示從 emoji 換成手繪風插圖。**資料格式沒變**：localStorage 裡還是存 emoji，舊清單照常能用；只有「顯示」時才換成圖。
+
+| 選的圖示 | 畫面顯示 |
+|---|---|
+| 🎒 | 背包 `backpack` |
+| 👜 | 側背包 `crossbody-bag` |
+| 👝 | 錢包 `wallet` |
+| 🧳＋托運 | 大行李箱 `suitcase-large` |
+| 🧳＋登機箱 | 小行李箱 `suitcase-small` |
+| 🧳＋其他（含選圖示的按鈕） | 中型行李箱 `suitcase-medium` |
+| 💼 🛍️ 📦 🧺 | 沒有對應插圖，照舊顯示 emoji |
+
+- 圖檔：`src/assets/ro-bags/*-128.webp`（128×128，從原圖 512×512 縮小，每張約 3～6 KB）。
+- 對照表：`src/scripts/bagArtMap.js`；產生 `<img>`：`src/scripts/bagArt.js`。
+- 想加新圖：把 128×128 的 webp 放進 `src/assets/ro-bags/`，在 `bagArtMap.js` 加一行對照、在 `bagArt.js` 加一行 import，再跑 `npm test`。
