@@ -1,7 +1,8 @@
 ---
 // 隱私權政策：/zh-tw/privacy/
-// ⚠️ 內容依照網站「實際」做的事寫成。加入登入同步（Supabase）、流量分析、新的推廣夥伴之前，要先更新這頁。
+// ⚠️ 內容依照網站「實際」做的事寫成。2-1 付款段落是金流草稿（feat/newebpay），上線前要確認。加入登入同步（Supabase）、流量分析、新的推廣夥伴之前，要先更新這頁。
 import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const email = 'agent-armin@mail.grokbot.com';
 ---
@@ -9,6 +10,7 @@ const email = 'agent-armin@mail.grokbot.com';
   <article class="post">
     <h1>隱私權政策</h1>
     <p class="post-meta">生效日期：2026-10-21</p>
+    <DraftBanner text="「2-1. 付費方案與付款」這一段是草稿（DRAFT）：付費功能尚未開放，內容確認、正式上線前會更新生效日期。" />
     <div class="prose">
       <p>這份政策說明 EZpakku（行李清單工具與旅行部落格，以下稱「本網站」）會處理哪些資料、怎麼處理。我們的原則是：<strong>能不收集就不收集</strong>。</p>
 
@@ -22,6 +24,16 @@ const email = 'agent-armin@mail.grokbot.com';
 
       <h2>2. 登入與跨裝置同步</h2>
       <p>本網站<strong>目前沒有會員登入或雲端同步功能</strong>，不需要提供姓名、Email 或密碼就能使用。我們計畫之後加入選擇性的登入同步功能；推出前會先更新這份政策，說明會存哪些資料、存在哪裡。</p>
+
+      <h2>2-1. 付費方案與付款（草稿，尚未開放）</h2>
+      <ul>
+        <li>如果你購買<a href={`${base}zh-tw/pricing/`}>付費方案</a>，付款由第三方支付<strong>藍新金流（NewebPay，藍新科技股份有限公司）</strong>處理。<strong>信用卡號、有效期限、安全碼是在藍新的付款頁面輸入</strong>，本網站不會收到也不會儲存完整卡號。</li>
+        <li>本網站會收到並保存的付款資料：訂單編號、方案、金額、付款狀態、付款時間、藍新交易序號、你填的 Email。藍新回傳的遮蔽卡號（前 6 碼、末 4 碼）本網站<strong>目前不保存、也不寫進紀錄</strong>。月訂閱另有委託單號、扣款期數與下次扣款日。</li>
+        <li>使用目的：開通服務、寄送付款與訂閱通知、處理退款與客服、對帳及依法保存交易紀錄。</li>
+        <li>保存位置與期間：TODO（之後若用 Supabase 資料庫存訂單，會在這裡寫明位置；保存期間依稅法與會計規定，TODO 確認）。</li>
+        <li>藍新金流如何處理你在其頁面輸入的資料，依<a href="https://www.newebpay.com/website/Page/content/privacy" rel="noopener" target="_blank">藍新金流的隱私權政策</a>。</li>
+        <li>你可以依個人資料保護法，向我們查詢、要求更正或刪除上述資料；但依法必須保存的交易紀錄，會在保存期間屆滿後刪除。</li>
+      </ul>
 
       <h2>3. Cookie</h2>
       <ul>

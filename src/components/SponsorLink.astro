@@ -1,0 +1,10 @@
+---
+// 頁尾的「☕ 請我喝咖啡」按鈕：連到 /zh-tw/sponsor/（說明＋贊助區塊）。用詞只用「贊助」「請喝咖啡」。
+const hidden = import.meta.env.PUBLIC_SPONSOR_HIDE === '1'; // 設 1 → 不顯示
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+{!hidden && <a class="sponsor-link" href={`${base}zh-tw/sponsor/`}>☕ 請我喝咖啡（贊助）</a>}
+<style>
+  .sponsor-link { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 14px; border: 1px solid var(--accent); border-radius: 999px; color: var(--accent); font-weight: 700; text-decoration: none; }
+  .sponsor-link:hover { background: var(--accent-soft); }
+</style>

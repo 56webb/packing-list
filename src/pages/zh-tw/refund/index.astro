@@ -1,0 +1,71 @@
+---
+// 退款政策（草稿）：/zh-tw/refund/
+// 依據：消費者保護法第 18、19、19-2 條；通訊交易解除權合理例外情事適用準則第 2 條第 5 款。
+// ⚠️ 草稿，內容要 RY 決定、建議請法律專業人士看過再上線。
+import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import business from '../../../data/business.json';
+import sponsor from '../../../data/sponsor.json';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="退款政策（草稿）｜EZpakku" description="EZpakku 付費方案的退款與取消規則（草稿）。">
+  <article class="post">
+    <h1>退款政策</h1>
+    <p class="post-meta">生效日期：{business.effectiveDate}</p>
+    <DraftBanner />
+    <div class="prose">
+      <h2>1. 適用範圍</h2>
+      <p>本政策適用於在 EZpakku 網站購買的付費方案（見<a href={`${base}zh-tw/pricing/`}>方案與價格</a>）。EZpakku 提供的是<strong>線上數位內容／服務</strong>，不寄送實體商品，因此沒有「退貨寄回」的流程，只有「退款／取消」。</p>
+
+      <h2>2. 7 天解除權與數位內容例外</h2>
+      <p>依《消費者保護法》第 19 條，通訊交易的消費者可以在收到商品或接受服務後 7 天內，不說明理由也不負擔費用，解除契約。</p>
+      <p>但依行政院訂定的《通訊交易解除權合理例外情事適用準則》第 2 條第 5 款，<strong>「非以有形媒介提供之數位內容或一經提供即為完成之線上服務，經消費者事先同意始提供」</strong>的情形，不適用上述 7 天解除權。</p>
+      <p>因此我們會在<strong>付款前</strong>，在每個方案旁邊明確告知這件事，並請你<strong>勾選同意</strong>後才能付款。也就是：</p>
+      <ul>
+        <li><strong>還沒開始提供</strong>（例如付款後尚未開通）：你可以在付款後 7 天內申請，全額退款。</li>
+        <li><strong>你已勾選同意，且我們已開始提供</strong>：依上述準則不適用 7 天解除權。TODO（RY 決定）：是否仍提供「善意退款」（例如開通後 X 天內、尚未使用可退）。</li>
+      </ul>
+
+      <h2>3. 月訂閱（定期定額）</h2>
+      <ul>
+        <li>你可以隨時申請取消，取消後<strong>不再扣下一期</strong>，已付款的當期可以用到期末。</li>
+        <li>TODO（RY 決定）：已扣款的當期是否按比例退費。目前草稿：當期不按日退費，但<strong>首次扣款後 7 天內</strong>申請可全額退款。</li>
+        <li>取消請在下次扣款日的前 TODO 天提出，以免來不及停止扣款。</li>
+      </ul>
+
+      <h2>4. 一定可以退款的情況</h2>
+      <ul>
+        <li>重複扣款、金額錯誤，或因本網站問題無法開通服務。</li>
+        <li>未經你本人授權的交易（請同時聯絡你的發卡銀行）。</li>
+      </ul>
+
+      <h2 id="sponsor">4-1. 贊助（請喝咖啡）</h2>
+      <p>「贊助／請喝咖啡」是你自願支付、金額由你決定（NT$ {sponsor.minTwd}–{sponsor.maxTwd}，範例金額，未定）的付款。本網站<strong>不會因為贊助提供任何商品或服務</strong>，也不會解鎖功能。</p>
+      <ul>
+        <li>因為沒有商品或服務要交付，原則上<strong>不提供「改變心意」的退款</strong>。TODO（RY 決定）：是否接受改變心意退款、期限多久。</li>
+        <li>以下情況<strong>可以退款</strong>：重複付款、金額輸入錯誤（請在付款後 TODO（範例：7）天內聯絡客服）、未經你本人授權的交易（請同時聯絡你的發卡銀行）。</li>
+        <li>退款方式：以<strong>原信用卡刷退</strong>（經藍新金流辦理），申請方式同第 5 點。</li>
+        <li>TODO（請法律專業人士確認）：贊助是否適用《消費者保護法》通訊交易 7 天解除權，目前尚未確認。</li>
+      </ul>
+
+      <h2>5. 如何申請</h2>
+      <ol>
+        <li>透過<a href={`${base}zh-tw/contact/`}>客服聯絡</a>（{business.email}）來信，寫上：訂單編號（EZ_ 開頭）、付款 Email、申請原因（選填）。</li>
+        <li>我們會在 {business.replyWithin} 回覆。</li>
+        <li>確認可退款後，以<strong>原信用卡刷退</strong>（經藍新金流辦理）。依《消費者保護法》第 19-2 條，我們會在收到解除通知的次日起 <strong>15 天內</strong>辦理退款；實際入帳時間依發卡銀行作業而定。</li>
+      </ol>
+
+      <h2>6. 消費爭議</h2>
+      <p>對交易有疑問或申訴，請先聯絡客服（{business.email}／{business.phone}）。若無法解決，可以撥打全國消費者服務專線 1950（行政院消費者保護處）或各縣市消費者服務中心申訴。</p>
+
+      <h2>7. 政策修改</h2>
+      <p>本政策修改時會在此頁更新日期；修改不影響修改前已成立的訂單。</p>
+
+      <h2>法規出處</h2>
+      <ul>
+        <li><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=J0170001" rel="noopener" target="_blank">消費者保護法（全國法規資料庫）</a>：第 18、19、19-2 條</li>
+        <li><a href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=J0170012" rel="noopener" target="_blank">通訊交易解除權合理例外情事適用準則（全國法規資料庫）</a>：第 2 條第 5 款</li>
+      </ul>
+    </div>
+  </article>
+</BlogBase>

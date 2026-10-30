@@ -1,0 +1,40 @@
+---
+// 贊助感謝頁：/zh-tw/sponsor/thanks/?type=sponsor&status=success|fail|error&order=EZ_SP...
+// 這頁只是「告訴贊助者結果」。真正判斷有沒有付款成功的是後端收到的藍新 Notify（藍新手冊規定以 NotifyURL 為準）。
+// 參數不對、看不懂 → 一律顯示「無法確認」，不說成功。
+import BlogBase from '../../../../layouts/BlogBase.astro';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="謝謝你的贊助｜EZpakku" description="EZpakku 贊助（請喝咖啡）結果。">
+  <article class="post">
+    <h1 id="thanks-title">贊助結果</h1>
+    <div class="prose">
+      <p id="thanks-text">正在讀取付款結果…</p>
+      <p id="thanks-order" hidden>訂單編號：<code></code>（有問題時請提供給客服）</p>
+      <p class="post-meta">實際是否扣款成功，以藍新金流通知本網站的結果、以及藍新寄給你的通知信為準。</p>
+      <p><a href={`${base}zh-tw/sponsor/`}>回贊助頁</a>・<a href={`${base}zh-tw/blog/`}>看旅行文章</a>・<a href={`${base}zh-tw/contact/`}>客服聯絡</a></p>
+    </div>
+  </article>
+</BlogBase>
+<script>
+  const q = new URLSearchParams(location.search);
+  const status = q.get('status');
+  const order = (q.get('order') || '').replace(/[^A-Za-z0-9_]/g, '').slice(0, 30);
+  const title = document.getElementById('thanks-title')!;
+  const text = document.getElementById('thanks-text')!;
+  if (status === 'success' && order.startsWith('EZ_SP')) {
+    title.textContent = '謝謝你請我喝咖啡 ☕';
+    text.textContent = '藍新金流已回報付款成功。謝謝你的贊助！這是自願的支持，不會有任何商品或服務寄送給你。';
+  } else if (status === 'fail') {
+    title.textContent = '這次沒有完成付款';
+    text.textContent = '這次沒有扣款。沒關係，你可以回到贊助頁再試一次，或換一張卡。';
+  } else {
+    title.textContent = '無法確認付款結果';
+    text.textContent = '我們沒辦法讀到這次的付款結果。若你已收到藍新的扣款通知信但有疑問，請聯絡客服並提供訂單編號。';
+  }
+  if (order) {
+    const p = document.getElementById('thanks-order')!;
+    p.querySelector('code')!.textContent = order;
+    p.hidden = false;
+  }
+</script>

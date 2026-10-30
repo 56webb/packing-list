@@ -6,6 +6,8 @@ import '../styles/global.css';
 import '../styles/blog.css';
 // 標題列的行李箱插圖（RO 風格）。alt 留空：旁邊已經有「EZpakku」文字
 import suitcaseArt from '../assets/ro-bags/suitcase-medium-128.webp';
+import LegalLinks from '../components/LegalLinks.astro';
+import SponsorLink from '../components/SponsorLink.astro';
 
 interface Props {
   title: string;
@@ -45,7 +47,9 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         <a href={`${base}zh-tw/about/`}>關於我</a>
         <a href={`${base}zh-tw/privacy/`}>隱私權政策</a>
         <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>
+        <LegalLinks />
       </nav>
+      <p class="footer-sponsor"><SponsorLink /></p>
       <p>文章只整理官方公開資料，規定隨時會變，出發前請以官網為準。部分文章含推廣連結，見 <a href={`${base}zh-tw/blog/disclosure/`}>推廣連結揭露</a>。</p>
     </footer>
   </body>

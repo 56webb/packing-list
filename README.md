@@ -430,3 +430,15 @@ node scripts/check-seo.mjs dist
 - 圖檔：`src/assets/ro-bags/*-128.webp`（128×128，從原圖 512×512 縮小，每張約 3～6 KB）。
 - 對照表：`src/scripts/bagArtMap.js`；產生 `<img>`：`src/scripts/bagArt.js`。
 - 想加新圖：把 128×128 的 webp 放進 `src/assets/ro-bags/`，在 `bagArtMap.js` 加一行對照、在 `bagArt.js` 加一行 import，再跑 `npm test`。
+## 藍新金流（feat/newebpay）：做了什麼（草稿，尚未上線）
+
+> ⚠️ 給 RY 申請藍新「個人會員」用的準備。**沒有部署、沒有收錢、方案都是「範例方案，價格未定」**，付款按鈕預設停用。
+> 新手說明（每個檔案、Vercel 環境變數、測試卡號、上線前缺什麼）見 [`docs/newebpay.md`](docs/newebpay.md)。
+
+- 新頁面：`/zh-tw/pricing/`（方案與價格）、`/zh-tw/terms/`（服務條款）、`/zh-tw/refund/`（退款政策）、`/zh-tw/contact/`（客服聯絡，全是 TODO）、`/zh-tw/payment/result/`（付款結果）；隱私權政策加了「2-1. 付費方案與付款」。法律頁都有 **DRAFT 草稿**橫幅，頁尾兩種版型都加了連結。
+- 方案資料只在 `src/data/plans.json`；客服／經營者資料只在 `src/data/business.json`（TODO 佔位）。
+- 後端：`api/newebpay.js`（Vercel Function，Node.js）＋ `lib/newebpay/`：單次付款（MPG）與月訂閱（信用卡定期定額）的建立訂單、Notify 驗章解密、金額與訂單檢查、防重複處理、Return 轉到結果頁。訂單暫存在記憶體，Supabase 是 TODO。
+- 環境變數：`NEWEBPAY_MERCHANT_ID`、`NEWEBPAY_HASH_KEY`、`NEWEBPAY_HASH_IV`、`NEWEBPAY_ENV`（`test`／`production`，預設 test），範例在 `.env.example`（空白）。
+- 測試：`npm test`（用藍新手冊公開的範例資料比對加解密結果）。
+- 注意：正式站 GitHub Pages 是純靜態，**跑不了 `/api`**；要收款必須放在 Vercel 之類能跑後端的地方。
+- 贊助（請喝咖啡）：放在文章最後（`SponsorBlock`）和兩種頁尾（`SponsorLink` → `/zh-tw/sponsor/`）。金額是範例，只在 `src/data/sponsor.json` 改（預設 NT$50／100／150，自訂 NT$30–5000）；後端檢查整數與上下限；付款後轉到 `/zh-tw/sponsor/thanks/`。預設不能按；`PUBLIC_SPONSOR_HIDE=1` 可整個隱藏。⚠️ 藍新規則對「沒有商品或服務的贊助」不明確，開放前要先問藍新，見 [`docs/newebpay.md` §9](docs/newebpay.md#9-贊助請喝咖啡)。

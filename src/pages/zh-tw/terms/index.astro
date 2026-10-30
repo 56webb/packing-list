@@ -1,0 +1,76 @@
+---
+// 服務條款（草稿）：/zh-tw/terms/
+// 依據：消費者保護法第 18 條（通訊交易應提供的資訊）；藍新〈商店管理規範〉一、商店網站基本要項。
+import BlogBase from '../../../layouts/BlogBase.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import business from '../../../data/business.json';
+import sponsor from '../../../data/sponsor.json';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+<BlogBase title="服務條款（草稿）｜EZpakku" description="EZpakku 服務條款（草稿）：服務內容、價格與付款、交付方式、訂閱與取消、責任範圍。">
+  <article class="post">
+    <h1>服務條款</h1>
+    <p class="post-meta">生效日期：{business.effectiveDate}</p>
+    <DraftBanner />
+    <div class="prose">
+      <h2>1. 經營者資訊</h2>
+      <ul>
+        <li>網站名稱：{business.storeName}</li>
+        <li>經營者：{business.operator}</li>
+        <li>聯絡 Email：{business.email}</li>
+        <li>聯絡電話：{business.phone}</li>
+        <li>地址：{business.address}</li>
+      </ul>
+      <p>更多聯絡方式見<a href={`${base}zh-tw/contact/`}>客服聯絡</a>。</p>
+
+      <h2>2. 服務內容</h2>
+      <p>EZpakku 是線上行李清單工具，基本功能免費使用。付費方案的內容、價格與期間以<a href={`${base}zh-tw/pricing/`}>方案與價格</a>頁面在你付款當時顯示的內容為準。（目前為範例方案，價格未定。）</p>
+
+      <h2>3. 價格與付款</h2>
+      <ul>
+        <li>所有價格以新台幣計價。TODO：是否含稅、是否開立電子發票。</li>
+        <li>付款方式：信用卡（一次付清或定期定額），由第三方支付「藍新金流 NewebPay」處理。本網站不會取得或儲存你的完整信用卡號。</li>
+        <li>付款結果以藍新金流通知本網站的結果為準。</li>
+      </ul>
+
+      <h2>4. 交付方式</h2>
+      <p>付費方案為線上數位服務，付款成功後在網站上開通，不寄送實體商品。TODO：開通方式（例如：帳號開通、寄送啟用碼）與開通時間。</p>
+
+      <h2>5. 月訂閱與取消</h2>
+      <ul>
+        <li>月訂閱會依你同意的週期與期數，用同一張信用卡自動扣款。</li>
+        <li>你可以隨時聯絡客服取消，取消後不再扣下一期。</li>
+        <li>扣款失敗時，TODO：是否暫停服務、是否重試。</li>
+      </ul>
+
+      <h2 id="sponsor">5-1. 贊助（請喝咖啡）</h2>
+      <ul>
+        <li>你可以在<a href={`${base}zh-tw/sponsor/`}>贊助頁</a>或文章最後自由贊助（請喝咖啡）。贊助<strong>完全自願</strong>，金額由你選擇（新台幣整數 NT$ {sponsor.minTwd}–{sponsor.maxTwd}，範例金額，未定）。</li>
+        <li>贊助<strong>不是購買</strong>：本網站不會因此提供任何商品、服務、功能、會員資格或其他回報；有沒有贊助，網站功能都一樣。</li>
+        <li>付款方式與第 3 點相同（信用卡一次付清，由藍新金流處理）。付款結果以藍新金流通知本網站的結果為準。</li>
+        <li>退款規則請見<a href={`${base}zh-tw/refund/#sponsor`}>退款政策（贊助）</a>。TODO（RY 決定）：是否提供收據或發票。</li>
+      </ul>
+
+      <h2>6. 解除契約與退款</h2>
+      <p>請見<a href={`${base}zh-tw/refund/`}>退款政策</a>，包含 7 天解除權、數位內容例外、退款方式與時間。</p>
+
+      <h2>7. 使用者的義務</h2>
+      <ul>
+        <li>請提供正確的 Email，以便收到付款與服務通知。</li>
+        <li>不得以不正當方式使用本服務（例如攻擊網站、盜用他人信用卡）。</li>
+      </ul>
+
+      <h2>8. 責任範圍</h2>
+      <p>行李清單與旅行資訊僅供參考，各國入境、航空公司行李與電池規定可能變動，請以官方最新公告為準。本網站在法律允許範圍內，不對因依賴清單內容造成的間接損失負責；但不排除消費者保護法等法律規定的責任。</p>
+
+      <h2>9. 個人資料</h2>
+      <p>請見<a href={`${base}zh-tw/privacy/`}>隱私權政策</a>。</p>
+
+      <h2>10. 條款修改</h2>
+      <p>條款修改時會更新本頁的生效日期。月訂閱若有重大變更（例如價格），會事先以 Email 通知，你可以選擇取消。</p>
+
+      <h2>11. 準據法與管轄</h2>
+      <p>本條款以中華民國法律為準據法。TODO：合意管轄法院（例如：臺灣臺北地方法院），且不排除消費者保護法第 47 條或民事訴訟法第 436 條之 9 小額訴訟管轄規定的適用。</p>
+    </div>
+  </article>
+</BlogBase>
