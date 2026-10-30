@@ -20,6 +20,12 @@ export const GET: APIRoute = async ({ site }) => {
     { loc: abs('zh-tw/about/') },
     { loc: abs('zh-tw/privacy/') },
     { loc: abs('zh-tw/blog/disclosure/') },
+    // 藍新金流（PR #6）加的公開頁面；付款結果頁和贊助感謝頁不列
+    { loc: abs('zh-tw/pricing/') },
+    { loc: abs('zh-tw/terms/') },
+    { loc: abs('zh-tw/refund/') },
+    { loc: abs('zh-tw/contact/') },
+    ...(import.meta.env.PUBLIC_SPONSOR_HIDE === '1' ? [] : [{ loc: abs('zh-tw/sponsor/') }]),
   ];
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
