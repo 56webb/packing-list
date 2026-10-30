@@ -104,7 +104,7 @@ test('MPG Notify：成功、重複通知不重複開通、金額不符不開通�
   const ok = fakeMpgNotify(mpgCfg, { MerchantID: mpgCfg.merchantId, MerchantOrderNo: orderNo, Amt: plan.priceTwd, TradeNo: 'T1' });
   let r = await handleMpgNotify(mpgCfg, ok, memoryStore, quiet);
   assert.equal(r.httpStatus, 200);
-  assert.deepEqual(r.body, { ok: true, paid: true, duplicate: false });
+  assert.deepEqual(r.body, { ok: true, paid: true, duplicate: false, kind: 'plan' });
   assert.equal((await memoryStore.getOrder(orderNo)).status, 'paid');
   r = await handleMpgNotify(mpgCfg, ok, memoryStore, quiet);
   assert.equal(r.body.duplicate, true);

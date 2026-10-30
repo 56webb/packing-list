@@ -4,6 +4,7 @@
 import { getCollection, render } from 'astro:content';
 import { getImage } from 'astro:assets';
 import BlogBase from '../../../layouts/BlogBase.astro';
+import SponsorBlock from '../../../components/SponsorBlock.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -28,6 +29,7 @@ const others = (await getCollection('blog', ({ data }) => !data.draft)).filter((
       </aside>
     )}
     <div class="prose"><Content /></div>
+    <SponsorBlock />
   </article>
   <section class="post-more">
     <h2>其他文章</h2>

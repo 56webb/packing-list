@@ -4,6 +4,7 @@
 import BlogBase from '../../../layouts/BlogBase.astro';
 import DraftBanner from '../../../components/DraftBanner.astro';
 import business from '../../../data/business.json';
+import sponsor from '../../../data/sponsor.json';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <BlogBase title="服務條款（草稿）｜EZpakku" description="EZpakku 服務條款（草稿）：服務內容、價格與付款、交付方式、訂閱與取消、責任範圍。">
@@ -40,6 +41,14 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         <li>月訂閱會依你同意的週期與期數，用同一張信用卡自動扣款。</li>
         <li>你可以隨時聯絡客服取消，取消後不再扣下一期。</li>
         <li>扣款失敗時，TODO：是否暫停服務、是否重試。</li>
+      </ul>
+
+      <h2 id="sponsor">5-1. 贊助（請喝咖啡）</h2>
+      <ul>
+        <li>你可以在<a href={`${base}zh-tw/sponsor/`}>贊助頁</a>或文章最後自由贊助（請喝咖啡）。贊助<strong>完全自願</strong>，金額由你選擇（新台幣整數 NT$ {sponsor.minTwd}–{sponsor.maxTwd}，範例金額，未定）。</li>
+        <li>贊助<strong>不是購買</strong>：本網站不會因此提供任何商品、服務、功能、會員資格或其他回報；有沒有贊助，網站功能都一樣。</li>
+        <li>付款方式與第 3 點相同（信用卡一次付清，由藍新金流處理）。付款結果以藍新金流通知本網站的結果為準。</li>
+        <li>退款規則請見<a href={`${base}zh-tw/refund/#sponsor`}>退款政策（贊助）</a>。TODO（RY 決定）：是否提供收據或發票。</li>
       </ul>
 
       <h2>6. 解除契約與退款</h2>

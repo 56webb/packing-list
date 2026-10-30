@@ -6,7 +6,7 @@
     { "source": "/api/newebpay/:path*", "destination": "/api/newebpay?route=:path*" }
   ],
   "functions": {
-    "api/newebpay.js": { "includeFiles": "src/data/plans.json" }
+    "api/newebpay.js": { "includeFiles": "src/data/{plans,sponsor}.json" }
   },
   "headers": [
     {

@@ -338,3 +338,4 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - 環境變數：`NEWEBPAY_MERCHANT_ID`、`NEWEBPAY_HASH_KEY`、`NEWEBPAY_HASH_IV`、`NEWEBPAY_ENV`（`test`／`production`，預設 test），範例在 `.env.example`（空白）。
 - 測試：`npm test`（用藍新手冊公開的範例資料比對加解密結果）。
 - 注意：正式站 GitHub Pages 是純靜態，**跑不了 `/api`**；要收款必須放在 Vercel 之類能跑後端的地方。
+- 贊助（請喝咖啡）：放在文章最後（`SponsorBlock`）和兩種頁尾（`SponsorLink` → `/zh-tw/sponsor/`）。金額是範例，只在 `src/data/sponsor.json` 改（預設 NT$50／100／150，自訂 NT$30–5000）；後端檢查整數與上下限；付款後轉到 `/zh-tw/sponsor/thanks/`。預設不能按；`PUBLIC_SPONSOR_HIDE=1` 可整個隱藏。⚠️ 藍新規則對「沒有商品或服務的贊助」不明確，開放前要先問藍新，見 [`docs/newebpay.md` §9](docs/newebpay.md#9-贊助請喝咖啡)。

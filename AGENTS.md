@@ -71,6 +71,7 @@ draft: true                      # 選填，true = 不出現在網站上
 - 不能從瀏覽器接收金額；金額一律由後端查 `plans.json`（之後是資料庫）。
 - 不要把卡號、Email 等個資寫進 log；改 `lib/newebpay/` 後要跑 `npm test`。
 - 法律頁（條款、退款、隱私、客服）內容由 RY 確認前，不要拿掉 DRAFT 橫幅，也不要填入 RY 的真實個資。
+- 贊助（請喝咖啡）：用詞**只用「贊助」「請喝咖啡」**，不能用其他說法（RY 是個人，`npm test` 會檢查）。金額只改 `src/data/sponsor.json`，後端一定要檢查整數與上下限。要說清楚「自願、沒有任何商品或服務回報」。藍新是否允許個人收贊助還沒確認（見 `docs/newebpay.md` §9），**開放贊助要 RY 同意**。
 
 ## 4. 分支與部署流程
 - `main` = **正式版**（push 到 main 會自動部署到 GitHub Pages https://56webb.github.io/packing-list/）。

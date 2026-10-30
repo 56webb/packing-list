@@ -5,6 +5,7 @@
 import BlogBase from '../../../layouts/BlogBase.astro';
 import DraftBanner from '../../../components/DraftBanner.astro';
 import business from '../../../data/business.json';
+import sponsor from '../../../data/sponsor.json';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 <BlogBase title="退款政策（草稿）｜EZpakku" description="EZpakku 付費方案的退款與取消規則（草稿）。">
@@ -36,6 +37,15 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       <ul>
         <li>重複扣款、金額錯誤，或因本網站問題無法開通服務。</li>
         <li>未經你本人授權的交易（請同時聯絡你的發卡銀行）。</li>
+      </ul>
+
+      <h2 id="sponsor">4-1. 贊助（請喝咖啡）</h2>
+      <p>「贊助／請喝咖啡」是你自願支付、金額由你決定（NT$ {sponsor.minTwd}–{sponsor.maxTwd}，範例金額，未定）的付款。本網站<strong>不會因為贊助提供任何商品或服務</strong>，也不會解鎖功能。</p>
+      <ul>
+        <li>因為沒有商品或服務要交付，原則上<strong>不提供「改變心意」的退款</strong>。TODO（RY 決定）：是否接受改變心意退款、期限多久。</li>
+        <li>以下情況<strong>可以退款</strong>：重複付款、金額輸入錯誤（請在付款後 TODO（範例：7）天內聯絡客服）、未經你本人授權的交易（請同時聯絡你的發卡銀行）。</li>
+        <li>退款方式：以<strong>原信用卡刷退</strong>（經藍新金流辦理），申請方式同第 5 點。</li>
+        <li>TODO（請法律專業人士確認）：贊助是否適用《消費者保護法》通訊交易 7 天解除權，目前尚未確認。</li>
       </ul>
 
       <h2>5. 如何申請</h2>
