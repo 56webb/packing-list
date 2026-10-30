@@ -3,8 +3,22 @@
 import Base from '../../layouts/Base.astro';
 import { setLocale, t } from '../../i18n/index.js';
 setLocale('zh-tw');
+
+// 結構化資料：告訴 Google 這一頁是一個免費的網頁工具（WebApplication）
+const site = Astro.site ?? Astro.url;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: t('app.name'),
+  description: t('app.tagline'),
+  url: new URL(Astro.url.pathname, site).href,
+  applicationCategory: 'TravelApplication',
+  operatingSystem: 'Any',
+  inLanguage: 'zh-Hant-TW',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'TWD' },
+};
 ---
-<Base>
+<Base jsonLd={jsonLd}>
   <noscript><p class="page">{t('app.tagline')}（需要開啟 JavaScript）</p></noscript>
   <script>
     // Astro 會把這個 import 打包成一個 JS 檔
