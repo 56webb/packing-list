@@ -326,3 +326,67 @@ cp vercel.json ../ezpakku-preview-dist/   # 給 Vercel 的 header：noindex、/a
 - 「行李清單」當描述用的地方（例如「依目的地自動產生行李清單」）保留。
 - Service Worker 快取名稱 `packing-list-v1` → `ezpakku-v1`：只是網站檔案的快取，舊的會自動刪掉、重新下載一次。
 - **沒改（刻意）**：localStorage key `packing-list:v1`（改了使用者的清單會不見）、備份檔裡的 `"app": "packing-list"`（舊備份相容）、repo 名稱和 GitHub Pages 網址 `/packing-list/`。
+
+---
+
+## 端對端測試（E2E，Playwright）：怎麼跑、壞了怎麼看（test/e2e）
+
+用 [Playwright](https://playwright.dev/) 開一個真的瀏覽器（Chromium），像使用者一樣點畫面，自動檢查功能有沒有壞。每個測試都跑兩種尺寸：**手機（390×844）** 和 **桌機（1280×800）**。
+
+### 測了什麼
+
+| 檔案 | 內容 |
+|---|---|
+| `tests/e2e/packing.spec.mjs` | 建立旅行 → 產生清單 → 勾選 → 新增／移動物品到別的包包 → 新增／刪除包包 → 封箱／解封 → 進度數字；重新整理後資料還在（localStorage）；刪除後復原；行動電源放托運會跳警告；預設出發日 |
+| `tests/e2e/trip-info.spec.mjs` | 插頭圖示／電壓（日本、韓國、台灣）、轉接頭和電壓提醒項目；天氣：30 天後用過去平均、9 天內用預報、快取、API 壞掉改顯示過去平均、壞掉時不會一直重打 API；其他國家不顯示 |
+| `tests/e2e/blog.spec.mjs` | 部落格列表、每篇文章打得開；（桌機）把站內所有連結、圖片、CSS/JS 都檢查一遍，不能有 404 |
+
+- 測試**不會連到任何外部網站**：天氣 API（MET Norway）用假資料，其他外部請求一律擋掉。
+- 測試用的是 `npm run build` 的正式版（不是開發模式），用 `tests/e2e/serve.mjs` 在本機開一個小伺服器，找不到的檔案會真的回 404，跟正式網站一樣。
+- 離線功能（Service Worker）在測試裡關掉，避免快取干擾。
+
+### 第一次：安裝
+
+```bash
+npm install                          # 安裝套件（含 @playwright/test）
+npx playwright install chromium      # 下載測試用的瀏覽器（約 150 MB，只要一次）
+# Linux 如果出現缺少系統套件的錯誤，改用：
+npx playwright install --with-deps chromium
+```
+
+### 跑測試
+
+```bash
+npm run test:e2e                         # 全部跑（會先自動 build，大約 1 分鐘）
+npx playwright test --project=mobile     # 只跑手機尺寸
+npx playwright test --project=desktop    # 只跑桌機尺寸
+npx playwright test tests/e2e/blog.spec.mjs   # 只跑某個檔案
+npx playwright test -g "封箱"             # 只跑名稱有「封箱」的測試
+npx playwright test --headed             # 打開瀏覽器視窗，看它一步一步點
+```
+
+已經 build 過、想省時間，可以用環境變數：
+
+| 變數 | 用途 | 預設 |
+|---|---|---|
+| `E2E_SKIP_BUILD=1` | 不重新 build，直接用現有的資料夾 | 會 build |
+| `E2E_OUT_DIR` | build 輸出／測試用的資料夾 | `.e2e-dist` |
+| `E2E_PORT` | 本機測試伺服器的 port | `4399` |
+
+例：`E2E_SKIP_BUILD=1 npm run test:e2e`
+
+### 壞了怎麼看
+
+1. 終端機會列出哪幾個測試失敗（✘）、哪一行、預期什麼（Expected）、實際拿到什麼（Received）。
+2. 打開網頁版報告：
+   ```bash
+   npm run test:e2e:report     # 等於 npx playwright show-report
+   ```
+   點進失敗的測試，可以看到**失敗當下的截圖**。
+3. 看完整重播（每一步的畫面、點了哪裡、網路請求、console 訊息）：報告裡點「Trace」，或
+   ```bash
+   npx playwright show-trace test-results/<失敗的測試資料夾>/trace.zip
+   ```
+4. 判斷是「程式壞了」還是「測試要更新」：如果是故意改了畫面文字或流程，就改測試；如果不是，就是 bug。
+
+> `playwright-report/`、`test-results/`、`.e2e-dist/` 是測試產生的檔案，已經加進 `.gitignore`，不會被 commit。
