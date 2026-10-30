@@ -77,6 +77,17 @@ test.describe('天氣區塊', () => {
     await expect(box.locator('.weather-note')).toHaveText('天氣預報暫時拿不到（可能沒有網路），先顯示過去平均');
   });
 
+  test('天氣 API 壞掉時，勾選物品不會每次都重打 API', async ({ page }) => {
+    const calls = await mockForecast(page, { status: 500 });
+    await createTrip(page, { country: 'JP', startDate: dateFromToday(2), days: 3 });
+    await expect(page.locator('.weather')).toHaveAttribute('data-mode', 'climate-fallback');
+    const n = calls.length;
+    for (const name of ['護照', '信用卡', '手機']) await itemRow(page, name).getByRole('checkbox').check();
+    await expect(itemRow(page, '手機').getByRole('checkbox')).toBeChecked();
+    await expect(page.locator('.weather')).toHaveAttribute('data-mode', 'climate-fallback');
+    expect(calls.length).toBe(n);
+  });
+
   test('其他國家（不在清單中）：不顯示天氣區塊，也不顯示插頭', async ({ page }) => {
     await createTrip(page, { country: '', startDate: dateFromToday(30) });
     await expect(page.locator('.trip-info')).toContainText('其他國家（不在清單中）');

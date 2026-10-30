@@ -56,24 +56,39 @@ function writeCache(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* 存不了就算了 */ }
 }
 
+// 同一頁裡：同時間的請求共用一個；失敗後 1 分鐘內不再重打（每次勾選都會重畫畫面，不能每次都打 API）
+const inflight = new Map();
+const failedAt = new Map();
+const RETRY_AFTER = 60000;
+
 /** 拿預報原始資料（有快取就用快取）。失敗回傳 null，不丟錯誤 */
 export async function fetchForecast(lat, lon) {
   const la = trunc4(lat), lo = trunc4(lon);
   const key = `${CACHE_PREFIX}${la},${lo}`;
   const cached = readCache(key);
   if (cached && cached.expires > Date.now()) return cached.data;
-  try {
-    // 只用最單純的 GET，不加任何 headers（避免 CORS 預檢）
-    const res = await fetch(`${MET_URL}?lat=${la}&lon=${lo}`);
-    if (!res.ok) throw new Error(`MET ${res.status}`);
-    const data = await res.json();
-    const exp = Date.parse(res.headers.get('Expires') ?? '');
-    writeCache(key, { expires: Number.isFinite(exp) ? exp : Date.now() + 30 * 60000, data });
-    return data;
-  } catch (err) {
-    console.warn('天氣預報取得失敗，改用過去平均', err);
-    return cached?.data ?? null; // 過期的快取總比沒有好（例如離線）
-  }
+  if (Date.now() - (failedAt.get(key) ?? -Infinity) < RETRY_AFTER) return cached?.data ?? null;
+  if (inflight.has(key)) return inflight.get(key);
+  const p = (async () => {
+    try {
+      // 只用最單純的 GET，不加任何 headers（避免 CORS 預檢）
+      const res = await fetch(`${MET_URL}?lat=${la}&lon=${lo}`);
+      if (!res.ok) throw new Error(`MET ${res.status}`);
+      const data = await res.json();
+      const exp = Date.parse(res.headers.get('Expires') ?? '');
+      writeCache(key, { expires: Number.isFinite(exp) ? exp : Date.now() + 30 * 60000, data });
+      failedAt.delete(key);
+      return data;
+    } catch (err) {
+      console.warn('天氣預報取得失敗，改用過去平均', err);
+      failedAt.set(key, Date.now());
+      return cached?.data ?? null; // 過期的快取總比沒有好（例如離線）
+    } finally {
+      inflight.delete(key);
+    }
+  })();
+  inflight.set(key, p);
+  return p;
 }
 
 /** MET 的 symbol_code → 簡單圖示 */
