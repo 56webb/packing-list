@@ -22,5 +22,8 @@ export default defineConfig({
   trailingSlash: 'ignore',
   // 部落格 Markdown 裡的站內連結自動加上 base（見 src/plugins/rehype-base-links.mjs）
   // 文章裡的 [[商品:id]] 短碼換成推廣商品卡片（見 src/plugins/remark-affiliate.mjs）
+  // 文章裡的圖片自動產生多種寬度（srcset），手機只下載手機需要的大小，不會載入 1080px 的原圖。
+  // responsiveStyles: false → 不加 Astro 的預設圖片樣式，維持 blog.css 原本的排版。
+  image: { layout: 'constrained', responsiveStyles: false },
   markdown: { remarkPlugins: [[remarkAffiliate, { affiliateDigest }]], rehypePlugins: [rehypeBaseLinks(base)] },
 });

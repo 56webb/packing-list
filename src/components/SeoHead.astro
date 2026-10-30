@@ -1,0 +1,49 @@
+---
+// ===== 每一頁共用的 SEO 標籤（放在 <head> 裡）=====
+// 搜尋引擎、LINE／Facebook 分享預覽會讀這些標籤。
+// - canonical：告訴 Google「這一頁的正式網址」（用 SITE_URL＋base 算出完整網址）。
+// - noindex：建置時有設 PUBLIC_NOINDEX=1（Vercel 預覽版）就加 <meta name="robots" content="noindex, nofollow">，
+//   不讓預覽版被收錄（vercel.json 也有 X-Robots-Tag，兩道保險）。正式版不設這個變數就不會加。
+// - hreflang：先預留。現在只有繁體中文，所以只指向自己；之後加英文版時，在 alternates 加 { lang: 'en', href }。
+// - Open Graph／Twitter：分享到 LINE、FB、X 時的標題、說明、圖片。
+interface Props {
+  title: string;
+  description: string;
+  /** og:type：一般頁 website，文章 article */
+  type?: 'website' | 'article';
+  /** 分享預覽圖（站內路徑或完整網址）；沒給就用網站圖示 */
+  image?: string;
+  /** 結構化資料（JSON-LD），可以給一個或多個物件 */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** 其他語言版本（之後加英文版時用） */
+  alternates?: { lang: string; href: string }[];
+}
+const { title, description, type = 'website', image, jsonLd, alternates = [] } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const site = Astro.site ?? Astro.url;
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL(image ?? `${base}icons/icon-512.png`, site).href;
+const noindex = import.meta.env.PUBLIC_NOINDEX === '1';
+const siteName = 'EZpakku';
+// JSON-LD 裡的 </script> 要跳脫，避免文章標題裡有奇怪字元時破壞頁面
+const ld = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : null;
+---
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="zh-TW" href={canonical} />
+{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.href, site).href} />)}
+<link rel="alternate" hreflang="x-default" href={canonical} />
+<link rel="sitemap" type="application/xml" href={`${base}sitemap.xml`} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="zh_TW" />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+{ld && <script type="application/ld+json" set:html={ld} />}

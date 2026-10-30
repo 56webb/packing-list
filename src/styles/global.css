@@ -46,6 +46,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .page { max-width: 720px; margin: 0 auto; padding: 12px 14px 120px; }
 .footer { max-width: 720px; margin: 0 auto; padding: 0 14px 110px; color: var(--text-sub); font-size: 0.85rem; }
 .footer p { margin: 0; }
+/* 頁尾連結至少 24px 高，手指比較好點（Lighthouse「點擊目標大小」） */
+.footer a { display: inline-block; padding: 3px 0; }
+/* 工具頁的內容是 JS 畫出來的：先讓 #app 佔滿一個畫面高，頁尾就不會「先出現在上面、再被擠下去」（減少版面跳動 CLS） */
+#app { min-height: calc(100vh - 52px); min-height: calc(100svh - 52px); }
 
 /* ---------- 按鈕 ---------- */
 .btn {

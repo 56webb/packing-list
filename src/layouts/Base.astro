@@ -1,14 +1,17 @@
 ---
 // 共用的 HTML 外框：<head> 設定、標題列、對話框、提示訊息
 // 每一頁都包在這個 Layout 裡面。
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import { t } from '../i18n/index.js';
 
 interface Props {
   title?: string;
+  description?: string;
   lang?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
-const { title = `${t('app.name')}｜${t('app.tagline')}`, lang = 'zh-Hant-TW' } = Astro.props;
+const { title = `${t('app.name')}｜${t('app.tagline')}`, description = t('app.tagline'), lang = 'zh-Hant-TW', jsonLd } = Astro.props;
 // BASE_URL 是 astro.config.mjs 裡的 base（GitHub Pages 是 /packing-list/）
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
@@ -18,13 +21,9 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     <meta charset="utf-8" />
     <!-- 注意：不要加 user-scalable=no / maximum-scale，讓視力不好的人可以放大 -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content={t('app.tagline')} />
     <meta name="theme-color" content="#1a6b7a" />
     <title>{title}</title>
-    <meta property="og:site_name" content={t('app.name')} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={t('app.tagline')} />
-    <meta property="og:type" content="website" />
+    <SeoHead title={title} description={description} jsonLd={jsonLd} />
     <meta name="application-name" content={t('app.name')} />
     <meta name="apple-mobile-web-app-title" content={t('app.name')} />
     <link rel="icon" type="image/svg+xml" href={`${base}icons/icon.svg`} />

@@ -390,3 +390,27 @@ npx playwright test --headed             # 打開瀏覽器視窗，看它一步�
 4. 判斷是「程式壞了」還是「測試要更新」：如果是故意改了畫面文字或流程，就改測試；如果不是，就是 bug。
 
 > `playwright-report/`、`test-results/`、`.e2e-dist/` 是測試產生的檔案，已經加進 `.gitignore`，不會被 commit。
+## SEO 與速度（chore/perf-seo）：做了什麼
+
+1. **每一頁的「搜尋與分享資訊」集中在一個檔案**：`src/components/SeoHead.astro`。
+   工具頁（`Base.astro`）和文章頁（`BlogBase.astro`）都用它，會自動輸出：說明文字（description）、完整網址的 canonical、
+   hreflang（現在只有 zh-TW，之後加英文版時在這裡加一行）、分享到 LINE／FB 時的標題和圖片（Open Graph）、
+   結構化資料（讓 Google 看得懂「這是一篇文章」）。
+2. **預覽版一定不會被 Google 收錄**：只要 build 時有 `PUBLIC_NOINDEX=1`，**每一頁**都會加
+   `<meta name="robots" content="noindex">`（以前只有文章頁有，工具頁沒有）。
+3. **sitemap.xml**：`src/pages/sitemap.xml.ts` 會自動列出工具頁、文章列表、每篇已發布的文章（草稿不列）、關於我和政策頁。
+   網址會跟著 `SITE_URL` 變。
+4. **文章圖片自動縮小**：`astro.config.mjs` 加了 `image.layout: 'constrained'`，
+   文章裡的圖片會自動做出 640／750／828／1080px 幾種大小，手機只下載需要的那張。
+5. **小修正**：工具頁頁尾不再「跳一下」、頁尾連結比較好點、上方「產生行李清單」按鈕文字對比變清楚、文章列表第一張圖優先載入。
+
+**build 完之後自己檢查一次（不用懂程式）：**
+```bash
+# 預覽版（應該每頁都有 noindex）
+BASE_PATH=/ SITE_URL=https://ezpakku-preview.vercel.app PUBLIC_NOINDEX=1 npm run build
+node scripts/check-seo.mjs dist --noindex
+# 正式版（應該每頁都「沒有」noindex）
+npm run build
+node scripts/check-seo.mjs dist
+```
+看到「✓ 全部通過」就沒問題；看到「✗」會告訴你是哪一頁缺什麼。`npm test` 會測這個檢查工具本身。
