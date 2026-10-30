@@ -230,3 +230,12 @@ async function bagId(page, name) {
   if (!bag) throw new Error(`找不到包包 ${name}`);
   return bag.id;
 }
+
+test.describe('日期', () => {
+  test('出發日預設是「台灣日期」14 天後（凌晨也不會少一天）', async ({ page }) => {
+    // 台灣 11/1 凌晨 0:30 = UTC 10/31 16:30，用 UTC 算日期會少一天
+    await page.clock.setFixedTime(new Date('2026-11-01T00:30:00+08:00'));
+    await page.goto('/zh-tw/#/new');
+    await expect(page.locator('input[name=startDate]')).toHaveValue('2026-11-15');
+  });
+});
